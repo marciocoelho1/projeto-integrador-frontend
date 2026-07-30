@@ -1,1 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+/* Variáveis Globais */
+$font-titulo: 'JetBrains Mono', monospace;
+$font-corpo: 'Inter', sans-serif;
+
+/* Regras Globais */
+
+* {
+    box-sizing: border-box;
+}
+
+/* Fonte Corpo */
+
+body, input, button, textarea, select, label, p, a, small, span {
+    font-family: $font-corpo;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+/* Fonte de Título */
+h1, h2, h3, h4, h5, h6, figcaption {
+    font-family: $font-titulo;
+}
