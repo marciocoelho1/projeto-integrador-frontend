@@ -1,0 +1,251 @@
+<div class="sst-app">
+  
+  <!-- CABEÇALHO GLOBAL (TOPBAR) -->
+  <header class="sst-topbar">
+    <!-- <hgroup> agrupa logicamente um título com seu subtítulo -->
+    <hgroup class="sst-topbar__brand">
+      <h1 class="sst-topbar__title">Sistema de Gestão de SST</h1>
+      <p class="sst-topbar__subtitle">Essenza Supermercados Ltda.</p>
+    </hgroup>
+    
+    <div class="sst-topbar__user">
+      <span class="sst-topbar__role">Administrador TST</span>
+      <strong class="sst-topbar__name">ADMINISTRADOR</strong>
+    </div>
+  </header>
+
+  <div class="sst-container">
+    
+    <!-- MENU LATERAL (SIDEBAR) -->
+    <aside class="sst-sidebar">
+      <header class="sst-sidebar__header">
+        <span class="sst-sidebar__label">SGSST</span>
+      </header>
+      
+      <nav class="sst-sidebar__nav" aria-label="Menu de Navegação Principal">
+        @for (item of menuLateral; track item.rota) {
+          <button 
+            type="button"
+            class="sst-sidebar__link"
+            [class.sst-sidebar__link--active]="rotaAtual === item.rota"
+            (click)="navegarMenuGlobal(item.rota)"
+          >
+            {{ item.label }}
+          </button>
+        }
+      </nav>
+
+      <footer class="sst-sidebar__footer">
+        <button class="sst-sidebar__logout" (click)="actionSair()">Sair</button>
+      </footer>
+    </aside>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="sst-main-content">
+      <div class="sst-layout">
+        
+        <header class="sst-header">
+          <!-- <hgroup> agrupando o breadcrumb (caminho) com o título da página -->
+          <hgroup class="sst-header__titles">
+            <p class="sst-header__breadcrumb">SGSST / Administração</p>
+            <h1 class="sst-header__main">Configurações do Sistema</h1>
+          </hgroup>
+          
+          <button class="sst-btn sst-btn--dark" (click)="actionNovaConta()">
+            Criar Nova Conta
+          </button>
+        </header>
+
+        <!-- Navegação de Abas -->
+        <nav class="sst-nav" role="tablist" aria-label="Guias de Configuração">
+          @for (guia of guiasNavegacao; track guia.id) {
+            <button
+              type="button"
+              role="tab"
+              class="sst-nav__item"
+              [class.sst-nav__item--active]="guiaAtual() === guia.id"
+              [attr.aria-selected]="guiaAtual() === guia.id"
+              (click)="navegarGuia(guia.id)"
+            >
+              {{ guia.titulo }}
+            </button>
+          }
+        </nav>
+
+        <section class="sst-content">
+          @switch (guiaAtual()) {
+            
+            <!-- ABA 1: CONTAS -->
+            @case ('contas') {
+              <!-- <section> delimita uma área de conteúdo com título próprio -->
+              <section class="sst-card" aria-labelledby="titulo-contas">
+                <header class="sst-card__toolbar">
+                  <h2 id="titulo-contas" class="sst-card__title">Gestão de Acessos</h2>
+                  
+                  <!-- <search> Tag semântica HTML5 nativa para barras de buscas -->
+                  <search class="sst-search">
+                    <input
+                      type="text"
+                      class="sst-search__input"
+                      placeholder="Buscar por nome ou CPF..."
+                      [value]="termoBusca()"
+                      (input)="termoBusca.set($any($event.target).value)"
+                      aria-label="Buscar colaborador"
+                    />
+                  </search>
+                </header>
+
+                <table class="sst-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Colaborador</th>
+                      <th scope="col">CPF</th>
+                      <th scope="col">Grupo de Acesso</th>
+                      <th scope="col">Status</th>
+                      <th scope="col" class="sst-text-right">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (conta of contasFiltradas(); track conta.id) {
+                      <tr>
+                        <td>
+                          <strong>{{ conta.nomeCompleto }}</strong>
+                          <span class="sst-table__subtext">{{ conta.emailCorporativo }}</span>
+                        </td>
+                        <td>{{ conta.cpf }}</td>
+                        <td>
+                          <span class="sst-badge sst-badge--grupo">
+                            {{ getNomeGrupo(conta.grupoId) }}
+                          </span>
+                        </td>
+                        <td>
+                          <span class="sst-badge" [class.sst-badge--ativo]="conta.status === 'ativo'">
+                            {{ conta.status | titlecase }}
+                          </span>
+                        </td>
+                        <td class="sst-text-right">
+                          <button class="sst-btn-link" (click)="actionEditarConta(conta)">Editar</button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </section>
+            }
+
+            <!-- ABA 2: GRUPOS -->
+            @case ('grupos') {
+              <div class="sst-grid">
+                @for (grupo of gruposSst(); track grupo.id) {
+                  <!-- <article> indica que o card faz sentido isoladamente -->
+                  <article class="sst-card-group">
+                    <header class="sst-card-group__header">
+                      <h3>{{ grupo.nomenclatura }}</h3>
+                      <span class="sst-card-group__count">{{ grupo.modulosLiberados.length }} módulos</span>
+                    </header>
+                    <p class="sst-card-group__desc">{{ grupo.finalidade }}</p>
+                    
+                    <button class="sst-btn sst-btn--outline" (click)="irParaMatrizDoGrupo(grupo.id)">
+                      Ajustar Matriz
+                    </button>
+                  </article>
+                }
+              </div>
+            }
+
+            <!-- ABA 3: MATRIZ DE ACESSOS -->
+            @case ('matriz') {
+              <section class="sst-card" aria-labelledby="titulo-matriz">
+                <header class="sst-card__toolbar">
+                  <h2 id="titulo-matriz" class="sst-card__title">Matriz de Permissões</h2>
+                  
+                  <select class="sst-select" [value]="grupoSelecionadoId()" (change)="grupoSelecionadoId.set($any($event.target).value)" aria-label="Selecione o grupo para editar a matriz">
+                    @for (grupo of gruposSst(); track grupo.id) {
+                      <option [value]="grupo.id">{{ grupo.nomenclatura }}</option>
+                    }
+                  </select>
+                </header>
+
+                <p class="sst-matrix-info" role="status">
+                  Você está editando as regras para: <strong>{{ grupoEmEdicao().nomenclatura }}</strong>
+                </p>
+
+                <table class="sst-table sst-table--matrix">
+                  <thead>
+                    <tr>
+                      <th scope="col">Módulo do Sistema</th>
+                      <th scope="col">Descrição do Nível de Acesso</th>
+                      <th scope="col" class="sst-text-center">Permissão</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (mod of modulosDisponiveis; track mod.chave) {
+                      <tr>
+                        <td><strong>{{ mod.titulo }}</strong></td>
+                        <td>{{ mod.detalhe }}</td>
+                        <td class="sst-text-center">
+                          <label class="sst-switch">
+                            <input 
+                              type="checkbox" 
+                              [checked]="grupoEmEdicao().modulosLiberados.includes(mod.chave)"
+                              (change)="alternarAcessoModulo(mod.chave)"
+                              [attr.aria-label]="'Permitir acesso ao módulo ' + mod.titulo"
+                            >
+                            <span class="sst-switch__slider"></span>
+                          </label>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </section>
+            }
+
+            <!-- ABA 4: GLOBAIS -->
+            @case ('globais') {
+              <section class="sst-card sst-card--form" aria-labelledby="titulo-regras">
+                <header>
+                  <h2 id="titulo-regras" class="sst-card__title">Regras de Negócio e Alertas</h2>
+                  <p class="sst-card__subtitle">Configure o comportamento autônomo do sistema SST.</p>
+                </header>
+
+                <form class="sst-form" (submit)="$event.preventDefault(); gravarAlteracoesGlobais()">
+                  
+                  <!-- <fieldset> agrupa campos relacionados de um formulário -->
+                  <fieldset class="sst-form__list" style="border: none; padding: 0; margin: 0;">
+                    <legend class="visually-hidden">Configurações de Alertas do Sistema</legend>
+                    
+                    @for (regra of regrasAlertas(); track regra.codigo) {
+                      <div class="sst-form__row">
+                        <div class="sst-form__text">
+                          <strong>{{ regra.nomeRegra }}</strong>
+                          <span>{{ regra.descricaoRegra }}</span>
+                        </div>
+                        <label class="sst-switch">
+                          <input 
+                            type="checkbox" 
+                            [checked]="regra.isAtiva"
+                            (change)="alternarRegra(regra.codigo)"
+                            [attr.aria-label]="'Ativar regra ' + regra.nomeRegra"
+                          >
+                          <span class="sst-switch__slider"></span>
+                        </label>
+                      </div>
+                    }
+                  </fieldset>
+
+                  <footer class="sst-form__actions">
+                    <button type="submit" class="sst-btn sst-btn--dark sst-btn--large">
+                      Salvar Configurações
+                    </button>
+                  </footer>
+                </form>
+              </section>
+            }
+          }
+        </section>
+
+      </div>
+    </main>
+  </div>
+</div>
