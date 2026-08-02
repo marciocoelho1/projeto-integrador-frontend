@@ -1,9 +1,17 @@
 import { Routes } from '@angular/router';
 import { Login } from './tela-login/login';
 import { Configuracoes } from './tela-configuracoes/configuracoes';
+import { LayoutPadrao } from './layout-padrao/layout-padrao';
 
 export const routes: Routes = [
-    { path: '', component: Login },
-    { path: 'login', component: Login},
-    { path: 'configuracoes', component: Configuracoes }
+    // localhost:4200 redireciona para tela de login
+    {path: '', redirectTo: 'login', pathMatch: 'full'},
+
+    // Rota de Login (sem layout padrão)
+    {path : 'login', component: Login},
+
+    // Rotas do Sistema (com Menu Lateral e Cabeçalho)
+    {path: '', component: LayoutPadrao, children: [
+        {path: 'configuracoes', component: Configuracoes}
+    ]}
 ];

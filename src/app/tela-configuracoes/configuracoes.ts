@@ -57,19 +57,6 @@ export class Configuracoes {
   private readonly router = inject(Router);
   protected readonly rotas = ROTAS_SISTEMA;
 
-  // Itens do menu lateral
-  protected readonly menuLateral = [
-    { label: 'Dashboard', rota: '/dashboard' },
-    { label: 'Colaboradores', rota: '/colaboradores' },
-    { label: 'Matriz de Treinamentos', rota: '/treinamentos' },
-    { label: 'EPIs', rota: '/epis' },
-    { label: 'Relatórios', rota: '/relatorios' },
-    { label: 'Ajuda e Suporte', rota: '/ajuda' },
-    { label: 'Configurações', rota: '/configuracoes' },
-  ];
-  // Simulando que estamos na rota de configurações para dar o highlight
-  protected readonly rotaAtual = '/configuracoes';
-
   protected readonly guiasNavegacao: { id: GuiaConfiguracao; titulo: string }[] = [
     { id: 'contas', titulo: 'Contas de Acesso' },
     { id: 'grupos', titulo: 'Grupos de Usuários' },
@@ -160,11 +147,6 @@ export class Configuracoes {
     { codigo: 'treinamentoVencido', nomeRegra: 'Reciclagem de NRs', descricaoRegra: 'Aviso sobre vencimento de NR-35, NR-10, etc.', isAtiva: false },
   ]);
 
-  protected navegarMenuGlobal(rota: string): void {
-    console.log('Navegando para:', rota);
-    // this.router.navigate([rota]);
-  }
-
   protected navegarGuia(guia: GuiaConfiguracao): void {
     this.guiaAtual.set(guia);
   }
@@ -207,5 +189,4 @@ export class Configuracoes {
 
   protected actionNovaConta(): void { this.router.navigateByUrl(this.rotas.novaConta); }
   protected actionEditarConta(conta: ContaAcesso): void { this.router.navigateByUrl(this.rotas.editarConta(conta.id)); }
-  protected actionSair(): void { console.log('Fazendo logout...'); }
 }

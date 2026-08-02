@@ -1,26 +1,111 @@
-/* Variáveis Globais */
-$font-titulo: 'JetBrains Mono', monospace;
-$font-corpo: 'Inter', sans-serif;
+/* =======================================================
+   1. IMPORTAÇÃO DAS FONTES (Google Fonts)
+   ======================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
 
-/* Regras Globais */
+/* =======================================================
+   2. DESIGN TOKENS (Baseados no Painel SST)
+   ======================================================= */
+:root {
+  /* Cores Principais */
+  --cor-fundo-app: #e2e8f0;          /* Cinza do wireframe */
+  --cor-fundo-card: #ffffff;
+  --cor-primaria: #0f172a;           /* Azul Institucional Escuro */
+  --cor-borda: #cbd5e1;
+  
+  /* Cores de Texto */
+  --cor-texto-principal: #1e293b;
+  --cor-texto-secundario: #64748b;
+  
+  /* Cores de Apoio e Elementos */
+  --cor-tabela-header: #d1d5db;      /* Cinza das tabelas e do menu ativo */
+  --cor-alerta: #dc2626;             /* Usado no botão Sair e erros */
+  --cor-link: #2563eb;               /* Azul de links */
+  --cor-link-hover: #1d4ed8;
 
-* {
-    box-sizing: border-box;
+  /* Tipografia */
+  --fonte-titulos: 'JetBrains Mono', monospace;
+  --fonte-corpo: 'Inter', sans-serif;
 }
 
-/* Fonte Corpo */
-
-body, input, button, textarea, select, label, p, a, small, span {
-    font-family: $font-corpo;
+/* =======================================================
+   3. RESET E CONFIGURAÇÕES BASE
+   ======================================================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
+  font-family: var(--fonte-corpo);
+  color: var(--cor-texto-principal);
+  background-color: var(--cor-fundo-app);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Fonte de Título */
-h1, h2, h3, h4, h5, h6, figcaption {
-    font-family: $font-titulo;
+/* Padroniza inputs, botões e labels com a fonte do corpo */
+input, button, select, textarea, label {
+  font-family: var(--fonte-corpo);
+}
+
+/* =======================================================
+   4. TIPOGRAFIA GLOBAL
+   ======================================================= */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--fonte-titulos);
+  color: var(--cor-primaria);
+  font-weight: 700;
+  margin-top: 0;
+}
+
+p, span, li {
+  font-family: var(--fonte-corpo);
+  color: var(--cor-texto-principal);
+}
+
+/* =======================================================
+   5. CLASSES UTILITÁRIAS GLOBAIS (Botões, Cards, etc.)
+   ======================================================= */
+/* Como esses elementos vão se repetir em outras telas além de Configurações, 
+   o ideal é deixá-los aqui no global. */
+
+.sst-card {
+  background: var(--cor-fundo-card);
+  border-radius: 8px;
+  border: 1px solid var(--cor-borda);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+}
+
+.sst-btn {
+  padding: 0.65rem 1.25rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-family: var(--fonte-corpo);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.sst-btn--dark {
+  background: var(--cor-primaria);
+  color: #fff;
+}
+
+.sst-btn--dark:hover {
+  background: #000;
+}
+
+.sst-btn--outline {
+  background: transparent;
+  border-color: var(--cor-primaria);
+  color: var(--cor-primaria);
+}
+
+.sst-btn--outline:hover {
+  background: #f8fafc;
 }

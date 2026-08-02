@@ -1,0 +1,48 @@
+<div class="sst-app">
+  
+  <!-- Cabeçalho Global -->
+  <header class="sst-topbar">
+    <hgroup class="sst-topbar__brand">
+      <h1 class="sst-topbar__title">Sistema de Gestão de SST</h1>
+      <p class="sst-topbar__subtitle">Essenza Supermercados Ltda.</p>
+    </hgroup>
+    
+    <div class="sst-topbar__user">
+      <span class="sst-topbar__role">Administrador TST</span>
+      <strong class="sst-topbar__name">ADMINISTRADOR</strong>
+    </div>
+  </header>
+
+  <div class="sst-container">
+    
+    <!-- Menu Lateral -->
+    <aside class="sst-sidebar">
+      <header class="sst-sidebar__header">
+        <span class="sst-sidebar__label">SGSST</span>
+      </header>
+      
+      <nav class="sst-sidebar__nav" aria-label="Menu de Navegação Principal">
+        @for (item of menuLateral; track item.rota) {
+          <button 
+            type="button"
+            class="sst-sidebar__link"
+            [class.sst-sidebar__link--active]="rotaAtual === item.rota"
+            (click)="navegarMenuGlobal(item.rota)"
+          >
+            {{ item.label }}
+          </button>
+        }
+      </nav>
+
+      <footer class="sst-sidebar__footer">
+        <button class="sst-sidebar__logout" (click)="actionSair()">Sair</button>
+      </footer>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL ONDE AS TELAS SÃO INJETADAS -->
+    <main class="sst-main-content">
+      <router-outlet></router-outlet> 
+    </main>
+
+  </div>
+</div>
