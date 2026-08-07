@@ -2,23 +2,25 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
+// 1. ROTAS UNIFICADAS: Tudo aponta para o módulo de "Cadastramentos"
 const ROTAS_SISTEMA = {
-  novaConta: '/cadastramentos/novo-usuario',
-  detalhesConta: (id: string) => `/contas/${id}`,
-  editarConta: (id: string) => `/contas/${id}/editar`,
-  resetarSenha: (id: string) => `/contas/${id}/senha`,
-  matrizAcesso: (id: string) => `/contas/${id}/acessos`,
+  novoUsuario: '/cadastramentos/novo-usuario',
+  detalhesUsuario: (id: string) => `/cadastramentos/usuario/${id}`,
+  editarUsuario: (id: string) => `/cadastramentos/editar-usuario/${id}`,
+  resetarSenha: (id: string) => `/cadastramentos/usuario/${id}/senha`,
+  matrizAcesso: (id: string) => `/cadastramentos/usuario/${id}/acessos`,
 } as const;
 
-type StatusConta = 'ativo' | 'inativo';
+// 2. NOMENCLATURA: Alterado de "Conta" para "Usuario"
+type StatusUsuario = 'ativo' | 'inativo';
 
-interface ContaAcesso {
+interface UsuarioSst {
   id: string;
   nomeCompleto: string;
   emailCorporativo: string;
   cpf: string;
   grupoId: string;
-  status: StatusConta;
+  status: StatusUsuario;
 }
 
 type ChaveModulo = 'sgst_dashboard' | 'sgst_colaboradores' | 'sgst_epis' | 'sgst_treinamentos' | 'sgst_relatorios' | 'sgst_config';
@@ -43,7 +45,8 @@ interface RegraAlerta {
   isAtiva: boolean;
 }
 
-type GuiaConfiguracao = 'contas' | 'grupos' | 'matriz' | 'globais';
+// 3. ABA ATUALIZADA: 'contas' virou 'usuarios'
+type GuiaConfiguracao = 'usuarios' | 'grupos' | 'matriz' | 'globais';
 
 @Component({
   selector: 'app-configuracoes',
@@ -58,13 +61,13 @@ export class Configuracoes {
   protected readonly rotas = ROTAS_SISTEMA;
 
   protected readonly guiasNavegacao: { id: GuiaConfiguracao; titulo: string }[] = [
-    { id: 'contas', titulo: 'Contas de Acesso' },
+    { id: 'usuarios', titulo: 'Usuários do Sistema' }, // Título visual ajustado
     { id: 'grupos', titulo: 'Grupos de Usuários' },
     { id: 'matriz', titulo: 'Matriz de Acessos' },
     { id: 'globais', titulo: 'Configurações Globais' },
   ];
 
-  protected readonly guiaAtual = signal<GuiaConfiguracao>('contas');
+  protected readonly guiaAtual = signal<GuiaConfiguracao>('usuarios');
 
   protected readonly modulosDisponiveis: ModuloSistema[] = [
     { chave: 'sgst_dashboard', titulo: 'Dashboard SST', detalhe: 'Visão geral e indicadores de saúde e segurança.' },
@@ -83,20 +86,15 @@ export class Configuracoes {
       modulosLiberados: ['sgst_dashboard', 'sgst_colaboradores', 'sgst_epis', 'sgst_treinamentos', 'sgst_relatorios', 'sgst_config'],
     },
     {
-      id: 'lider_setor',
-      nomenclatura: 'Líder de Setor',
-      finalidade: 'Gestão básica da equipe (Mercenaria, Caixa, etc).',
-      modulosLiberados: ['sgst_dashboard', 'sgst_colaboradores'],
-    },
-    {
-      id: 'almoxarifado',
-      nomenclatura: 'Almoxarifado EPI',
+      id: 'colaborador',
+      nomenclatura: 'Colaborador',
       finalidade: 'Foco exclusivo na entrega e estoque de equipamentos.',
       modulosLiberados: ['sgst_dashboard', 'sgst_epis', 'sgst_relatorios'],
     },
   ]);
 
-  protected readonly contasCadastradas = signal<ContaAcesso[]>([
+  // 4. DADOS UNIFICADOS: Variáveis refatoradas
+  protected readonly usuariosCadastrados = signal<UsuarioSst[]>([
     {
       id: 'c1',
       nomeCompleto: 'Clara Aragão',
@@ -110,7 +108,7 @@ export class Configuracoes {
       nomeCompleto: 'Simão Ngombo',
       emailCorporativo: 'simao.n@essenza.com.br',
       cpf: '111.222.333-44',
-      grupoId: 'lider_setor',
+      grupoId: 'admin_tst',
       status: 'ativo',
     },
     {
@@ -118,21 +116,30 @@ export class Configuracoes {
       nomeCompleto: 'Marcio Coelho',
       emailCorporativo: 'marcio.c@essenza.com.br',
       cpf: '999.888.777-66',
-      grupoId: 'almoxarifado',
+      grupoId: 'colaborador',
       status: 'inativo',
     },
   ]);
 
   protected readonly termoBusca = signal('');
 
-  protected readonly contasFiltradas = computed(() => {
+  protected readonly usuariosFiltrados = computed(() => {
     const termo = this.termoBusca().trim().toLowerCase();
-    if (!termo) return this.contasCadastradas();
+    if (!termo) return this.usuariosCadastrados();
     
-    return this.contasCadastradas().filter(
-      (conta) => conta.nomeCompleto.toLowerCase().includes(termo) || 
-                 conta.cpf.includes(termo)
-    );
+    return this.usuariosCadastrados().filter((usuario) => {
+      const nome = usuario.nomeCompleto.toLowerCase();
+      const cpfMatricula = usuario.cpf.toLowerCase();
+      const status = usuario.status.toLowerCase();
+      const grupoNome = this.getNomeGrupo(usuario.grupoId).toLowerCase();
+
+      return(
+        nome.includes(termo) ||
+        cpfMatricula.includes(termo) ||
+        status.includes(termo) ||
+        grupoNome.includes(termo) 
+      );
+    });
   });
 
   protected readonly grupoSelecionadoId = signal<string>('admin_tst');
@@ -187,6 +194,7 @@ export class Configuracoes {
     console.log('Salvando preferências SST...', this.regrasAlertas());
   }
 
-  protected actionNovaConta(): void { this.router.navigateByUrl(this.rotas.novaConta); }
-  protected actionEditarConta(conta: ContaAcesso): void { this.router.navigateByUrl(this.rotas.editarConta(conta.id)); }
+  // 5. MÉTODOS DE AÇÃO: Atualizados para "Usuario"
+  protected actionNovoUsuario(): void { this.router.navigateByUrl(this.rotas.novoUsuario); }
+  protected actionEditarUsuario(usuario: UsuarioSst): void { this.router.navigateByUrl(this.rotas.editarUsuario(usuario.id)); }
 }

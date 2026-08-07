@@ -1,0 +1,87 @@
+<div class="sst-layout">
+  
+  <header class="sst-header">
+    <hgroup class="sst-header__titles">
+      <p class="sst-header__breadcrumb">SGSST / Administração</p>
+      <h1 class="sst-header__main">Gestão de Colaboradores</h1>
+    </hgroup>
+
+    <!-- Botão adicionado alinhado com a tela de configurações -->
+    <button class="sst-btn sst-btn--dark" (click)="actionNovoColaborador()">
+      Cadastrar Novo Colaborador
+    </button>
+  </header>
+
+  <section class="sst-card" aria-labelledby="titulo-colaboradores">
+    
+    <header class="sst-card__toolbar">
+      <h2 id="titulo-colaboradores" class="sst-card__title">Equipe e Matriz de SST</h2>
+      <search class="sst-search">
+        <input 
+          type="text" 
+          class="sst-search__input" 
+          style="width: 380px;"
+          placeholder="Buscar por nome, CPF/matrícula, cargo, setor ou status..."
+          [(ngModel)]="termoBusca"
+          aria-label="Buscar colaborador" 
+        />
+      </search>
+    </header>
+
+    <table class="sst-table">
+      <thead>
+        <tr>
+          <th scope="col">Colaborador</th>
+          <th scope="col">CPF / Matrícula</th>
+          <th scope="col">Cargo / Setor</th>
+          <th scope="col">Status</th>
+          <th scope="col" class="sst-text-right">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (colab of colaboradoresFiltrados; track colab.matricula) {
+          <tr>
+            <td>
+              <strong>{{ colab.nome }}</strong>
+              <span class="sst-table__subtext">Colaborador Essenza</span>
+            </td>
+            <td>{{ colab.matricula }}</td>
+            <td>
+              <strong>{{ colab.cargo }}</strong>
+              <span class="sst-table__subtext">{{ colab.setor }}</span>
+            </td>
+            <td>
+              <span class="sst-badge" 
+                    [class.sst-badge--ativo]="colab.status === 'Ativo'"
+                    [class.sst-badge--inativo]="colab.status === 'Inativo'"
+                    [class.sst-badge--afastado]="colab.status === 'Afastado'">
+                {{ colab.status }}
+              </span>
+            </td>
+            <td class="sst-text-right">
+              <button type="button" class="sst-btn-link" (click)="actionVerDetalhes(colab)">Ver Detalhes</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5" class="sst-text-center" style="padding: 2.5rem 1rem; color: var(--cor-texto-secundario); font-style: italic;">
+              Nenhum colaborador encontrado com o termo "{{ termoBusca }}".
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <nav class="sst-pagination" aria-label="Paginação da lista de colaboradores">
+      <span class="sst-pagination__info">
+        Mostrando {{ colaboradoresFiltrados.length }} de {{ colaboradores.length }} registros
+      </span>
+      <menu class="sst-pagination__controls">
+        <li><button type="button" class="sst-btn-page" disabled>&laquo; Anterior</button></li>
+        <li><button type="button" class="sst-btn-page sst-btn-page--active" aria-current="page">1</button></li>
+        <li><button type="button" class="sst-btn-page" disabled>Próxima &raquo;</button></li>
+      </menu>
+    </nav>
+    
+  </section>
+</div>
