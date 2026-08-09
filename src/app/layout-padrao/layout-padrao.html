@@ -1,48 +1,59 @@
-<div class="sst-app">
-  
-  <!-- Cabeçalho Global -->
-  <header class="sst-topbar">
-    <hgroup class="sst-topbar__brand">
-      <h1 class="sst-topbar__title">Sistema de Gestão de SST</h1>
-      <p class="sst-topbar__subtitle">Essenza Supermercados Ltda.</p>
-    </hgroup>
-    
-    <div class="sst-topbar__user">
-      <span class="sst-topbar__role">Administrador TST</span>
-      <strong class="sst-topbar__name">ADMINISTRADOR</strong>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebarbrand">
+      <h1 class="sidebartitle">Sistema de Gestão de SST</h1>
+      <p class="sidebarsubtitle">Essenza Supermercados Ltda.</p>
     </div>
-  </header>
 
-  <div class="sst-container">
-    
-    <!-- Menu Lateral -->
-    <aside class="sst-sidebar">
-      <header class="sst-sidebar__header">
-        <span class="sst-sidebar__label">SGSST</span>
-      </header>
-      
-      <nav class="sst-sidebar__nav" aria-label="Menu de Navegação Principal">
-        @for (item of menuLateral; track item.rota) {
-          <button 
-            type="button"
-            class="sst-sidebar__link"
-            [class.sst-sidebar__link--active]="rotaAtual === item.rota"
-            (click)="navegarMenuGlobal(item.rota)"
-          >
-            {{ item.label }}
-          </button>
-        }
-      </nav>
+    <nav class="sidebarnav">
+      <ul class="sidebarmenu">
+        
+        <li>
+          <a routerLink="/dashboard" routerLinkActive="active" class="sidebarlink">
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a routerLink="/colaboradores" routerLinkActive="active" class="sidebarlink">
+            Colaboradores
+          </a>
+        </li>
+        <li>
+          <a routerLink="/matriz-treinamentos" routerLinkActive="active" class="sidebarlink">
+            Matriz de Treinamentos
+          </a>
+        </li>
+        <li>
+          <a routerLink="/epis" routerLinkActive="active" class="sidebarlink">
+            EPIs
+          </a>
+        </li>
+        <li>
+          <a routerLink="/cadastros" routerLinkActive="active" class="sidebarlink">
+            Cadastros
+          </a>
+        </li>
+        <li>
+          <a routerLink="/ajuda-suporte" routerLinkActive="active" class="sidebarlink">
+            Ajuda e Suporte
+          </a>
+        </li>
+        <li>
+          <a routerLink="/configuracoes" routerLinkActive="active" class="sidebarlink">
+            Configurações
+          </a>
+        </li>
+      </ul>
+    </nav>
 
-      <footer class="sst-sidebar__footer">
-        <button class="sst-sidebar__logout" (click)="actionSair()">Sair</button>
-      </footer>
-    </aside>
+    <div class="sidebarfooter">
+      <a routerLink="/login" class="sidebarlink sidebarlink--logout">
+        Sair
+      </a>
+    </div>
+  </aside>
 
-    <!-- ÁREA PRINCIPAL ONDE AS TELAS SÃO INJETADAS -->
-    <main class="sst-main-content">
-      <router-outlet></router-outlet> 
-    </main>
-
-  </div>
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
 </div>

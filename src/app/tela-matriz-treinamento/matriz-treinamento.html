@@ -1,0 +1,83 @@
+<div class="matriz-container">
+  <!-- Cabeçalho Interno -->
+  <header class="matriz-header">
+    <h2>Matriz de Treinamentos</h2>
+    <div class="user-badge">
+      <span class="user-badge__role">Administrador TST</span>
+      <strong class="user-badge__name">ADMINISTRADOR</strong>
+    </div>
+  </header>
+
+  <!-- Cards Superiores de Resumo -->
+  <section class="cards-grid">
+    @for (card of resumos; track card.titulo) {
+      <div class="card-summary">
+        <div class="card-summary__icon">{{ card.icone }}</div>
+        <span class="card-summary__title">{{ card.titulo }}</span>
+        <strong class="card-summary__val">{{ card.total }}</strong>
+      </div>
+    }
+  </section>
+
+  <!-- Seção Principal com as Tabelas -->
+  <div class="tables-column">
+    
+    <!-- Tabela 1: Treinamentos Cadastrados -->
+    <section class="table-card">
+      <h3 class="table-card__title">Treinamentos Cadastrados</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Treinamento</th>
+              <th>Classificação</th>
+              <th>NR</th>
+              <th>Carga Horária</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of treinamentos; track item.nome) {
+              <tr>
+                <td><strong>{{ item.nome }}</strong></td>
+                <td>{{ item.classificacao }}</td>
+                <td>{{ item.nr }}</td>
+                <td>{{ item.cargaHoraria }}</td>
+                <td><strong>{{ item.status }}</strong></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Tabela 2: Colaboradores e Certificações -->
+    <section class="table-card">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Colaborador</th>
+              <th>Treinamento</th>
+              <th>Certificação</th>
+              <th>Validade</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (c of certificacoes; track c.colaborador) {
+              <tr>
+                <td><strong>{{ c.colaborador }}</strong></td>
+                <td><strong>{{ c.treinamento }}</strong></td>
+                <td>{{ c.certificacao }}</td>
+                <td>{{ c.validade }}</td>
+                <td><strong class="text-vencida">{{ c.status || '' }}</strong></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</div>
