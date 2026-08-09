@@ -1,0 +1,111 @@
+<div class="sst-layout">
+  
+  <header class="sst-header">
+    <hgroup class="sst-header__titles">
+      <p class="sst-header__breadcrumb">SGSST / Administração</p>
+      <h1 class="sst-header__main">Gestão de EPIs</h1>
+    </hgroup>
+
+    <button class="sst-btn sst-btn--dark" (click)="actionNovoEPI()">
+      Cadastrar EPI
+    </button>
+  </header>
+
+  <!-- Seção 1: Estoque de EPIs -->
+  <section class="sst-card sst-card--margem-inferior" aria-labelledby="titulo-estoque-epis">
+    
+    <header class="sst-card__toolbar">
+      <h2 id="titulo-estoque-epis" class="sst-card__title">Controle de Estoque de EPIs</h2>
+      
+      <search class="sst-search" style="display: flex; gap: 1rem;">
+        <input 
+          type="text" 
+          class="sst-search__input" 
+          style="width: 320px;"
+          placeholder="Buscar EPIs por nome, ID ou CA..."
+          [(ngModel)]="termoBusca"
+          aria-label="Buscar EPI" 
+        />
+        <button type="button" class="sst-btn sst-btn--outline">
+          Filtrar
+        </button>
+      </search>
+    </header>
+
+    <table class="sst-table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Descrição</th>
+          <th scope="col">Quantidade</th>
+          <th scope="col">Data de Inclusão</th>
+          <th scope="col">Validade</th>
+          <th scope="col">CA</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (epi of episFiltrados; track epi.id) {
+          <tr>
+            <td><strong>{{ epi.id }}</strong></td>
+            <td>{{ epi.descricao }}</td>
+            <td>{{ epi.quantidade }}</td>
+            <td>{{ epi.inclusao }}</td>
+            <td>{{ epi.validade }}</td>
+            <td>{{ epi.ca }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="sst-text-center" style="padding: 2.5rem 1rem; color: var(--cor-texto-secundario); font-style: italic;">
+              Nenhum EPI encontrado com o termo "{{ termoBusca }}".
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <nav class="sst-pagination" aria-label="Paginação da lista de EPIs">
+      <span class="sst-pagination__info">
+        Mostrando {{ episFiltrados.length }} de {{ epis.length }} registros
+      </span>
+      <menu class="sst-pagination__controls">
+        <li><button type="button" class="sst-btn-page" disabled>&laquo; Anterior</button></li>
+        <li><button type="button" class="sst-btn-page sst-btn-page--active" aria-current="page">1</button></li>
+        <li><button type="button" class="sst-btn-page" disabled>Próxima &raquo;</button></li>
+      </menu>
+    </nav>
+    
+  </section>
+
+  <!-- Seção 2: Entregas Registradas -->
+  <section class="sst-card" aria-labelledby="titulo-entregas">
+    <header class="sst-card__toolbar">
+      <h2 id="titulo-entregas" class="sst-card__title">Entregas Registradas</h2>
+    </header>
+
+    <table class="sst-table">
+      <thead>
+        <tr>
+          <th scope="col">Colaborador</th>
+          <th scope="col">EPI</th>
+          <th scope="col">Data</th>
+          <th scope="col">Assinatura</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (entrega of entregas; track entrega.colaborador) {
+          <tr>
+            <td><strong>{{ entrega.colaborador }}</strong></td>
+            <td>{{ entrega.epi }}</td>
+            <td>{{ entrega.data }}</td>
+            <td><em>{{ entrega.assinatura }}</em></td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" class="sst-text-center">Nenhuma entrega registrada.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+</div>
