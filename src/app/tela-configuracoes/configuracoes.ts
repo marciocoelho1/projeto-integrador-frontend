@@ -195,6 +195,11 @@ export class Configuracoes {
   }
 
   // 5. MÉTODOS DE AÇÃO: Atualizados para "Usuario"
-  protected actionNovoUsuario(): void { this.router.navigateByUrl(this.rotas.novoUsuario); }
-  protected actionEditarUsuario(usuario: UsuarioSst): void { this.router.navigateByUrl(this.rotas.editarUsuario(usuario.id)); }
+  actionNovoUsuario(): void {
+    console.log('Botão Novo Usuário clicado! Redirecionando...');
+    this.router.navigate(['/cadastramentos'], { queryParams: { aba: 'colaborador' } });
+  }
+
+  protected actionEditarUsuario(usuario: UsuarioSst): void { 
+    this.router.navigateByUrl(this.rotas.editarUsuario(usuario.id)); }
 }

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-// import { Router } from '@angular/router'; // Descomente quando for usar rotas
+import { Router } from '@angular/router';
 
 interface Colaborador {
   matricula: string;
@@ -20,7 +20,7 @@ interface Colaborador {
 })
 export class Colaboradores implements OnInit {
   termoBusca: string = '';
-  // private router = inject(Router); // Descomente para navegação real
+  private router = inject(Router); 
 
   colaboradores: Colaborador[] = [
     { matricula: '123.456.789-00', nome: 'Carlos Eduardo Silva', cargo: 'Operador de Empilhadeira', setor: 'Estoque', status: 'Ativo' },
@@ -63,6 +63,6 @@ export class Colaboradores implements OnInit {
 
   actionNovoColaborador(): void {
     console.log('Navegando para o cadastro de novo colaborador...');
-    // this.router.navigateByUrl('/cadastramentos/novo-colaborador');
+    this.router.navigate(['/cadastramentos'], { queryParams: { aba: 'colaborador' } });
   }
 }

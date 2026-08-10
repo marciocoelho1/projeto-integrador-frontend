@@ -1,0 +1,66 @@
+/* Herda a navegação em abas usada em Configurações */
+.sst-nav {
+  display: flex;
+  gap: 1.5rem;
+  border-bottom: 2px solid var(--cor-borda);
+  margin-bottom: 2rem;
+
+  &__item {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 0.75rem 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--cor-texto-secundario);
+    cursor: pointer;
+    margin-bottom: -2px;
+    transition: all 0.2s ease;
+
+    &:hover { color: var(--cor-primaria); }
+    
+    &--active {
+      color: var(--cor-primaria);
+      border-bottom-color: var(--cor-primaria);
+    }
+  }
+}
+
+/* Estrutura de Grid para organizar os inputs de forma alinhada */
+.sst-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Divide o form em 2 colunas */
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.sst-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+  }
+}
+
+/* Classe utilitária para forçar o input a ocupar 100% da sua coluna ou grid */
+.sst-input-full {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* Utilitário para fazer uma linha do grid ocupar as duas colunas inteiras (ex: Nome e Descrição) */
+.sst-col-span-2 {
+  grid-column: span 2;
+}
+
+.sst-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--cor-borda);
+}

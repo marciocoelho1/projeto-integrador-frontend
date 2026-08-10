@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../service/auth.service';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,21 +12,19 @@ import { FormsModule } from '@angular/forms';
 export class Login {
   email = '';
   senha = '';
+  erroLogin = false; // Variável para controlar a mensagem de erro na tela
   
-  constructor(private authService: AuthService){}
+  private router = inject(Router);
 
-  entrar(){
-    this.authService.login({
-      email: this.email,
-      senha: this.senha
-    }).subscribe({
-      next: (res) => {
-        console.log('Resposta da API:', res);
-        this.authService.salvarToken(res.access_token);
-      },
-      error: () => {
-        console.log('Erro no login');
-      }
-    });
+  entrar() {
+    // Validação estática ("mockada")
+    if (this.email === 'admin' && this.senha === '123456') {
+      this.erroLogin = false;
+      console.log('Login bem-sucedido! Redirecionando...');
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.erroLogin = true;
+      console.error('Credenciais inválidas.');
+    }
   }
 }

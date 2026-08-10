@@ -1,0 +1,117 @@
+.matriz-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: #0f172a;
+}
+
+.matriz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0;
+  }
+}
+
+.user-badge {
+  background-color: #cbd5e1;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  &__role {
+    font-size: 0.75rem;
+    color: #475569;
+  }
+
+  &__name {
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* Cards Superiores */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.card-summary {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  &__icon {
+    font-size: 1.8rem;
+  }
+
+  &__title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1e293b;
+  }
+
+  &__val {
+    font-size: 1.4rem;
+    font-weight: 800;
+  }
+}
+
+/* Estrutura das Tabelas */
+.tables-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.table-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+  }
+}
+
+.table-wrapper {
+  overflow-x: auto;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.85rem;
+
+    th {
+      padding: 0.75rem;
+      border-bottom: 2px solid #000000;
+      font-weight: 700;
+    }
+
+    td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+  }
+}
+
+.text-vencida {
+  color: #000000;
+}
