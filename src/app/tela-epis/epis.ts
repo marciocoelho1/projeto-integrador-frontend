@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 interface Epi {
   id: string;
@@ -26,6 +27,7 @@ interface EntregaEpi {
   styleUrls: ['./epis.scss']
 })
 export class Epis {
+  private router = inject(Router);
   termoBusca: string = '';
 
   // Mock de dados da tabela de EPIs (Baseado no wireframe)
@@ -54,7 +56,6 @@ export class Epis {
   }
 
   actionNovoEPI(): void {
-    // Redirecionará para a futura tela de cadastro
-    console.log('Navegar para tela de Cadastro de EPI');
+    this.router.navigate(['/cadastramentos'], { queryParams: { aba: 'epi' } });
   }
 }

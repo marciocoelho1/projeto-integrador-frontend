@@ -26,6 +26,13 @@
                 required />
             </label>
 
+            <!-- Mensagem de erro de credenciais inválidas -->
+            @if (erroLogin) {
+              <div style="color: #dc2626; font-size: 0.85rem; font-weight: 600; margin-top: -8px;">
+                Matrícula ou senha incorretos.
+              </div>
+            }
+
             <!-- Botão fica desativado se o formulário for inválido -->
              <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
 
