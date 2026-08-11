@@ -1,0 +1,100 @@
+<div class="app-container">
+  <!-- Topbar Header -->
+  <header class="app-header">
+    <div class="header-brand">
+      <h1 class="system-title">Sistema de Gestão de SST</h1>
+      <span class="company-name">Essenza Supermercados Ltda.</span>
+    </div>
+    <div class="user-badge">
+      <span class="user-name">João da Silva</span>
+      <span class="user-role">COLABORADOR</span>
+    </div>
+  </header>
+
+  <div class="app-body">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <nav class="sidebar-nav">
+        <span class="nav-system-tag">SGSST</span>
+        
+        <div class="nav-group">
+          <p class="nav-group-title">Área do Colaborador</p>
+          <ul>
+            <li class="active">
+              <a href="#">Ajuda e Suporte</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a routerLink="/login" class="btn-logout">Sair</a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <h2 class="page-title">Ajuda e suporte</h2>
+
+      <div class="content-grid">
+        <!-- Card 1: Nova Solicitação -->
+        <section class="card">
+          <h3 class="card-title">Nova solicitação</h3>
+
+          <form (ngSubmit)="handleSubmit()" class="support-form">
+            <div class="form-group">
+              <label for="ticketType">Tipo</label>
+              <div class="select-wrapper">
+                <select id="ticketType" name="type" [(ngModel)]="ticketType" required>
+                  <option value="Solicitar Ajuda">Solicitar Ajuda</option>
+                  <option value="Reportar Problema">Reportar Problema</option>
+                  <option value="Outros">Outros</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="ticketDescription">Descrição</label>
+              <textarea 
+                id="ticketDescription" 
+                name="description" 
+                [(ngModel)]="ticketDescription"
+                placeholder="Descreva sua dúvida ou problema" 
+                rows="4" 
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Enviar solicitação</button>
+          </form>
+        </section>
+
+        <!-- Card 2: Solicitações Recentes -->
+        <section class="card">
+          <h3 class="card-title">Solicitações recentes</h3>
+
+          <div class="table-container">
+            <table class="requests-table">
+              <thead>
+                <tr>
+                  <th>Tipo</th>
+                  <th>Descrição</th>
+                  <th>Usuário</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let req of requests">
+                  <td>{{ req.type }}</td>
+                  <td>{{ req.description }}</td>
+                  <td>{{ req.user }}</td>
+                  <td>{{ req.status }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
