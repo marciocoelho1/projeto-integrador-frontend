@@ -34,9 +34,16 @@
             }
 
             <!-- Botão fica desativado se o formulário for inválido -->
-             <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
+            <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
 
-             <a href="#" class="forgot-password">Recuperar Senha</a>
+            <!-- Link para Recuperar Senha com routerLink e evento de clique seguro -->
+            <a 
+              routerLink="/recuperar-senha" 
+              (click)="irParaRecuperarSenha($event)" 
+              class="forgot-password" 
+              style="cursor: pointer;">
+              Recuperar Senha
+            </a>
 
         </form>
 
