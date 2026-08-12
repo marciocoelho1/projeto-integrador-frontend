@@ -1,4 +1,4 @@
-<div class="sst-layout">
+<main class="sst-layout">
   
   <header class="sst-header">
     <hgroup class="sst-header__titles">
@@ -7,8 +7,8 @@
     </hgroup>
   </header>
 
-  
-  <div class="sst-grid" style="margin-bottom: 2rem;">
+  <!-- Grade de Resumos Superiores -->
+  <section class="sst-grid" style="margin-bottom: 2rem;" aria-label="Resumo de Status">
     <article class="sst-card-group">
       <header class="sst-card-group__header">
         <h3>Certificações</h3>
@@ -38,44 +38,46 @@
         {{ resumo.epis }}
       </span>
     </article>
-  </div>
+  </section>
 
-  
+  <!-- Coluna dupla (Certificações e Reciclagens) -->
   <div class="sst-grid" style="margin-bottom: 2rem;">
     
-    
+    <!-- Minhas Certificações -->
     <section class="sst-card">
       <header class="sst-card__toolbar">
         <h2 class="sst-card__title">Minhas Certificações</h2>
       </header>
       
-      <table class="sst-table">
-        <thead>
-          <tr>
-            <th scope="col">Treinamento</th>
-            <th scope="col">Validade</th>
-            <th scope="col">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (cert of minhasCertificacoes; track cert.treinamento) {
+      <div class="sst-table-wrapper">
+        <table class="sst-table">
+          <thead>
             <tr>
-              <td><strong>{{ cert.treinamento }}</strong></td>
-              <td>{{ cert.validade }}</td>
-              <td>
-                <span class="sst-badge" 
-                      [class.sst-badge--inativo]="cert.status === 'Vencida'"
-                      [class.sst-badge--ativo]="cert.status === 'Ativa'">
-                  {{ cert.status }}
-                </span>
-              </td>
+              <th scope="col">Treinamento</th>
+              <th scope="col">Validade</th>
+              <th scope="col">Status</th>
             </tr>
-          }
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            @for (cert of minhasCertificacoes; track cert.treinamento) {
+              <tr>
+                <td><strong>{{ cert.treinamento }}</strong></td>
+                <td>{{ cert.validade }}</td>
+                <td>
+                  <span class="sst-badge" 
+                        [class.sst-badge--inativo]="cert.status === 'Vencida'"
+                        [class.sst-badge--ativo]="cert.status === 'Ativa'">
+                    {{ cert.status }}
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </section>
 
-    
+    <!-- Materiais de Reciclagem -->
     <section class="sst-card">
       <header class="sst-card__toolbar">
         <h2 class="sst-card__title">Materiais de Reciclagem</h2>
@@ -83,8 +85,7 @@
       
       <div style="display: flex; flex-direction: column; gap: 1rem;">
         @for (mat of materiaisReciclagem; track mat.treinamento) {
-          
-          <div class="sst-matrix-info" style="margin-bottom: 0; padding-bottom: 1.25rem;">
+          <article class="sst-matrix-info" style="margin-bottom: 0; padding-bottom: 1.25rem;">
             <strong style="display: block; color: var(--cor-primaria); margin-bottom: 0.25rem;">
               {{ mat.treinamento }}
             </strong>
@@ -92,40 +93,42 @@
               Prazo de conclusão: {{ mat.prazo }}
             </p>
             <a [href]="mat.link" target="_blank" rel="noopener noreferrer" class="sst-btn-link">Acessar material de estudo &rarr;</a>
-          </div>
+          </article>
         }
       </div>
     </section>
   </div>
 
-  
+  <!-- Seção Inferior: EPIs -->
   <section class="sst-card">
     <header class="sst-card__toolbar">
       <h2 class="sst-card__title">Meus EPIs</h2>
     </header>
 
-    <table class="sst-table">
-      <thead>
-        <tr>
-          <th scope="col">EPI</th>
-          <th scope="col">Data de Entrega</th>
-          <th scope="col">Assinatura do Termo</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (epi of meusEpis; track epi.nome) {
+    <div class="sst-table-wrapper">
+      <table class="sst-table">
+        <thead>
           <tr>
-            <td><strong>{{ epi.nome }}</strong></td>
-            <td>{{ epi.dataEntrega }}</td>
-            <td><em>{{ epi.assinatura }}</em></td>
+            <th scope="col">EPI</th>
+            <th scope="col">Data de Entrega</th>
+            <th scope="col">Assinatura do Termo</th>
           </tr>
-        } @empty {
-          <tr>
-            <td colspan="3" class="sst-text-center">Nenhum EPI registrado no momento.</td>
-          </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (epi of meusEpis; track epi.nome) {
+            <tr>
+              <td><strong>{{ epi.nome }}</strong></td>
+              <td>{{ epi.dataEntrega }}</td>
+              <td><em>{{ epi.assinatura }}</em></td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="3" class="sst-text-center">Nenhum EPI registrado no momento.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </section>
 
-</div>
+</main>
