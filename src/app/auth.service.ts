@@ -5,19 +5,25 @@ import { Injectable } from '@angular/core';
 })
 export class AuthService {
   private readonly LOGGED_KEY = 'usuario_logado';
+  private readonly ROLE_KEY = 'usuario_perfil'; 
 
-  // Salva a sessão do usuário
-  setSession(): void {
+  
+  setSession(perfil: string): void {
     localStorage.setItem(this.LOGGED_KEY, 'true');
+    localStorage.setItem(this.ROLE_KEY, perfil);
   }
 
-  // Encerra a sessão
   logout(): void {
     localStorage.removeItem(this.LOGGED_KEY);
+    localStorage.removeItem(this.ROLE_KEY);
   }
 
-  // Verifica se o usuário está logado
   isLoggedIn(): boolean {
     return localStorage.getItem(this.LOGGED_KEY) === 'true';
+  }
+
+  
+  getRole(): string | null {
+    return localStorage.getItem(this.ROLE_KEY);
   }
 }

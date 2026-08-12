@@ -112,7 +112,7 @@
   background-color: #f8fafc;
 }
 
-/* Gráfico 1: Lado a Lado (Barras + Painel de Informações) */
+
 .chart-content-with-side {
   display: flex;
   gap: 1.25rem;
@@ -214,7 +214,7 @@
   &--expired { background-color: var(--cor-alerta, #ef4444); }
 }
 
-/* Gráfico 2: Pizza/Donut */
+
 .mock-pie {
   width: 140px;
   height: 140px;

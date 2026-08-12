@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastService } from '../service/toast.service';
+import { AuditService } from '../service/audit.service';
 
 interface Epi {
   id: string;
@@ -28,23 +30,102 @@ interface EntregaEpi {
 })
 export class Epis {
   private router = inject(Router);
+  private toast = inject(ToastService);
+  private auditService = inject(AuditService);
+
   termoBusca: string = '';
 
-  // Mock de dados da tabela de EPIs (Baseado no wireframe)
+  
   epis: Epi[] = [
     { id: 'EPI-01', descricao: 'Capacete de Segurança', quantidade: 45, inclusao: '01/02/2026', validade: '03/02/2028', ca: '12345' },
     { id: 'EPI-02', descricao: 'Luva de Vaqueta', quantidade: 84, inclusao: '03/02/2026', validade: '03/02/2028', ca: '89765' },
-    { id: 'EPI-03', descricao: 'Óculos de Segurança', quantidade: 100, inclusao: '03/02/2026', validade: '03/02/2028', ca: '23456' },
-    { id: 'EPI-04', descricao: 'Protetor Auricular', quantidade: 200, inclusao: '03/02/2026', validade: '03/02/2028', ca: '14752' },
-    { id: 'EPI-05', descricao: 'Roupa Térmica', quantidade: 30, inclusao: '03/02/2026', validade: '03/02/2028', ca: '36579' }
+    { id: 'EPI-03', descricao: 'Óculos de Segurança', quantidade: 100, inclusao: '03/02/2026', validade: '03/02/2028', ca: '23456' }
   ];
 
-  // Mock de dados da tabela de Entregas Registradas
+  
   entregas: EntregaEpi[] = [
-    { colaborador: 'João Souza', epi: 'Capacete de Segurança', data: '01/06/2026', assinatura: 'João Souza' },
-    { colaborador: 'Maria José', epi: 'Óculos de Segurança', data: '01/06/2026', assinatura: 'Maria José' }
+    { colaborador: 'João Souza', epi: 'Capacete de Segurança', data: '01/06/2026', assinatura: 'João Souza' }
   ];
 
+  
+  
+  
+  mostrarModalEdicao = false;
+  epiEmEdicao: Epi = { id: '', descricao: '', quantidade: 0, inclusao: '', validade: '', ca: '' };
+
+  abrirModalEdicao(epi: Epi) {
+    
+    this.epiEmEdicao = { ...epi };
+    this.mostrarModalEdicao = true;
+  }
+
+  fecharModalEdicao() {
+    this.mostrarModalEdicao = false;
+  }
+
+  salvarEdicao() {
+    const index = this.epis.findIndex(e => e.id === this.epiEmEdicao.id);
+    if (index !== -1) {
+      this.epis[index] = { ...this.epiEmEdicao };
+      this.toast.success('EPI atualizado com sucesso!');
+      this.auditService.registrarAcao('Marcio Coelho', 'EPIs', 'EDICAO', `Editou dados do EPI ${this.epiEmEdicao.descricao}`);
+    }
+    this.fecharModalEdicao();
+  }
+
+  
+  
+  
+  mostrarModalEntrega = false;
+  novaEntrega = { colaborador: '', epiId: '', data: '', quantidade: 1 };
+
+  abrirModalEntrega() {
+    this.novaEntrega = { colaborador: '', epiId: '', data: new Date().toISOString().split('T')[0], quantidade: 1 };
+    this.mostrarModalEntrega = true;
+  }
+
+  fecharModalEntrega() {
+    this.mostrarModalEntrega = false;
+  }
+
+  salvarEntrega() {
+    const epiIndex = this.epis.findIndex(e => e.id === this.novaEntrega.epiId);
+    
+    if (epiIndex === -1) {
+      this.toast.error('Selecione um EPI válido.');
+      return;
+    }
+
+    const epiSelecionado = this.epis[epiIndex];
+
+    if (epiSelecionado.quantidade < this.novaEntrega.quantidade) {
+      this.toast.warning('Estoque insuficiente para esta entrega.');
+      return;
+    }
+
+    
+    this.epis[epiIndex].quantidade -= this.novaEntrega.quantidade;
+
+    
+    const dataFormatada = this.novaEntrega.data.split('-').reverse().join('/');
+
+    
+    this.entregas.unshift({
+      colaborador: this.novaEntrega.colaborador,
+      epi: epiSelecionado.descricao,
+      data: dataFormatada,
+      assinatura: 'Pendente (Sistema)'
+    });
+
+    this.toast.success('Entrega registrada com abatimento no estoque!');
+    this.auditService.registrarAcao('Marcio Coelho', 'EPIs', 'CRIACAO', `Registrou entrega de ${this.novaEntrega.quantidade}x ${epiSelecionado.descricao} para ${this.novaEntrega.colaborador}`);
+    
+    this.fecharModalEntrega();
+  }
+
+  
+  
+  
   get episFiltrados(): Epi[] {
     if (!this.termoBusca) return this.epis;
     const termo = this.termoBusca.toLowerCase();

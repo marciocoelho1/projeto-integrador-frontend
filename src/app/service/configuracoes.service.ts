@@ -9,5 +9,5 @@ export class ConfiguracoesService {
 
   constructor(private http: HttpClient) {}
 
-  // Aqui entrarão os métodos futuros: buscarUsuarios(), criarUsuario(), etc.
+  
 }

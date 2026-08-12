@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../auth.service'; // <--- Importação do serviço de autenticação
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -16,22 +16,26 @@ export class Login {
   erroLogin = false;
   
   private router = inject(Router);
-  private authService = inject(AuthService); // <--- Injeção do AuthService
+  private authService = inject(AuthService); 
 
   entrar() {
-    if (this.email === 'admin' && this.senha === 'trabalho09') {
+    if (this.email === 'admin' && this.senha === '123456') {
       this.erroLogin = false;
-      this.authService.setSession(); // <--- Registra o login no localStorage
-      console.log('Login bem-sucedido! Redirecionando...');
+      this.authService.setSession('admin'); 
       this.router.navigate(['/dashboard']);
+      
+    } else if (this.email === 'colaborador' && this.senha === '123456') {
+      this.erroLogin = false;
+      this.authService.setSession('colaborador'); 
+      this.router.navigate(['/area-colaborador']);
+      
     } else {
       this.erroLogin = true;
-      console.error('Credenciais inválidas.');
     }
   }
 
   irParaRecuperarSenha(event: Event) {
-    event.preventDefault(); // Evita recarregar a página
+    event.preventDefault(); 
     this.router.navigate(['/recuperar-senha']);
   }
 }

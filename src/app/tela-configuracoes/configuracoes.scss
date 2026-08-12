@@ -1,6 +1,6 @@
-// ------------------------------------------
-// CONTEÚDO ESPECÍFICO DE CONFIGURAÇÕES
-// ------------------------------------------
+
+
+
 .sst-layout {
   max-width: 1200px;
   margin: 0 auto;
@@ -20,7 +20,7 @@
   }
 }
 
-// NAVEGAÇÃO INTERNA (Tabs)
+
 .sst-nav {
   display: flex;
   gap: 1.5rem;
@@ -50,7 +50,7 @@
   }
 }
 
-// CARDS (Os estilos base, como padding e background, já vêm da classe global .sst-card no styles.scss)
+
 .sst-card {
   &--form { max-width: 800px; }
 
@@ -74,7 +74,7 @@
   }
 }
 
-// INPUTS & SELECTS
+
 .sst-search__input, .sst-select {
   padding: 0.6rem 1rem;
   border: 1px solid var(--cor-borda);
@@ -86,7 +86,7 @@
   &:focus { border-color: var(--cor-primaria); }
 }
 
-// TABELA
+
 .sst-table {
   width: 100%;
   border-collapse: collapse;
@@ -131,7 +131,7 @@
 .sst-text-right { text-align: right; }
 .sst-text-center { text-align: center; }
 
-// BADGES
+
 .sst-badge {
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
@@ -154,7 +154,7 @@
   &:hover { color: var(--cor-link-hover); }
 }
 
-// GRUPOS (Cards)
+
 .sst-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -199,7 +199,7 @@
   }
 }
 
-// FORMULÁRIO GLOBAIS E SWITCH
+
 .sst-matrix-info {
   background: #f8fafc;
   padding: 1rem;

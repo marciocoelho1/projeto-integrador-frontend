@@ -5,7 +5,6 @@
       <h1 class="sst-header__main">Configurações do Sistema</h1>
     </hgroup>
     
-    <!-- Adicionado type="button" -->
     <button type="button" class="sst-btn sst-btn--dark" (click)="actionNovoUsuario()">
       Cadastrar Novo Usuário
     </button>
@@ -29,7 +28,7 @@
   <section class="sst-content">
     @switch (guiaAtual()) {
       
-      <!-- ABA 1: USUÁRIOS -->
+      
       @case ('usuarios') {
         <section class="sst-card" aria-labelledby="titulo-usuarios">
           <header class="sst-card__toolbar">
@@ -81,7 +80,7 @@
         </section>
       }
 
-      <!-- ABA 2: GRUPOS -->
+      
       @case ('grupos') {
         <div class="sst-grid">
           @for (grupo of gruposSst(); track grupo.id) {
@@ -97,7 +96,7 @@
         </div>
       }
 
-      <!-- ABA 3: MATRIZ DE ACESSOS -->
+      
       @case ('matriz') {
         <section class="sst-card" aria-labelledby="titulo-matriz">
           <header class="sst-card__toolbar">
@@ -125,7 +124,6 @@
                   <td><strong>{{ mod.titulo }}</strong></td>
                   <td>{{ mod.detalhe }}</td>
                   <td class="sst-text-center">
-                    <!-- Correção Semântica: ID único para o input e 'for' vinculando a label ao input -->
                     <label class="sst-switch" [attr.for]="'mod-' + mod.chave">
                       <input type="checkbox" 
                              [id]="'mod-' + mod.chave"
@@ -142,7 +140,7 @@
         </section>
       }
 
-      <!-- ABA 4: GLOBAIS -->
+      
       @case ('globais') {
         <section class="sst-card sst-card--form" aria-labelledby="titulo-regras">
           <header>
@@ -156,14 +154,12 @@
               @for (regra of regrasAlertas(); track regra.codigo) {
                 <div class="sst-form__row">
                   <div class="sst-form__text">
-                    <!-- Vincula o texto da regra ao ID do interruptor para leitores de tela -->
                     <label [attr.for]="'regra-' + regra.codigo">
                       <strong>{{ regra.nomeRegra }}</strong>
                       <span>{{ regra.descricaoRegra }}</span>
                     </label>
                   </div>
                   
-                  <!-- Correção Semântica: Vinculando o Switch -->
                   <label class="sst-switch" [attr.for]="'regra-' + regra.codigo">
                     <input type="checkbox" 
                            [id]="'regra-' + regra.codigo"
@@ -182,6 +178,81 @@
           </form>
         </section>
       }
+
+      
+      @case ('logs') {
+        <section class="sst-card" aria-labelledby="titulo-logs">
+          <header class="sst-card__toolbar" style="flex-wrap: wrap; gap: 1rem;">
+            <h2 id="titulo-logs" class="sst-card__title">Histórico de Auditoria</h2>
+            
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+              <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                <label for="data-inicio" style="font-size: 0.75rem; font-weight: 600;">Data Início</label>
+                <input type="date" id="data-inicio" class="sst-search__input" 
+                       [value]="filtroLogDataInicio()" 
+                       (input)="filtroLogDataInicio.set($any($event.target).value)" />
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                <label for="data-fim" style="font-size: 0.75rem; font-weight: 600;">Data Fim</label>
+                <input type="date" id="data-fim" class="sst-search__input" 
+                       [value]="filtroLogDataFim()" 
+                       (input)="filtroLogDataFim.set($any($event.target).value)" />
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                <label style="font-size: 0.75rem; font-weight: 600;">Pesquisar</label>
+                <search class="sst-search">
+                  <input type="text" class="sst-search__input" style="width: 260px;" 
+                         placeholder="Usuário, módulo ou ação..."
+                         [value]="filtroLogTermo()" 
+                         (input)="filtroLogTermo.set($any($event.target).value)" />
+                </search>
+              </div>
+            </div>
+          </header>
+
+          <div class="sst-table-wrapper">
+            <table class="sst-table">
+              <thead>
+                <tr>
+                  <th scope="col">Data / Hora</th>
+                  <th scope="col">Usuário / Matrícula</th>
+                  <th scope="col">Módulo</th>
+                  <th scope="col">Ação</th>
+                  <th scope="col">Detalhes</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (log of logsFiltrados(); track log.id) {
+                  <tr>
+                    <td style="white-space: nowrap;"><strong>{{ log.dataHora | date:'dd/MM/yyyy HH:mm' }}</strong></td>
+                    <td>{{ log.usuario }}</td>
+                    <td>{{ log.modulo }}</td>
+                    <td>
+                      <span class="sst-badge" 
+                            [class.sst-badge--ativo]="log.acao === 'CRIACAO'"
+                            [class.sst-badge--grupo]="log.acao === 'ACESSO'"
+                            [style.background]="log.acao === 'EXCLUSAO' ? '#fef2f2' : ''"
+                            [style.color]="log.acao === 'EXCLUSAO' ? '#991b1b' : ''">
+                        {{ log.acao }}
+                      </span>
+                    </td>
+                    <td>{{ log.descricao }}</td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="5" class="sst-text-center" style="padding: 2.5rem 1rem; color: var(--cor-texto-secundario); font-style: italic;">
+                      Nenhum registro de log encontrado com os filtros atuais.
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      }
+
     }
   </section>
 </div>

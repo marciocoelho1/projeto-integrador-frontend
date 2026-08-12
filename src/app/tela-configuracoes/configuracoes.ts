@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuditService } from '../service/audit.service';
 
-// 1. ROTAS UNIFICADAS: Tudo aponta para o módulo de "Cadastramentos"
+
 const ROTAS_SISTEMA = {
   novoUsuario: '/cadastramentos/novo-usuario',
   detalhesUsuario: (id: string) => `/cadastramentos/usuario/${id}`,
@@ -11,7 +12,7 @@ const ROTAS_SISTEMA = {
   matrizAcesso: (id: string) => `/cadastramentos/usuario/${id}/acessos`,
 } as const;
 
-// 2. NOMENCLATURA: Alterado de "Conta" para "Usuario"
+
 type StatusUsuario = 'ativo' | 'inativo';
 
 interface UsuarioSst {
@@ -45,8 +46,8 @@ interface RegraAlerta {
   isAtiva: boolean;
 }
 
-// 3. ABA ATUALIZADA: 'contas' virou 'usuarios'
-type GuiaConfiguracao = 'usuarios' | 'grupos' | 'matriz' | 'globais';
+
+type GuiaConfiguracao = 'usuarios' | 'grupos' | 'matriz' | 'globais' | 'logs';
 
 @Component({
   selector: 'app-configuracoes',
@@ -59,12 +60,14 @@ type GuiaConfiguracao = 'usuarios' | 'grupos' | 'matriz' | 'globais';
 export class Configuracoes {
   private readonly router = inject(Router);
   protected readonly rotas = ROTAS_SISTEMA;
+  private auditService = inject(AuditService);
 
   protected readonly guiasNavegacao: { id: GuiaConfiguracao; titulo: string }[] = [
-    { id: 'usuarios', titulo: 'Usuários do Sistema' }, // Título visual ajustado
+    { id: 'usuarios', titulo: 'Usuários do Sistema' }, 
     { id: 'grupos', titulo: 'Grupos de Usuários' },
     { id: 'matriz', titulo: 'Matriz de Acessos' },
     { id: 'globais', titulo: 'Configurações Globais' },
+    { id: 'logs', titulo: 'Logs de Auditoria' }
   ];
 
   protected readonly guiaAtual = signal<GuiaConfiguracao>('usuarios');
@@ -91,9 +94,41 @@ export class Configuracoes {
       finalidade: 'Foco exclusivo na entrega e estoque de equipamentos.',
       modulosLiberados: ['sgst_dashboard', 'sgst_epis', 'sgst_relatorios'],
     },
+    
   ]);
 
-  // 4. DADOS UNIFICADOS: Variáveis refatoradas
+  protected filtroLogTermo = signal('');
+  protected filtroLogDataInicio = signal('');
+  protected filtroLogDataFim = signal('');
+
+  protected readonly logsFiltrados = computed(() => {
+    let logs = this.auditService.logs();
+    const termo = this.filtroLogTermo().trim().toLowerCase();
+    const dataInicio = this.filtroLogDataInicio();
+    const dataFim = this.filtroLogDataFim();
+
+    if (termo){
+      logs = logs.filter(l =>
+        l.usuario.toLowerCase().includes(termo) ||
+        l.modulo.toLowerCase().includes(termo) ||
+        l.descricao.toLowerCase().includes(termo)
+      );
+    }
+
+    if (dataInicio) {
+      const inicio = new Date(dataInicio + 'T00:00:00').getTime();
+      logs = logs.filter(l => new Date(l.dataHora).getTime() >= inicio);
+    }
+
+    if (dataFim) {
+      const fim = new Date(dataFim + 'T23:59:59').getTime();
+      logs = logs.filter(l => new Date(l.dataHora).getTime() <= fim);
+    }
+
+    return logs;
+  });
+
+  
   protected readonly usuariosCadastrados = signal<UsuarioSst[]>([
     {
       id: 'c1',
@@ -194,7 +229,7 @@ export class Configuracoes {
     console.log('Salvando preferências SST...', this.regrasAlertas());
   }
 
-  // 5. MÉTODOS DE AÇÃO: Atualizados para "Usuario"
+  
   actionNovoUsuario(): void {
     console.log('Botão Novo Usuário clicado! Redirecionando...');
     this.router.navigate(['/cadastramentos'], { queryParams: { aba: 'colaborador' } });

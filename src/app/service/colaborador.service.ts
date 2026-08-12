@@ -9,5 +9,5 @@ export class ColaboradorService {
 
   constructor(private http: HttpClient) {}
 
-  // Aqui entrarão os métodos futuros: buscarColaboradores(), cadastrarColaborador(), etc.
+  
 }

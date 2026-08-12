@@ -1,13 +1,16 @@
 <div class="sst-layout">
-  <!-- Cabeçalho[cite: 4, 6] -->
+  
   <header class="sst-header">
     <hgroup class="sst-header__titles">
       <p class="sst-header__breadcrumb">SGSST / Operacional</p>
       <h1 class="sst-header__main">Central de Cadastramentos</h1>
     </hgroup>
+    <a routerLink="/importacao-massa" class="sst-btn--outline" style="text-decoration: none;">
+      Importação em Massa
+    </a>
   </header>
 
-  <!-- Sistema de Abas[cite: 4] -->
+  
   <nav class="sst-nav" role="tablist" aria-label="Abas de Cadastramento">
     <button type="button" role="tab" class="sst-nav__item" 
             [class.sst-nav__item--active]="abaAtual === 'colaborador'" 
@@ -26,11 +29,11 @@
     </button>
   </nav>
 
-  <!-- Área dos Formulários[cite: 4] -->
+  
   <section class="sst-content">
     @switch (abaAtual) {
       
-      <!-- ABA 1: COLABORADOR -->
+      
       @case ('colaborador') {
         <section class="sst-card sst-card--form">
           <header class="sst-card__toolbar">
@@ -41,7 +44,7 @@
             
             <div class="sst-form-group sst-col-span-2">
               <label for="nome">Nome Completo</label>
-              <!-- autocomplete="off" garante que o navegador não dê sugestões automáticas indesejadas -->
+              
               <input type="text" id="nome" class="sst-search__input sst-input-full" autocomplete="off" required>
             </div>
 
@@ -52,7 +55,7 @@
 
             <div class="sst-form-group">
               <label for="cargo">Cargo</label>
-              <!-- Uso do datalist para digitar e filtrar o menu suspenso -->
+              
               <input type="text" id="cargo" list="lista-cargos" class="sst-search__input sst-input-full" required>
               <datalist id="lista-cargos">
                 <option value="Operador de Caixa"></option>
@@ -85,7 +88,7 @@
 
             <div class= "sst-form-group">
               <label for="senhaPadrao">Senha de Acesso Inicial</label>
-              <!-- O [value] copia o valor do cpf em tempo real. readonly impede edição -->
+              
                <input type="text" id="senhaPadrao" class="sst-search__input sst-input-full"
                [value]="cpfInput.value" readonly disabled
                style="background-color: #f8fafc; color: #94a3b8; cursor: not-allowed;"
@@ -99,7 +102,7 @@
         </section>
       }
 
-      <!-- ABA 2: TREINAMENTO -->
+      
       @case ('treinamento') {
         <section class="sst-card sst-card--form">
           <header class="sst-card__toolbar">
@@ -136,7 +139,7 @@
 
             <div class="sst-form-group">
               <label for="carga-horaria">Carga Horária</label>
-              <!-- input type="number" para aceitar apenas números -->
+              
               <input type="number" id="carga-horaria" class="sst-search__input sst-input-full" placeholder="...h...min" required>
             </div>
 
@@ -157,7 +160,7 @@
         </section>
       }
 
-      <!-- ABA 3: EPI -->
+      
       @case ('epi') {
         <section class="sst-card sst-card--form">
           <header class="sst-card__toolbar">
@@ -173,7 +176,7 @@
 
             <div class="sst-form-group">
               <label for="quantidade">Quantidade (Estoque)</label>
-              <!-- step="0.01" para permitir números float/decimais -->
+              
               <input type="number" step="0.01" id="quantidade" class="sst-search__input sst-input-full" required>
             </div>
 
@@ -184,7 +187,7 @@
 
             <div class="sst-form-group">
               <label for="data-inclusao">Data de Inclusão</label>
-              <!-- type="date" aciona o calendário nativo do navegador -->
+              
               <input type="date" id="data-inclusao" class="sst-search__input sst-input-full" required>
             </div>
 

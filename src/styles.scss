@@ -7,23 +7,23 @@
    2. DESIGN TOKENS (Baseados no Painel SST)
    ======================================================= */
 :root {
-  /* Cores Principais */
+  
   --cor-fundo-app: #e2e8f0;          
   --cor-fundo-card: #ffffff;
   --cor-primaria: #0f172a;           
   --cor-borda: #cbd5e1;
   
-  /* Cores de Texto */
+  
   --cor-texto-principal: #1e293b;
   --cor-texto-secundario: #64748b;
   
-  /* Cores de Apoio e Elementos */
+  
   --cor-tabela-header: #d1d5db;      
   --cor-alerta: #dc2626;             
   --cor-link: #2563eb;               
   --cor-link-hover: #1d4ed8;
 
-  /* Tipografia */
+  
   --fonte-titulos: 'JetBrains Mono', monospace;
   --fonte-corpo: 'Inter', sans-serif;
 }
@@ -220,7 +220,7 @@ p, span, li {
   &:hover { color: var(--cor-link-hover); }
 }
 
-/* Paginação Global de Tabelas */
+
 .sst-pagination {
   display: flex;
   justify-content: space-between;
@@ -268,6 +268,75 @@ p, span, li {
   }
 }
 
-/* Utilitários de Alinhamento */
+
 .sst-text-right { text-align: right; }
 .sst-text-center { text-align: center; }
+
+
+/* =========================================
+   RESPONSIVIDADE GLOBAL (SGSST)
+   ========================================= */
+
+@media (max-width: 992px) {
+  
+  .sst-layout {
+    padding: 1rem 0;
+  }
+
+  .sst-header {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 1rem;
+  }
+
+  .sst-header__main {
+    font-size: 1.6rem !important;
+  }
+
+  
+  .sst-grid, 
+  .sst-form-grid, 
+  .cards-grid, 
+  .charts-grid,
+  .content-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .sst-col-span-2 {
+    grid-column: span 1 !important;
+  }
+
+  
+  .sst-search {
+    width: 100%;
+    flex-direction: column;
+    
+    .sst-search__input {
+      width: 100% !important;
+    }
+    
+    button {
+      width: 100%;
+    }
+  }
+
+  .sst-card__toolbar {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 1rem;
+  }
+}
+
+
+
+.sst-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+  
+  
+  .sst-table {
+    min-width: 700px; 
+  }
+}

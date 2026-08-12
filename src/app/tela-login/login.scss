@@ -11,7 +11,7 @@
   padding: 20px;
   gap: 24px;
 
-  /* Formulário */
+  
   .login-card {
     background: transparent;
     width: 100%;
@@ -110,7 +110,7 @@
     }
   }
 
-  /* Card da Direita - Banner */
+  
   .banner-card {
     background-color: #e2e4e7;
     border: 1px solid #d0d4dc;
@@ -146,7 +146,7 @@
   }
 }
 
-/* Esconde o banner em celulares para manter o foco no login */
+
 @media (max-width: 768px) {
   .login-container {
     .banner-card {
