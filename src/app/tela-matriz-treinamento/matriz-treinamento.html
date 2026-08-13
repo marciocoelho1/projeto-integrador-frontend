@@ -549,46 +549,280 @@
   }
 
   
-  @if (mostrarModalEdicaoGeral) {
+  @if (mostrarModalEdicaoGeral && itemEmEdicao) {
     <div class="sst-modal-overlay">
       <div class="sst-modal sst-card" style="max-width: 600px;">
         <header class="sst-card__toolbar">
-          <h3 class="sst-card__title">Editar Registro</h3>
+          <h3 class="sst-card__title">Editar Registro - {{ cardSelecionado }}</h3>
           <button type="button" class="sst-btn-link" (click)="fecharModalEdicaoGeral()" style="font-size: 1.5rem; text-decoration: none;">&times;</button>
         </header>
 
         <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarEdicaoGeral()">
-          @for (campo of camposItemEdicao; track campo.chave) {
+          @if (cardSelecionado === 'Visão Geral') {
             <div class="sst-form-group sst-col-span-2">
-              <label [for]="'campo-edicao-' + campo.chave">{{ campo.label }}</label>
-              <input type="text"
-                     [id]="'campo-edicao-' + campo.chave"
-                     [attr.list]="'datalist-' + campo.chave"
-                     class="sst-search__input sst-input-full"
-                     [(ngModel)]="campo.valor"
-                     [name]="campo.chave"
-                     placeholder="Digite ou selecione..."
-                     required>
-              <datalist [id]="'datalist-' + campo.chave">
-                @if (campo.chave.toLowerCase().includes('colaborador')) {
-                  @for (colab of listaColaboradoresCadastrados; track colab) {
-                    <option [value]="colab"></option>
-                  }
-                } @else if (campo.chave.toLowerCase().includes('cargo')) {
-                  @for (cargo of listaCargosCadastrados; track cargo) {
-                    <option [value]="cargo"></option>
-                  }
-                } @else if (campo.chave.toLowerCase().includes('treinamento') || campo.chave.toLowerCase() === 'nome') {
-                  @for (treina of listaTreinamentosCadastrados; track treina) {
-                    <option [value]="treina"></option>
-                  }
-                } @else if (campo.chave.toLowerCase().includes('setor')) {
-                  @for (setor of listaSetoresCadastrados; track setor) {
-                    <option [value]="setor"></option>
-                  }
-                }
-              </datalist>
+              <label>Colaborador</label>
+              <input type="text" class="sst-search__input sst-input-full" [value]="itemEmEdicao.colaborador + ' (' + itemEmEdicao.cargo + ')'" disabled>
             </div>
+            <div class="sst-form-group">
+              <label for="status-nr06">NR-06 (EPI)</label>
+              <select id="status-nr06" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.nr06" name="nr06" required>
+                <option value="OK">OK</option>
+                <option value="Alerta">Alerta</option>
+                <option value="Vencido">Vencido</option>
+                <option value="N/A">N/A</option>
+              </select>
+            </div>
+            <div class="sst-form-group">
+              <label for="status-nr11">NR-11 (Empilhadeira)</label>
+              <select id="status-nr11" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.nr11" name="nr11" required>
+                <option value="OK">OK</option>
+                <option value="Alerta">Alerta</option>
+                <option value="Vencido">Vencido</option>
+                <option value="N/A">N/A</option>
+              </select>
+            </div>
+            <div class="sst-form-group">
+              <label for="status-nr12">NR-12 (Máquinas)</label>
+              <select id="status-nr12" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.nr12" name="nr12" required>
+                <option value="OK">OK</option>
+                <option value="Alerta">Alerta</option>
+                <option value="Vencido">Vencido</option>
+                <option value="N/A">N/A</option>
+              </select>
+            </div>
+            <div class="sst-form-group">
+              <label for="status-nr17">NR-17 (Ergonomia)</label>
+              <select id="status-nr17" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.nr17" name="nr17" required>
+                <option value="OK">OK</option>
+                <option value="Alerta">Alerta</option>
+                <option value="Vencido">Vencido</option>
+                <option value="N/A">N/A</option>
+              </select>
+            </div>
+            <div class="sst-form-group sst-col-span-2">
+              <label for="status-nr35">NR-35 (Altura)</label>
+              <select id="status-nr35" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.nr35" name="nr35" required>
+                <option value="OK">OK</option>
+                <option value="Alerta">Alerta</option>
+                <option value="Vencido">Vencido</option>
+                <option value="N/A">N/A</option>
+              </select>
+            </div>
+          } @else if (cardSelecionado === 'LNT / Cargos') {
+            @if (modoVisualizacao === 'colaborador') {
+              <div class="sst-form-group sst-col-span-2">
+                <label for="lnt-colab">Colaborador</label>
+                <input type="text" id="lnt-colab" list="lista-matriz-colaboradores" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.colaborador" name="colaborador" placeholder="Selecione o colaborador..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="lnt-cargo">Cargo</label>
+                <input type="text" id="lnt-cargo" list="lista-matriz-cargos" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.cargo" name="cargo" placeholder="Selecione o cargo..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="lnt-setor">Setor</label>
+                <input type="text" id="lnt-setor" list="lista-matriz-setores" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.setor" name="setor" placeholder="Selecione o setor..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="lnt-pendentes">Treinamentos Pendentes</label>
+                <input type="text" id="lnt-pendentes" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.treinamentosPendentes" name="treinamentosPendentes" required>
+              </div>
+              <div class="sst-form-group">
+                <label for="lnt-status">Status</label>
+                <select id="lnt-status" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.status" name="status" required>
+                  <option value="Conforme">Conforme</option>
+                  <option value="Pendente">Pendente</option>
+                </select>
+              </div>
+            } @else {
+              <div class="sst-form-group sst-col-span-2">
+                <label for="lnt-lista-cargo">Cargo</label>
+                <input type="text" id="lnt-lista-cargo" list="lista-matriz-cargos" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.cargo" name="cargo" placeholder="Selecione o cargo..." required>
+              </div>
+              <div class="sst-form-group sst-col-span-2">
+                <label for="lnt-lista-setor">Setor</label>
+                <input type="text" id="lnt-lista-setor" list="lista-matriz-setores" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.setor" name="setor" placeholder="Selecione o setor..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="lnt-lista-treina">Treinamentos Obrigatórios</label>
+                <input type="text" id="lnt-lista-treina" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.treinamentosObrigatorios" name="treinamentosObrigatorios" required>
+              </div>
+              <div class="sst-form-group">
+                <label for="lnt-lista-status">Status</label>
+                <select id="lnt-lista-status" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.status" name="status" required>
+                  <option value="Ativo">Ativo</option>
+                  <option value="Inativo">Inativo</option>
+                </select>
+              </div>
+            }
+          } @else if (cardSelecionado === 'Treinamentos') {
+            @if (modoVisualizacao === 'colaborador') {
+              <div class="sst-form-group sst-col-span-2">
+                <label for="treina-colab">Colaborador</label>
+                <input type="text" id="treina-colab" list="lista-matriz-colaboradores" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.colaborador" name="colaborador" placeholder="Selecione o colaborador..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="treina-cargo">Cargo</label>
+                <input type="text" id="treina-cargo" list="lista-matriz-cargos" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.cargo" name="cargo" placeholder="Selecione o cargo..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="treina-nome-colab">Treinamento</label>
+                <input type="text" id="treina-nome-colab" list="lista-matriz-treinamentos" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.treinamento" name="treinamento" placeholder="Selecione o treinamento..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="treina-data">Conclusão</label>
+                <input type="text" id="treina-data" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.dataConclusao" name="dataConclusao" required>
+              </div>
+              <div class="sst-form-group">
+                <label for="treina-status-colab">Status</label>
+                <select id="treina-status-colab" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.status" name="status" required>
+                  <option value="Concluído">Concluído</option>
+                  <option value="Em Andamento">Em Andamento</option>
+                  <option value="Pendente">Pendente</option>
+                </select>
+              </div>
+            } @else {
+              <div class="sst-form-group">
+                <label for="treina-cod">Código</label>
+                <input type="text" id="treina-cod" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.codigo" name="codigo">
+              </div>
+              <div class="sst-form-group">
+                <label for="treina-nr">NR / Norma</label>
+                <input type="text" id="treina-nr" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.nr" name="nr" required>
+              </div>
+              <div class="sst-form-group sst-col-span-2">
+                <label for="treina-nome">Treinamento</label>
+                <input type="text" id="treina-nome" list="lista-matriz-treinamentos" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.nome" name="nome" placeholder="Selecione o treinamento..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="treina-class">Classificação</label>
+                <input type="text" id="treina-class" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.classificacao" name="classificacao" required>
+              </div>
+              <div class="sst-form-group">
+                <label for="treina-ch">Carga Horária</label>
+                <input type="text" id="treina-ch" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.cargaHoraria" name="cargaHoraria" required>
+              </div>
+              <div class="sst-form-group">
+                <label for="treina-val">Validade (Meses)</label>
+                <input type="number" id="treina-val" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.validadeMeses" name="validadeMeses">
+              </div>
+              <div class="sst-form-group">
+                <label for="treina-stat">Status</label>
+                <select id="treina-stat" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.status" name="status" required>
+                  <option value="Ativo">Ativo</option>
+                  <option value="Inativo">Inativo</option>
+                </select>
+              </div>
+            }
+          } @else if (cardSelecionado === 'Certificações') {
+            @if (modoVisualizacao === 'colaborador') {
+              <div class="sst-form-group sst-col-span-2">
+                <label for="cert-colab">Colaborador</label>
+                <input type="text" id="cert-colab" list="lista-matriz-colaboradores" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.colaborador" name="colaborador" placeholder="Selecione o colaborador..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="cert-cargo">Cargo</label>
+                <input type="text" id="cert-cargo" list="lista-matriz-cargos" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.cargo" name="cargo" placeholder="Selecione o cargo..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="cert-treina">Treinamento</label>
+                <input type="text" id="cert-treina" list="lista-matriz-treinamentos" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.treinamento" name="treinamento" placeholder="Selecione o treinamento..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="cert-data">Certificação</label>
+                <input type="text" id="cert-data" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.certificacao" name="certificacao" required>
+              </div>
+              <div class="sst-form-group">
+                <label for="cert-validade">Validade</label>
+                <input type="text" id="cert-validade" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.validade" name="validade" required>
+              </div>
+              <div class="sst-form-group sst-col-span-2">
+                <label for="cert-status">Status</label>
+                <select id="cert-status" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.status" name="status" required>
+                  <option value="Ativa">Ativa</option>
+                  <option value="Alerta">Alerta</option>
+                  <option value="Vencida">Vencida</option>
+                </select>
+              </div>
+            } @else {
+              <div class="sst-form-group sst-col-span-2">
+                <label for="cert-id">ID do Certificado</label>
+                <input type="text" id="cert-id" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.id" name="id" required>
+              </div>
+              <div class="sst-form-group sst-col-span-2">
+                <label for="cert-lista-treina">Treinamento</label>
+                <input type="text" id="cert-lista-treina" list="lista-matriz-treinamentos" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.treinamento" name="treinamento" placeholder="Selecione o treinamento..." required>
+              </div>
+              <div class="sst-form-group sst-col-span-2">
+                <label for="cert-instituicao">Instituição Emissora</label>
+                <input type="text" id="cert-instituicao" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.instituicao" name="instituicao" required>
+              </div>
+              <div class="sst-form-group">
+                <label for="cert-ch">Carga Horária</label>
+                <input type="text" id="cert-ch" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.cargaHoraria" name="cargaHoraria" required>
+              </div>
+              <div class="sst-form-group">
+                <label for="cert-valpadrao">Validade Base</label>
+                <input type="text" id="cert-valpadrao" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.validadePadrao" name="validadePadrao" required>
+              </div>
+            }
+          } @else if (cardSelecionado === 'Reciclagens') {
+            @if (modoVisualizacao === 'colaborador') {
+              <div class="sst-form-group sst-col-span-2">
+                <label for="rec-colab">Colaborador</label>
+                <input type="text" id="rec-colab" list="lista-matriz-colaboradores" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.colaborador" name="colaborador" placeholder="Selecione o colaborador..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="rec-cargo">Cargo</label>
+                <input type="text" id="rec-cargo" list="lista-matriz-cargos" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.cargo" name="cargo" placeholder="Selecione o cargo..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="rec-treina">Treinamento</label>
+                <input type="text" id="rec-treina" list="lista-matriz-treinamentos" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.treinamento" name="treinamento" placeholder="Selecione o treinamento..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="rec-prazo">Prazo Máximo</label>
+                <input type="text" id="rec-prazo" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.prazoMaximo" name="prazoMaximo" required>
+              </div>
+              <div class="sst-form-group">
+                <label for="rec-status">Status</label>
+                <select id="rec-status" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.status" name="status" required>
+                  <option value="Vencido">Vencido</option>
+                  <option value="Próximo do Vencimento">Próximo do Vencimento</option>
+                  <option value="Pendente">Pendente</option>
+                  <option value="Agendado">Agendado</option>
+                </select>
+              </div>
+            } @else {
+              <div class="sst-form-group">
+                <label for="rec-turma">Turma / Código</label>
+                <input type="text" id="rec-turma" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.turma" name="turma" required>
+              </div>
+              <div class="sst-form-group">
+                <label for="rec-vagas">Vagas</label>
+                <input type="text" id="rec-vagas" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.vagas" name="vagas" required>
+              </div>
+              <div class="sst-form-group sst-col-span-2">
+                <label for="rec-lista-treina">Treinamento</label>
+                <input type="text" id="rec-lista-treina" list="lista-matriz-treinamentos" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.treinamento" name="treinamento" placeholder="Selecione o treinamento..." required>
+              </div>
+              <div class="sst-form-group">
+                <label for="rec-instrutor">Instrutor / Responsável</label>
+                <input type="text" id="rec-instrutor" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.instrutor" name="instrutor" required>
+              </div>
+              <div class="sst-form-group">
+                <label for="rec-data-agendada">Data Agendada</label>
+                <input type="text" id="rec-data-agendada" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.dataAgendada" name="dataAgendada" required>
+              </div>
+              <div class="sst-form-group sst-col-span-2">
+                <label for="rec-lista-status">Status</label>
+                <select id="rec-lista-status" class="sst-search__input sst-input-full" [(ngModel)]="itemEmEdicao.status" name="status" required>
+                  <option value="Inscrições Abertas">Inscrições Abertas</option>
+                  <option value="Confirmada">Confirmada</option>
+                  <option value="Planejada">Planejada</option>
+                  <option value="Cancelada">Cancelada</option>
+                </select>
+              </div>
+            }
           }
 
           <footer class="sst-form-actions sst-col-span-2">

@@ -106,7 +106,6 @@ export class MatrizTreinamentos {
   mostrarModalEdicaoGeral: boolean = false;
   itemOriginalReferencia: any = null;
   itemEmEdicao: any = null;
-  camposItemEdicao: { chave: string; label: string; valor: any; datalistId?: string }[] = [];
 
   readonly listaColaboradoresCadastrados: string[] = [
     'Carlos Eduardo Silva',
@@ -295,25 +294,6 @@ export class MatrizTreinamentos {
   abrirModalEdicaoGeral(item: any): void {
     this.itemOriginalReferencia = item;
     this.itemEmEdicao = { ...item };
-    this.camposItemEdicao = Object.keys(item).map(chave => {
-      const labelFormatada = chave
-        .replace(/([A-Z])/g, ' $1')
-        .replace(/^./, str => str.toUpperCase());
-
-      let datalistId: string | undefined;
-      const chaveLower = chave.toLowerCase();
-      if (chaveLower.includes('colaborador')) {
-        datalistId = 'lista-matriz-colaboradores';
-      } else if (chaveLower.includes('cargo')) {
-        datalistId = 'lista-matriz-cargos';
-      } else if (chaveLower.includes('treinamento') || chaveLower === 'nome') {
-        datalistId = 'lista-matriz-treinamentos';
-      } else if (chaveLower.includes('setor')) {
-        datalistId = 'lista-matriz-setores';
-      }
-
-      return { chave, label: labelFormatada, valor: item[chave], datalistId };
-    });
     this.mostrarModalEdicaoGeral = true;
   }
 
@@ -321,45 +301,56 @@ export class MatrizTreinamentos {
     this.mostrarModalEdicaoGeral = false;
     this.itemOriginalReferencia = null;
     this.itemEmEdicao = null;
-    this.camposItemEdicao = [];
   }
 
   salvarEdicaoGeral(): void {
-    for (const campo of this.camposItemEdicao) {
-      const valorStr = String(campo.valor || '').trim();
-      const chaveLower = campo.chave.toLowerCase();
+    if (!this.itemEmEdicao) return;
 
-      if (chaveLower.includes('colaborador') && valorStr) {
-        const existe = this.listaColaboradoresCadastrados.some(c => c.toLowerCase() === valorStr.toLowerCase());
-        if (!existe) {
-          this.toast.error(`Colaborador "${valorStr}" não está cadastrado no sistema.`);
-          return;
-        }
-      }
+    if (this.cardSelecionado === 'Visão Geral') {
+      Object.assign(this.itemOriginalReferencia, this.itemEmEdicao);
+      this.toast.success('Matriz atualizada com sucesso!');
+      this.fecharModalEdicaoGeral();
+      return;
+    }
 
-      if (chaveLower === 'cargo' && valorStr) {
-        const existe = this.listaCargosCadastrados.some(c => c.toLowerCase() === valorStr.toLowerCase());
-        if (!existe) {
-          this.toast.error(`Cargo "${valorStr}" não está cadastrado no sistema.`);
-          return;
-        }
-      }
-
-      if ((chaveLower.includes('treinamento') || chaveLower === 'nome') && valorStr) {
-        const existe = this.listaTreinamentosCadastrados.some(t => t.toLowerCase() === valorStr.toLowerCase());
-        if (!existe) {
-          this.toast.error(`Treinamento "${valorStr}" não está cadastrado no sistema.`);
-          return;
-        }
+    if (this.itemEmEdicao.colaborador) {
+      const colaboradorStr = String(this.itemEmEdicao.colaborador).trim();
+      const existe = this.listaColaboradoresCadastrados.some(c => c.toLowerCase() === colaboradorStr.toLowerCase());
+      if (!existe) {
+        this.toast.error(`Colaborador "${colaboradorStr}" não está cadastrado no sistema.`);
+        return;
       }
     }
 
-    this.camposItemEdicao.forEach(campo => {
-      if (this.itemOriginalReferencia) {
-        this.itemOriginalReferencia[campo.chave] = campo.valor;
+    if (this.itemEmEdicao.cargo) {
+      const cargoStr = String(this.itemEmEdicao.cargo).trim();
+      const existe = this.listaCargosCadastrados.some(c => c.toLowerCase() === cargoStr.toLowerCase());
+      if (!existe) {
+        this.toast.error(`Cargo "${cargoStr}" não está cadastrado no sistema.`);
+        return;
       }
-    });
+    }
 
+    const treinaNome = this.itemEmEdicao.treinamento || this.itemEmEdicao.nome;
+    if (treinaNome) {
+      const treinaStr = String(treinaNome).trim();
+      const existe = this.listaTreinamentosCadastrados.some(t => t.toLowerCase() === treinaStr.toLowerCase());
+      if (!existe) {
+        this.toast.error(`Treinamento "${treinaStr}" não está cadastrado no sistema.`);
+        return;
+      }
+    }
+
+    if (this.itemEmEdicao.setor) {
+      const setorStr = String(this.itemEmEdicao.setor).trim();
+      const existe = this.listaSetoresCadastrados.some(s => s.toLowerCase() === setorStr.toLowerCase());
+      if (!existe) {
+        this.toast.error(`Setor "${setorStr}" não está cadastrado no sistema.`);
+        return;
+      }
+    }
+
+    Object.assign(this.itemOriginalReferencia, this.itemEmEdicao);
     this.toast.success('Registro atualizado com sucesso!');
     this.fecharModalEdicaoGeral();
   }
