@@ -9,11 +9,21 @@ interface CardResumo {
 }
 
 interface Treinamento {
+  codigo?: string;
   nome: string;
   classificacao: string;
   nr: string;
   cargaHoraria: string;
+  validadeMeses?: number;
   status: 'Ativo' | 'Inativo';
+}
+
+interface TreinamentoColaborador {
+  colaborador: string;
+  cargo: string;
+  treinamento: string;
+  dataConclusao: string;
+  status: 'Concluído' | 'Em Andamento' | 'Pendente';
 }
 
 interface CertificacaoColaborador {
@@ -25,6 +35,14 @@ interface CertificacaoColaborador {
   status?: 'Ativa' | 'Vencida' | 'Alerta';
 }
 
+interface CertificacaoLista {
+  id: string;
+  treinamento: string;
+  instituicao: string;
+  cargaHoraria: string;
+  validadePadrao: string;
+}
+
 interface CargoLnt {
   cargo: string;
   setor: string;
@@ -32,11 +50,28 @@ interface CargoLnt {
   status: string;
 }
 
+interface CargoLntColaborador {
+  colaborador: string;
+  cargo: string;
+  setor: string;
+  treinamentosPendentes: string;
+  status: 'Conforme' | 'Pendente';
+}
+
 interface ReciclagemItem {
   colaborador: string;
   cargo: string;
   treinamento: string;
   prazoMaximo: string;
+  status: string;
+}
+
+interface ReciclagemLista {
+  turma: string;
+  treinamento: string;
+  instrutor: string;
+  dataAgendada: string;
+  vagas: string;
   status: string;
 }
 
@@ -61,6 +96,7 @@ export class MatrizTreinamentos {
   private router = inject(Router);
 
   cardSelecionado: string = 'Visão Geral';
+  modoVisualizacao: 'colaborador' | 'lista' = 'colaborador';
 
   resumos: CardResumo[] = [
     { titulo: 'Visão Geral', icone: '📊' },
@@ -71,14 +107,24 @@ export class MatrizTreinamentos {
   ];
 
   treinamentos: Treinamento[] = [
-    { nome: 'NR-06 Uso Adequado e Guarda de EPIs', classificacao: 'Obrigatório', nr: 'NR-06', cargaHoraria: '4h', status: 'Ativo' },
-    { nome: 'NR-11 Operação Segura de Empilhadeira e Transpaleteira', classificacao: 'Específico', nr: 'NR-11', cargaHoraria: '16h', status: 'Ativo' },
-    { nome: 'NR-12 Segurança em Máquinas (Fatiadores/Serras de Fita)', classificacao: 'Obrigatório', nr: 'NR-12', cargaHoraria: '8h', status: 'Ativo' },
-    { nome: 'NR-17 Ergonomia para Operadores de Checkout', classificacao: 'Obrigatório', nr: 'NR-17', cargaHoraria: '4h', status: 'Ativo' },
-    { nome: 'NR-35 Trabalho em Altura e Manutenção de Gôndolas', classificacao: 'Específico', nr: 'NR-35', cargaHoraria: '8h', status: 'Ativo' },
-    { nome: 'NR-23 e Brigada de Incêndio e Evacuação', classificacao: 'Obrigatório', nr: 'NR-23', cargaHoraria: '8h', status: 'Ativo' },
-    { nome: 'Boas Práticas de Manipulação de Alimentos', classificacao: 'Setorial', nr: 'RDC 216', cargaHoraria: '6h', status: 'Ativo' },
-    { nome: 'Noções de Primeiros Socorros no Varejo', classificacao: 'Recomendado', nr: 'Geral', cargaHoraria: '4h', status: 'Ativo' }
+    { codigo: 'TRN-001', nome: 'NR-06 Uso Adequado e Guarda de EPIs', classificacao: 'Obrigatório', nr: 'NR-06', cargaHoraria: '4h', validadeMeses: 12, status: 'Ativo' },
+    { codigo: 'TRN-002', nome: 'NR-11 Operação Segura de Empilhadeira e Transpaleteira', classificacao: 'Específico', nr: 'NR-11', cargaHoraria: '16h', validadeMeses: 24, status: 'Ativo' },
+    { codigo: 'TRN-003', nome: 'NR-12 Segurança em Máquinas (Fatiadores/Serras de Fita)', classificacao: 'Obrigatório', nr: 'NR-12', cargaHoraria: '8h', validadeMeses: 24, status: 'Ativo' },
+    { codigo: 'TRN-004', nome: 'NR-17 Ergonomia para Operadores de Checkout', classificacao: 'Obrigatório', nr: 'NR-17', cargaHoraria: '4h', validadeMeses: 24, status: 'Ativo' },
+    { codigo: 'TRN-005', nome: 'NR-35 Trabalho em Altura e Manutenção de Gôndolas', classificacao: 'Específico', nr: 'NR-35', cargaHoraria: '8h', validadeMeses: 24, status: 'Ativo' },
+    { codigo: 'TRN-006', nome: 'NR-23 e Brigada de Incêndio e Evacuação', classificacao: 'Obrigatório', nr: 'NR-23', cargaHoraria: '8h', validadeMeses: 12, status: 'Ativo' },
+    { codigo: 'TRN-007', nome: 'Boas Práticas de Manipulação de Alimentos', classificacao: 'Setorial', nr: 'RDC 216', cargaHoraria: '6h', validadeMeses: 12, status: 'Ativo' },
+    { codigo: 'TRN-008', nome: 'Noções de Primeiros Socorros no Varejo', classificacao: 'Recomendado', nr: 'Geral', cargaHoraria: '4h', validadeMeses: 12, status: 'Ativo' }
+  ];
+
+  treinamentosColaborador: TreinamentoColaborador[] = [
+    { colaborador: 'Carlos Eduardo Silva', cargo: 'Operador de Empilhadeira', treinamento: 'NR-11 Operação Segura de Empilhadeira', dataConclusao: '15/01/2025', status: 'Concluído' },
+    { colaborador: 'Maria Joana Oliveira', cargo: 'Açougueira', treinamento: 'NR-12 Segurança em Máquinas (Açougue)', dataConclusao: '10/02/2024', status: 'Concluído' },
+    { colaborador: 'Roberto Alves', cargo: 'Operador de Caixa', treinamento: 'NR-17 Ergonomia para Checkout', dataConclusao: '05/08/2025', status: 'Concluído' },
+    { colaborador: 'Ana Paula Souza', cargo: 'Repositora', treinamento: 'NR-35 Trabalho em Altura', dataConclusao: '20/03/2024', status: 'Concluído' },
+    { colaborador: 'Fernando Costa', cargo: 'Padeiro', treinamento: 'NR-12 Segurança em Máquinas (Padaria)', dataConclusao: '11/11/2024', status: 'Concluído' },
+    { colaborador: 'Lucas Fontes', cargo: 'Operador de Empilhadeira', treinamento: 'NR-11 Operação de Empilhadeira', dataConclusao: '-', status: 'Em Andamento' },
+    { colaborador: 'Juliana Mendes', cargo: 'Operadora de Caixa', treinamento: 'NR-06 Uso Adequado de EPIs', dataConclusao: '01/09/2025', status: 'Concluído' }
   ];
 
   certificacoes: CertificacaoColaborador[] = [
@@ -88,6 +134,16 @@ export class MatrizTreinamentos {
     { colaborador: 'Ana Paula Souza', cargo: 'Repositora', treinamento: 'NR-35 Trabalho em Altura', certificacao: '20/03/2024', validade: '19/03/2026', status: 'Alerta' },
     { colaborador: 'Fernando Costa', cargo: 'Padeiro', treinamento: 'NR-12 Segurança em Máquinas (Padaria)', certificacao: '11/11/2024', validade: '10/11/2026', status: 'Ativa' },
     { colaborador: 'Juliana Mendes', cargo: 'Operadora de Caixa', treinamento: 'NR-06 Uso Adequado de EPIs', certificacao: '01/09/2025', validade: '31/08/2026', status: 'Ativa' }
+  ];
+
+  certificacoesLista: CertificacaoLista[] = [
+    { id: 'CRT-2025-001', treinamento: 'NR-06 Uso Adequado e Guarda de EPIs', instituicao: 'SST Corporativo', cargaHoraria: '4h', validadePadrao: '12 meses' },
+    { id: 'CRT-2025-002', treinamento: 'NR-11 Operação Segura de Empilhadeira', instituicao: 'SENAI Formação Técnica', cargaHoraria: '16h', validadePadrao: '24 meses' },
+    { id: 'CRT-2025-003', treinamento: 'NR-12 Segurança em Máquinas e Equipamentos', instituicao: 'Engenharia de Segurança Externa', cargaHoraria: '8h', validadePadrao: '24 meses' },
+    { id: 'CRT-2025-004', treinamento: 'NR-17 Ergonomia e Postura de Caixa', instituicao: 'ErgoSeg Consultoria', cargaHoraria: '4h', validadePadrao: '24 meses' },
+    { id: 'CRT-2025-005', treinamento: 'NR-35 Trabalho em Altura', instituicao: 'SENAI Formação Técnica', cargaHoraria: '8h', validadePadrao: '24 meses' },
+    { id: 'CRT-2025-006', treinamento: 'NR-23 e Brigada de Emergência', instituicao: 'Corpo de Bombeiros / Credenciada', cargaHoraria: '8h', validadePadrao: '12 meses' },
+    { id: 'CRT-2025-007', treinamento: 'Boas Práticas de Higiene e Manipulação', instituicao: 'Qualidade & Alimentos Treinamentos', cargaHoraria: '6h', validadePadrao: '12 meses' }
   ];
 
   cargosLnt: CargoLnt[] = [
@@ -100,12 +156,30 @@ export class MatrizTreinamentos {
     { cargo: 'Auxiliar de Limpeza', setor: 'Higienização', treinamentosObrigatorios: 'NR-06 (Químicos), Boas Práticas', status: 'Ativo' }
   ];
 
+  cargosLntColaborador: CargoLntColaborador[] = [
+    { colaborador: 'Carlos Eduardo Silva', cargo: 'Operador de Empilhadeira', setor: 'Estoque / Logística', treinamentosPendentes: 'Nenhum (100% Conforme)', status: 'Conforme' },
+    { colaborador: 'Maria Joana Oliveira', cargo: 'Açougueira', setor: 'Açougue', treinamentosPendentes: 'NR-12 (Vencido)', status: 'Pendente' },
+    { colaborador: 'Roberto Alves', cargo: 'Operador de Caixa', setor: 'Frente de Loja', treinamentosPendentes: 'Nenhum (100% Conforme)', status: 'Conforme' },
+    { colaborador: 'Ana Paula Souza', cargo: 'Repositora', setor: 'Mercearia', treinamentosPendentes: 'NR-35 (Vencendo)', status: 'Pendente' },
+    { colaborador: 'Fernando Costa', cargo: 'Padeiro', setor: 'Padaria', treinamentosPendentes: 'Nenhum (100% Conforme)', status: 'Conforme' },
+    { colaborador: 'Lucas Fontes', cargo: 'Operador de Empilhadeira', setor: 'Estoque / Logística', treinamentosPendentes: 'NR-11 (Em Andamento)', status: 'Pendente' },
+    { colaborador: 'Juliana Mendes', cargo: 'Operadora de Caixa', setor: 'Frente de Loja', treinamentosPendentes: 'Nenhum (100% Conforme)', status: 'Conforme' }
+  ];
+
   reciclagens: ReciclagemItem[] = [
     { colaborador: 'Maria Joana Oliveira', cargo: 'Açougueira', treinamento: 'NR-12 Segurança em Máquinas', prazoMaximo: '28/02/2026', status: 'Vencido' },
     { colaborador: 'Ana Paula Souza', cargo: 'Repositora', treinamento: 'NR-35 Trabalho em Altura', prazoMaximo: '19/03/2026', status: 'Próximo do Vencimento' },
     { colaborador: 'Lucas Fontes', cargo: 'Operador de Empilhadeira', treinamento: 'NR-11 Operação de Empilhadeira', prazoMaximo: '05/04/2026', status: 'Pendente' },
     { colaborador: 'Carlos Eduardo Silva', cargo: 'Operador de Empilhadeira', treinamento: 'NR-06 Uso Adequado de EPIs', prazoMaximo: '15/04/2026', status: 'Agendado' },
     { colaborador: 'Fernando Costa', cargo: 'Padeiro', treinamento: 'Boas Práticas de Manipulação', prazoMaximo: '30/04/2026', status: 'Pendente' }
+  ];
+
+  reciclagensLista: ReciclagemLista[] = [
+    { turma: 'REC-2026-01', treinamento: 'NR-12 Segurança em Máquinas', instrutor: 'Eng. Marcelo TST', dataAgendada: '05/03/2026', vagas: '12 / 15', status: 'Inscrições Abertas' },
+    { turma: 'REC-2026-02', treinamento: 'NR-35 Trabalho em Altura', instrutor: 'Instrutor SENAI', dataAgendada: '18/03/2026', vagas: '8 / 10', status: 'Confirmada' },
+    { turma: 'REC-2026-03', treinamento: 'NR-11 Operação de Empilhadeira', instrutor: 'Instrutor SENAI', dataAgendada: '02/04/2026', vagas: '5 / 8', status: 'Planejada' },
+    { turma: 'REC-2026-04', treinamento: 'NR-06 Uso Adequado de EPIs', instrutor: 'Téc. Seg. Marcio', dataAgendada: '15/04/2026', vagas: '20 / 25', status: 'Planejada' },
+    { turma: 'REC-2026-05', treinamento: 'Boas Práticas de Manipulação', instrutor: 'Nutricionista Fabiana', dataAgendada: '28/04/2026', vagas: '14 / 20', status: 'Planejada' }
   ];
 
   matrizCruzada: MatrizCruzadaItem[] = [
@@ -120,6 +194,10 @@ export class MatrizTreinamentos {
 
   selecionarCard(card: string): void {
     this.cardSelecionado = card;
+  }
+
+  setModoVisualizacao(modo: 'colaborador' | 'lista'): void {
+    this.modoVisualizacao = modo;
   }
 
   navegarParaCadastro(): void {

@@ -96,128 +96,302 @@
 
     @if (cardSelecionado === 'LNT / Cargos') {
       <section class="table-card">
-        <h3 class="table-card__title">LNT / Cargos Cadastrados (Supermercado)</h3>
+        <header class="table-card__toolbar">
+          <h3 class="table-card__title">LNT / Cargos Cadastrados</h3>
+          <div class="table-toggle" role="group" aria-label="Modo de visualização">
+            <button type="button" class="table-toggle__btn"
+                    [class.table-toggle__btn--active]="modoVisualizacao === 'colaborador'"
+                    (click)="setModoVisualizacao('colaborador')">
+              Por Colaborador
+            </button>
+            <button type="button" class="table-toggle__btn"
+                    [class.table-toggle__btn--active]="modoVisualizacao === 'lista'"
+                    (click)="setModoVisualizacao('lista')">
+              Lista Completa
+            </button>
+          </div>
+        </header>
+
         <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Cargo</th>
-                <th>Setor</th>
-                <th>Treinamentos Obrigatórios</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (cargo of cargosLnt; track cargo.cargo) {
+          @if (modoVisualizacao === 'colaborador') {
+            <table>
+              <thead>
                 <tr>
-                  <td><strong>{{ cargo.cargo }}</strong></td>
-                  <td>{{ cargo.setor }}</td>
-                  <td>{{ cargo.treinamentosObrigatorios }}</td>
-                  <td><strong>{{ cargo.status }}</strong></td>
+                  <th>Colaborador</th>
+                  <th>Cargo</th>
+                  <th>Setor</th>
+                  <th>Treinamentos Pendentes</th>
+                  <th>Status</th>
                 </tr>
-              }
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                @for (item of cargosLntColaborador; track item.colaborador) {
+                  <tr>
+                    <td><strong>{{ item.colaborador }}</strong></td>
+                    <td>{{ item.cargo }}</td>
+                    <td>{{ item.setor }}</td>
+                    <td>{{ item.treinamentosPendentes }}</td>
+                    <td>
+                      <span class="badge" [ngClass]="item.status === 'Conforme' ? 'badge--ok' : 'badge--alerta'">
+                        {{ item.status }}
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          } @else {
+            <table>
+              <thead>
+                <tr>
+                  <th>Cargo</th>
+                  <th>Setor</th>
+                  <th>Treinamentos Obrigatórios</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (cargo of cargosLnt; track cargo.cargo) {
+                  <tr>
+                    <td><strong>{{ cargo.cargo }}</strong></td>
+                    <td>{{ cargo.setor }}</td>
+                    <td>{{ cargo.treinamentosObrigatorios }}</td>
+                    <td><strong>{{ cargo.status }}</strong></td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
         </div>
       </section>
     }
 
     @if (cardSelecionado === 'Treinamentos') {
       <section class="table-card">
-        <h3 class="table-card__title">Treinamentos Cadastrados</h3>
+        <header class="table-card__toolbar">
+          <h3 class="table-card__title">Treinamentos Cadastrados</h3>
+          <div class="table-toggle" role="group" aria-label="Modo de visualização">
+            <button type="button" class="table-toggle__btn"
+                    [class.table-toggle__btn--active]="modoVisualizacao === 'colaborador'"
+                    (click)="setModoVisualizacao('colaborador')">
+              Por Colaborador
+            </button>
+            <button type="button" class="table-toggle__btn"
+                    [class.table-toggle__btn--active]="modoVisualizacao === 'lista'"
+                    (click)="setModoVisualizacao('lista')">
+              Lista Completa
+            </button>
+          </div>
+        </header>
+
         <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Treinamento</th>
-                <th>Classificação</th>
-                <th>NR / Norma</th>
-                <th>Carga Horária</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (item of treinamentos; track item.nome) {
+          @if (modoVisualizacao === 'colaborador') {
+            <table>
+              <thead>
                 <tr>
-                  <td><strong>{{ item.nome }}</strong></td>
-                  <td>{{ item.classificacao }}</td>
-                  <td>{{ item.nr }}</td>
-                  <td>{{ item.cargaHoraria }}</td>
-                  <td><strong>{{ item.status }}</strong></td>
+                  <th>Colaborador</th>
+                  <th>Cargo</th>
+                  <th>Treinamento</th>
+                  <th>Conclusão</th>
+                  <th>Status</th>
                 </tr>
-              }
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                @for (item of treinamentosColaborador; track item.colaborador + item.treinamento) {
+                  <tr>
+                    <td><strong>{{ item.colaborador }}</strong></td>
+                    <td>{{ item.cargo }}</td>
+                    <td><strong>{{ item.treinamento }}</strong></td>
+                    <td>{{ item.dataConclusao }}</td>
+                    <td>
+                      <span class="badge" [ngClass]="item.status === 'Concluído' ? 'badge--ok' : 'badge--alerta'">
+                        {{ item.status }}
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          } @else {
+            <table>
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Treinamento</th>
+                  <th>Classificação</th>
+                  <th>NR / Norma</th>
+                  <th>Carga Horária</th>
+                  <th>Validade Padrão</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of treinamentos; track item.nome) {
+                  <tr>
+                    <td><strong>{{ item.codigo || '-' }}</strong></td>
+                    <td><strong>{{ item.nome }}</strong></td>
+                    <td>{{ item.classificacao }}</td>
+                    <td>{{ item.nr }}</td>
+                    <td>{{ item.cargaHoraria }}</td>
+                    <td>{{ item.validadeMeses ? item.validadeMeses + ' meses' : '-' }}</td>
+                    <td><strong>{{ item.status }}</strong></td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
         </div>
       </section>
     }
 
     @if (cardSelecionado === 'Certificações') {
       <section class="table-card">
-        <h3 class="table-card__title">Colaboradores / Certificações</h3>
+        <header class="table-card__toolbar">
+          <h3 class="table-card__title">Certificações</h3>
+          <div class="table-toggle" role="group" aria-label="Modo de visualização">
+            <button type="button" class="table-toggle__btn"
+                    [class.table-toggle__btn--active]="modoVisualizacao === 'colaborador'"
+                    (click)="setModoVisualizacao('colaborador')">
+              Por Colaborador
+            </button>
+            <button type="button" class="table-toggle__btn"
+                    [class.table-toggle__btn--active]="modoVisualizacao === 'lista'"
+                    (click)="setModoVisualizacao('lista')">
+              Lista Completa
+            </button>
+          </div>
+        </header>
+
         <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Colaborador</th>
-                <th>Cargo</th>
-                <th>Treinamento</th>
-                <th>Certificação</th>
-                <th>Validade</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (c of certificacoes; track c.colaborador + c.treinamento) {
+          @if (modoVisualizacao === 'colaborador') {
+            <table>
+              <thead>
                 <tr>
-                  <td><strong>{{ c.colaborador }}</strong></td>
-                  <td>{{ c.cargo }}</td>
-                  <td><strong>{{ c.treinamento }}</strong></td>
-                  <td>{{ c.certificacao }}</td>
-                  <td>{{ c.validade }}</td>
-                  <td>
-                    <span class="badge" [ngClass]="'badge--' + (c.status?.toLowerCase() || 'ok')">
-                      {{ c.status || 'Ativa' }}
-                    </span>
-                  </td>
+                  <th>Colaborador</th>
+                  <th>Cargo</th>
+                  <th>Treinamento</th>
+                  <th>Certificação</th>
+                  <th>Validade</th>
+                  <th>Status</th>
                 </tr>
-              }
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                @for (c of certificacoes; track c.colaborador + c.treinamento) {
+                  <tr>
+                    <td><strong>{{ c.colaborador }}</strong></td>
+                    <td>{{ c.cargo }}</td>
+                    <td><strong>{{ c.treinamento }}</strong></td>
+                    <td>{{ c.certificacao }}</td>
+                    <td>{{ c.validade }}</td>
+                    <td>
+                      <span class="badge" [ngClass]="'badge--' + (c.status?.toLowerCase() || 'ok')">
+                        {{ c.status || 'Ativa' }}
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          } @else {
+            <table>
+              <thead>
+                <tr>
+                  <th>ID do Certificado</th>
+                  <th>Treinamento</th>
+                  <th>Instituição Emissora</th>
+                  <th>Carga Horária</th>
+                  <th>Validade Base</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (cert of certificacoesLista; track cert.id) {
+                  <tr>
+                    <td><strong>{{ cert.id }}</strong></td>
+                    <td><strong>{{ cert.treinamento }}</strong></td>
+                    <td>{{ cert.instituicao }}</td>
+                    <td>{{ cert.cargaHoraria }}</td>
+                    <td>{{ cert.validadePadrao }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
         </div>
       </section>
     }
 
     @if (cardSelecionado === 'Reciclagens') {
       <section class="table-card">
-        <h3 class="table-card__title">Reciclagens Pendentes e Próximos Vencimentos</h3>
+        <header class="table-card__toolbar">
+          <h3 class="table-card__title">Reciclagens</h3>
+          <div class="table-toggle" role="group" aria-label="Modo de visualização">
+            <button type="button" class="table-toggle__btn"
+                    [class.table-toggle__btn--active]="modoVisualizacao === 'colaborador'"
+                    (click)="setModoVisualizacao('colaborador')">
+              Por Colaborador
+            </button>
+            <button type="button" class="table-toggle__btn"
+                    [class.table-toggle__btn--active]="modoVisualizacao === 'lista'"
+                    (click)="setModoVisualizacao('lista')">
+              Lista Completa
+            </button>
+          </div>
+        </header>
+
         <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Colaborador</th>
-                <th>Cargo</th>
-                <th>Treinamento</th>
-                <th>Prazo Máximo</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (rec of reciclagens; track rec.colaborador + rec.treinamento) {
+          @if (modoVisualizacao === 'colaborador') {
+            <table>
+              <thead>
                 <tr>
-                  <td><strong>{{ rec.colaborador }}</strong></td>
-                  <td>{{ rec.cargo }}</td>
-                  <td><strong>{{ rec.treinamento }}</strong></td>
-                  <td>{{ rec.prazoMaximo }}</td>
-                  <td>
-                    <span class="badge" [class.badge--vencido]="rec.status === 'Vencido'" [class.badge--alerta]="rec.status !== 'Vencido'">
-                      {{ rec.status }}
-                    </span>
-                  </td>
+                  <th>Colaborador</th>
+                  <th>Cargo</th>
+                  <th>Treinamento</th>
+                  <th>Prazo Máximo</th>
+                  <th>Status</th>
                 </tr>
-              }
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                @for (rec of reciclagens; track rec.colaborador + rec.treinamento) {
+                  <tr>
+                    <td><strong>{{ rec.colaborador }}</strong></td>
+                    <td>{{ rec.cargo }}</td>
+                    <td><strong>{{ rec.treinamento }}</strong></td>
+                    <td>{{ rec.prazoMaximo }}</td>
+                    <td>
+                      <span class="badge" [class.badge--vencido]="rec.status === 'Vencido'" [class.badge--alerta]="rec.status !== 'Vencido'">
+                        {{ rec.status }}
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          } @else {
+            <table>
+              <thead>
+                <tr>
+                  <th>Turma / Código</th>
+                  <th>Treinamento</th>
+                  <th>Instrutor / Responsável</th>
+                  <th>Data Agendada</th>
+                  <th>Vagas</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (turma of reciclagensLista; track turma.turma) {
+                  <tr>
+                    <td><strong>{{ turma.turma }}</strong></td>
+                    <td><strong>{{ turma.treinamento }}</strong></td>
+                    <td>{{ turma.instrutor }}</td>
+                    <td>{{ turma.dataAgendada }}</td>
+                    <td>{{ turma.vagas }}</td>
+                    <td><strong>{{ turma.status }}</strong></td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
         </div>
       </section>
     }
