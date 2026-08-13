@@ -17,7 +17,10 @@ interface Epi {
 interface EntregaEpi {
   colaborador: string;
   epi: string;
+  quantidade?: number;
   data: string;
+  validadeCa?: string;
+  numeroCa?: string;
   assinatura: string;
 }
 
@@ -44,7 +47,7 @@ export class Epis {
 
   
   entregas: EntregaEpi[] = [
-    { colaborador: 'João Souza', epi: 'Capacete de Segurança', data: '01/06/2026', assinatura: 'João Souza' }
+    { colaborador: 'João Souza', epi: 'Capacete de Segurança', quantidade: 1, validadeCa: '03/02/2028', numeroCa: '12345', data: '01/06/2026', assinatura: 'João Souza' }
   ];
 
   
@@ -113,6 +116,9 @@ export class Epis {
     this.entregas.unshift({
       colaborador: this.novaEntrega.colaborador,
       epi: epiSelecionado.descricao,
+      quantidade: this.novaEntrega.quantidade,
+      validadeCa: epiSelecionado.validade,
+      numeroCa: epiSelecionado.ca,
       data: dataFormatada,
       assinatura: 'Pendente (Sistema)'
     });

@@ -93,7 +93,7 @@
                     <span class="badge" [ngClass]="row.nr35 === 'N/A' ? 'badge--na' : 'badge--' + row.nr35.toLowerCase()">{{ row.nr35 }}</span>
                   </td>
                   <td class="sst-text-right">
-                    <button type="button" class="sst-btn-link">Editar</button>
+                    <button type="button" class="sst-btn-link" (click)="abrirModalEdicaoGeral(row)">Editar</button>
                   </td>
                 </tr>
               }
@@ -147,7 +147,7 @@
                       </span>
                     </td>
                     <td class="sst-text-right">
-                      <button type="button" class="sst-btn-link">Editar</button>
+                      <button type="button" class="sst-btn-link" (click)="abrirModalEdicaoGeral(item)">Editar</button>
                     </td>
                   </tr>
                 }
@@ -172,7 +172,7 @@
                     <td>{{ cargo.treinamentosObrigatorios }}</td>
                     <td><strong>{{ cargo.status }}</strong></td>
                     <td class="sst-text-right">
-                      <button type="button" class="sst-btn-link">Editar</button>
+                      <button type="button" class="sst-btn-link" (click)="abrirModalEdicaoGeral(cargo)">Editar</button>
                     </td>
                   </tr>
                 }
@@ -227,7 +227,7 @@
                       </span>
                     </td>
                     <td class="sst-text-right">
-                      <button type="button" class="sst-btn-link">Editar</button>
+                      <button type="button" class="sst-btn-link" (click)="abrirModalEdicaoGeral(item)">Editar</button>
                     </td>
                   </tr>
                 }
@@ -258,7 +258,7 @@
                     <td>{{ item.validadeMeses ? item.validadeMeses + ' meses' : '-' }}</td>
                     <td><strong>{{ item.status }}</strong></td>
                     <td class="sst-text-right">
-                      <button type="button" class="sst-btn-link">Editar</button>
+                      <button type="button" class="sst-btn-link" (click)="abrirModalEdicaoGeral(item)">Editar</button>
                     </td>
                   </tr>
                 }
@@ -315,7 +315,7 @@
                       </span>
                     </td>
                     <td class="sst-text-right">
-                      <button type="button" class="sst-btn-link">Editar</button>
+                      <button type="button" class="sst-btn-link" (click)="abrirModalEdicaoGeral(c)">Editar</button>
                     </td>
                   </tr>
                 }
@@ -342,7 +342,7 @@
                     <td>{{ cert.cargaHoraria }}</td>
                     <td>{{ cert.validadePadrao }}</td>
                     <td class="sst-text-right">
-                      <button type="button" class="sst-btn-link">Editar</button>
+                      <button type="button" class="sst-btn-link" (click)="abrirModalEdicaoGeral(cert)">Editar</button>
                     </td>
                   </tr>
                 }
@@ -397,7 +397,7 @@
                       </span>
                     </td>
                     <td class="sst-text-right">
-                      <button type="button" class="sst-btn-link">Editar</button>
+                      <button type="button" class="sst-btn-link" (click)="abrirModalEdicaoGeral(rec)">Editar</button>
                     </td>
                   </tr>
                 }
@@ -426,7 +426,7 @@
                     <td>{{ turma.vagas }}</td>
                     <td><strong>{{ turma.status }}</strong></td>
                     <td class="sst-text-right">
-                      <button type="button" class="sst-btn-link">Editar</button>
+                      <button type="button" class="sst-btn-link" (click)="abrirModalEdicaoGeral(turma)">Editar</button>
                     </td>
                   </tr>
                 }
@@ -508,30 +508,30 @@
         <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarVinculoReciclagem()">
           <div class="sst-form-group sst-col-span-2">
             <label for="colab-modal-rec">Colaborador</label>
-            <select id="colab-modal-rec" class="sst-search__input sst-input-full" required>
-              <option value="" disabled selected>Selecione um colaborador...</option>
-              <option value="Carlos Eduardo Silva">Carlos Eduardo Silva</option>
-              <option value="Maria Joana Oliveira">Maria Joana Oliveira</option>
-              <option value="Roberto Alves">Roberto Alves</option>
-              <option value="Ana Paula Souza">Ana Paula Souza</option>
-              <option value="Fernando Costa">Fernando Costa</option>
-              <option value="Lucas Fontes">Lucas Fontes</option>
-              <option value="Juliana Mendes">Juliana Mendes</option>
-            </select>
+            <input type="text" id="colab-modal-rec" list="lista-colab-rec" class="sst-search__input sst-input-full" placeholder="Digite ou selecione o colaborador..." required>
+            <datalist id="lista-colab-rec">
+              <option value="Carlos Eduardo Silva"></option>
+              <option value="Maria Joana Oliveira"></option>
+              <option value="Roberto Alves"></option>
+              <option value="Ana Paula Souza"></option>
+              <option value="Fernando Costa"></option>
+              <option value="Lucas Fontes"></option>
+              <option value="Juliana Mendes"></option>
+            </datalist>
           </div>
 
           <div class="sst-form-group sst-col-span-2">
             <label for="treina-modal-rec">Treinamento de Reciclagem</label>
-            <select id="treina-modal-rec" class="sst-search__input sst-input-full" required>
-              <option value="" disabled selected>Selecione o treinamento...</option>
-              <option value="NR-06 Uso Adequado e Guarda de EPIs">NR-06 Uso Adequado e Guarda de EPIs</option>
-              <option value="NR-11 Operação Segura de Empilhadeira">NR-11 Operação Segura de Empilhadeira</option>
-              <option value="NR-12 Segurança em Máquinas">NR-12 Segurança em Máquinas</option>
-              <option value="NR-17 Ergonomia para Checkout">NR-17 Ergonomia para Checkout</option>
-              <option value="NR-35 Trabalho em Altura">NR-35 Trabalho em Altura</option>
-              <option value="NR-23 e Brigada de Incêndio">NR-23 e Brigada de Incêndio</option>
-              <option value="Boas Práticas de Manipulação de Alimentos">Boas Práticas de Manipulação de Alimentos</option>
-            </select>
+            <input type="text" id="treina-modal-rec" list="lista-treina-rec" class="sst-search__input sst-input-full" placeholder="Digite ou selecione o treinamento..." required>
+            <datalist id="lista-treina-rec">
+              <option value="NR-06 Uso Adequado e Guarda de EPIs"></option>
+              <option value="NR-11 Operação Segura de Empilhadeira"></option>
+              <option value="NR-12 Segurança em Máquinas"></option>
+              <option value="NR-17 Ergonomia para Checkout"></option>
+              <option value="NR-35 Trabalho em Altura"></option>
+              <option value="NR-23 e Brigada de Incêndio"></option>
+              <option value="Boas Práticas de Manipulação de Alimentos"></option>
+            </datalist>
           </div>
 
           <div class="sst-form-group sst-col-span-2">
@@ -542,6 +542,37 @@
           <footer class="sst-form-actions sst-col-span-2">
             <button type="button" class="sst-btn sst-btn--light" (click)="fecharModalReciclagem()">Cancelar</button>
             <button type="submit" class="sst-btn sst-btn--dark">Salvar Vínculo</button>
+          </footer>
+        </form>
+      </div>
+    </div>
+  }
+
+  
+  @if (mostrarModalEdicaoGeral) {
+    <div class="sst-modal-overlay">
+      <div class="sst-modal sst-card">
+        <header class="sst-modal__header">
+          <h3 class="sst-card__title">Editar Registro</h3>
+          <button type="button" class="sst-modal__close" (click)="fecharModalEdicaoGeral()">&times;</button>
+        </header>
+
+        <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarEdicaoGeral()">
+          @for (campo of camposItemEdicao; track campo.chave) {
+            <div class="sst-form-group sst-col-span-2">
+              <label [for]="'campo-edicao-' + campo.chave">{{ campo.label }}</label>
+              <input type="text"
+                     [id]="'campo-edicao-' + campo.chave"
+                     class="sst-search__input sst-input-full"
+                     [(ngModel)]="campo.valor"
+                     [name]="campo.chave"
+                     required>
+            </div>
+          }
+
+          <footer class="sst-form-actions sst-col-span-2">
+            <button type="button" class="sst-btn sst-btn--light" (click)="fecharModalEdicaoGeral()">Cancelar</button>
+            <button type="submit" class="sst-btn sst-btn--dark">Salvar Alterações</button>
           </footer>
         </form>
       </div>

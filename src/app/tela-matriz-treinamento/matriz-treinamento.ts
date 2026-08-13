@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 interface CardResumo {
@@ -88,7 +89,7 @@ interface MatrizCruzadaItem {
 @Component({
   selector: 'app-matriz-treinamento',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './matriz-treinamento.html',
   styleUrl: './matriz-treinamento.scss'
 })
@@ -100,6 +101,9 @@ export class MatrizTreinamentos {
 
   mostrarModalCertificacao: boolean = false;
   mostrarModalReciclagem: boolean = false;
+  mostrarModalEdicaoGeral: boolean = false;
+  itemEmEdicao: any = null;
+  camposItemEdicao: { chave: string; label: string; valor: any }[] = [];
 
   resumos: CardResumo[] = [
     { titulo: 'Visão Geral', icone: '📊' },
@@ -225,6 +229,32 @@ export class MatrizTreinamentos {
 
   salvarVinculoReciclagem(): void {
     this.fecharModalReciclagem();
+  }
+
+  abrirModalEdicaoGeral(item: any): void {
+    this.itemEmEdicao = { ...item };
+    this.camposItemEdicao = Object.keys(item).map(chave => {
+      const labelFormatada = chave
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/^./, str => str.toUpperCase());
+      return { chave, label: labelFormatada, valor: item[chave] };
+    });
+    this.mostrarModalEdicaoGeral = true;
+  }
+
+  fecharModalEdicaoGeral(): void {
+    this.mostrarModalEdicaoGeral = false;
+    this.itemEmEdicao = null;
+    this.camposItemEdicao = [];
+  }
+
+  salvarEdicaoGeral(): void {
+    this.camposItemEdicao.forEach(campo => {
+      if (this.itemEmEdicao) {
+        this.itemEmEdicao[campo.chave] = campo.valor;
+      }
+    });
+    this.fecharModalEdicaoGeral();
   }
 
   navegarParaCadastro(): void {

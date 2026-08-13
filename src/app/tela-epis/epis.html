@@ -82,6 +82,9 @@
           <tr>
             <th scope="col">Colaborador</th>
             <th scope="col">EPI</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Validade (CA)</th>
+            <th scope="col">CA</th>
             <th scope="col">Data</th>
             <th scope="col">Assinatura</th>
           </tr>
@@ -91,12 +94,15 @@
             <tr>
               <td><strong>{{ entrega.colaborador }}</strong></td>
               <td>{{ entrega.epi }}</td>
+              <td>{{ entrega.quantidade || 1 }} un</td>
+              <td>{{ entrega.validadeCa || '-' }}</td>
+              <td>{{ entrega.numeroCa || '-' }}</td>
               <td>{{ entrega.data }}</td>
               <td><em>{{ entrega.assinatura }}</em></td>
             </tr>
           } @empty {
             <tr>
-              <td colspan="4" class="sst-text-center">Nenhuma entrega registrada.</td>
+              <td colspan="7" class="sst-text-center">Nenhuma entrega registrada.</td>
             </tr>
           }
         </tbody>
@@ -132,7 +138,7 @@
         </div>
         <div class="sst-form-group sst-col-span-2">
           <label>Validade (CA)</label>
-          <input type="text" class="sst-search__input sst-input-full" [(ngModel)]="epiEmEdicao.validade" name="validade" required>
+          <input type="date" class="sst-search__input sst-input-full" [(ngModel)]="epiEmEdicao.validade" name="validade" required>
         </div>
         
         <footer class="sst-form-actions sst-col-span-2" style="border-top: 1px solid #e2e8f0; padding-top: 1.5rem; display: flex; justify-content: flex-end; gap: 1rem;">

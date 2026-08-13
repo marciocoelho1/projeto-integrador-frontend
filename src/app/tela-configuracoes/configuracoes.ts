@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommonModule, TitleCasePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuditService } from '../service/audit.service';
 
@@ -52,7 +53,7 @@ type GuiaConfiguracao = 'usuarios' | 'grupos' | 'matriz' | 'globais' | 'logs';
 @Component({
   selector: 'app-configuracoes',
   standalone: true,
-  imports: [CommonModule, TitleCasePipe],
+  imports: [CommonModule, FormsModule, TitleCasePipe],
   templateUrl: './configuracoes.html',
   styleUrl: './configuracoes.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -61,6 +62,9 @@ export class Configuracoes {
   private readonly router = inject(Router);
   protected readonly rotas = ROTAS_SISTEMA;
   private auditService = inject(AuditService);
+
+  protected mostrarModalEdicaoUsuario = signal<boolean>(false);
+  protected usuarioEmEdicao = signal<UsuarioSst | null>(null);
 
   protected readonly guiasNavegacao: { id: GuiaConfiguracao; titulo: string }[] = [
     { id: 'usuarios', titulo: 'Usuários do Sistema' }, 
@@ -236,5 +240,22 @@ export class Configuracoes {
   }
 
   protected actionEditarUsuario(usuario: UsuarioSst): void { 
-    this.router.navigateByUrl(this.rotas.editarUsuario(usuario.id)); }
+    this.usuarioEmEdicao.set({ ...usuario });
+    this.mostrarModalEdicaoUsuario.set(true);
+  }
+
+  protected fecharModalEdicaoUsuario(): void {
+    this.mostrarModalEdicaoUsuario.set(false);
+    this.usuarioEmEdicao.set(null);
+  }
+
+  protected salvarEdicaoUsuario(): void {
+    const usuarioAtualizado = this.usuarioEmEdicao();
+    if (!usuarioAtualizado) return;
+
+    this.usuariosCadastrados.update((lista) =>
+      lista.map((u) => (u.id === usuarioAtualizado.id ? { ...usuarioAtualizado } : u))
+    );
+    this.fecharModalEdicaoUsuario();
+  }
 }
