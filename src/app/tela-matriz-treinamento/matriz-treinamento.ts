@@ -98,6 +98,9 @@ export class MatrizTreinamentos {
   cardSelecionado: string = 'Visão Geral';
   modoVisualizacao: 'colaborador' | 'lista' = 'colaborador';
 
+  mostrarModalCertificacao: boolean = false;
+  mostrarModalReciclagem: boolean = false;
+
   resumos: CardResumo[] = [
     { titulo: 'Visão Geral', icone: '📊' },
     { titulo: 'LNT / Cargos', total: 14, icone: '📋' },
@@ -200,11 +203,34 @@ export class MatrizTreinamentos {
     this.modoVisualizacao = modo;
   }
 
+  abrirModalCertificacao(): void {
+    this.mostrarModalCertificacao = true;
+  }
+
+  fecharModalCertificacao(): void {
+    this.mostrarModalCertificacao = false;
+  }
+
+  abrirModalReciclagem(): void {
+    this.mostrarModalReciclagem = true;
+  }
+
+  fecharModalReciclagem(): void {
+    this.mostrarModalReciclagem = false;
+  }
+
+  salvarVinculoCertificacao(): void {
+    this.fecharModalCertificacao();
+  }
+
+  salvarVinculoReciclagem(): void {
+    this.fecharModalReciclagem();
+  }
+
   navegarParaCadastro(): void {
     const mapaAbas: Record<string, string> = {
       'LNT / Cargos': 'lnt',
       'Treinamentos': 'treinamento',
-      'Certificações': 'certificacao',
       'Reciclagens': 'reciclagem'
     };
     const aba = mapaAbas[this.cardSelecionado] || 'treinamento';

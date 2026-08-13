@@ -19,14 +19,19 @@
         </button>
       }
       @case ('Certificações') {
-        <button class="sst-btn sst-btn--dark" (click)="navegarParaCadastro()">
-          Nova Certificação
+        <button class="sst-btn sst-btn--dark" (click)="abrirModalCertificacao()">
+          Vincular Certificação
         </button>
       }
       @case ('Reciclagens') {
-        <button class="sst-btn sst-btn--dark" (click)="navegarParaCadastro()">
-          Nova Reciclagem
-        </button>
+        <div class="matriz-header-actions">
+          <button class="sst-btn sst-btn--dark" (click)="navegarParaCadastro()">
+            Nova Reciclagem
+          </button>
+          <button class="sst-btn sst-btn--dark" (click)="abrirModalReciclagem()">
+            Vincular Reciclagem
+          </button>
+        </div>
       }
     }
   </header>
@@ -64,6 +69,7 @@
                 <th class="text-center">NR-12 (Máquinas)</th>
                 <th class="text-center">NR-17 (Ergonomia)</th>
                 <th class="text-center">NR-35 (Altura)</th>
+                <th scope="col" class="sst-text-right">Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -85,6 +91,9 @@
                   </td>
                   <td class="text-center">
                     <span class="badge" [ngClass]="row.nr35 === 'N/A' ? 'badge--na' : 'badge--' + row.nr35.toLowerCase()">{{ row.nr35 }}</span>
+                  </td>
+                  <td class="sst-text-right">
+                    <button type="button" class="sst-btn-link">Editar</button>
                   </td>
                 </tr>
               }
@@ -122,6 +131,7 @@
                   <th>Setor</th>
                   <th>Treinamentos Pendentes</th>
                   <th>Status</th>
+                  <th scope="col" class="sst-text-right">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -136,6 +146,9 @@
                         {{ item.status }}
                       </span>
                     </td>
+                    <td class="sst-text-right">
+                      <button type="button" class="sst-btn-link">Editar</button>
+                    </td>
                   </tr>
                 }
               </tbody>
@@ -148,6 +161,7 @@
                   <th>Setor</th>
                   <th>Treinamentos Obrigatórios</th>
                   <th>Status</th>
+                  <th scope="col" class="sst-text-right">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -157,6 +171,9 @@
                     <td>{{ cargo.setor }}</td>
                     <td>{{ cargo.treinamentosObrigatorios }}</td>
                     <td><strong>{{ cargo.status }}</strong></td>
+                    <td class="sst-text-right">
+                      <button type="button" class="sst-btn-link">Editar</button>
+                    </td>
                   </tr>
                 }
               </tbody>
@@ -194,6 +211,7 @@
                   <th>Treinamento</th>
                   <th>Conclusão</th>
                   <th>Status</th>
+                  <th scope="col" class="sst-text-right">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -207,6 +225,9 @@
                       <span class="badge" [ngClass]="item.status === 'Concluído' ? 'badge--ok' : 'badge--alerta'">
                         {{ item.status }}
                       </span>
+                    </td>
+                    <td class="sst-text-right">
+                      <button type="button" class="sst-btn-link">Editar</button>
                     </td>
                   </tr>
                 }
@@ -223,6 +244,7 @@
                   <th>Carga Horária</th>
                   <th>Validade Padrão</th>
                   <th>Status</th>
+                  <th scope="col" class="sst-text-right">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -235,6 +257,9 @@
                     <td>{{ item.cargaHoraria }}</td>
                     <td>{{ item.validadeMeses ? item.validadeMeses + ' meses' : '-' }}</td>
                     <td><strong>{{ item.status }}</strong></td>
+                    <td class="sst-text-right">
+                      <button type="button" class="sst-btn-link">Editar</button>
+                    </td>
                   </tr>
                 }
               </tbody>
@@ -273,6 +298,7 @@
                   <th>Certificação</th>
                   <th>Validade</th>
                   <th>Status</th>
+                  <th scope="col" class="sst-text-right">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -288,6 +314,9 @@
                         {{ c.status || 'Ativa' }}
                       </span>
                     </td>
+                    <td class="sst-text-right">
+                      <button type="button" class="sst-btn-link">Editar</button>
+                    </td>
                   </tr>
                 }
               </tbody>
@@ -301,6 +330,7 @@
                   <th>Instituição Emissora</th>
                   <th>Carga Horária</th>
                   <th>Validade Base</th>
+                  <th scope="col" class="sst-text-right">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -311,6 +341,9 @@
                     <td>{{ cert.instituicao }}</td>
                     <td>{{ cert.cargaHoraria }}</td>
                     <td>{{ cert.validadePadrao }}</td>
+                    <td class="sst-text-right">
+                      <button type="button" class="sst-btn-link">Editar</button>
+                    </td>
                   </tr>
                 }
               </tbody>
@@ -348,6 +381,7 @@
                   <th>Treinamento</th>
                   <th>Prazo Máximo</th>
                   <th>Status</th>
+                  <th scope="col" class="sst-text-right">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -361,6 +395,9 @@
                       <span class="badge" [class.badge--vencido]="rec.status === 'Vencido'" [class.badge--alerta]="rec.status !== 'Vencido'">
                         {{ rec.status }}
                       </span>
+                    </td>
+                    <td class="sst-text-right">
+                      <button type="button" class="sst-btn-link">Editar</button>
                     </td>
                   </tr>
                 }
@@ -376,6 +413,7 @@
                   <th>Data Agendada</th>
                   <th>Vagas</th>
                   <th>Status</th>
+                  <th scope="col" class="sst-text-right">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -387,6 +425,9 @@
                     <td>{{ turma.dataAgendada }}</td>
                     <td>{{ turma.vagas }}</td>
                     <td><strong>{{ turma.status }}</strong></td>
+                    <td class="sst-text-right">
+                      <button type="button" class="sst-btn-link">Editar</button>
+                    </td>
                   </tr>
                 }
               </tbody>
@@ -397,4 +438,114 @@
     }
 
   </div>
+
+  
+  @if (mostrarModalCertificacao) {
+    <div class="sst-modal-overlay">
+      <div class="sst-modal sst-card">
+        <header class="sst-modal__header">
+          <h3 class="sst-card__title">Vincular Certificação</h3>
+          <button type="button" class="sst-modal__close" (click)="fecharModalCertificacao()">&times;</button>
+        </header>
+
+        <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarVinculoCertificacao()">
+          <div class="sst-form-group sst-col-span-2">
+            <label for="colab-modal-cert">Colaborador</label>
+            <select id="colab-modal-cert" class="sst-search__input sst-input-full" required>
+              <option value="" disabled selected>Selecione um colaborador...</option>
+              <option value="Carlos Eduardo Silva">Carlos Eduardo Silva</option>
+              <option value="Maria Joana Oliveira">Maria Joana Oliveira</option>
+              <option value="Roberto Alves">Roberto Alves</option>
+              <option value="Ana Paula Souza">Ana Paula Souza</option>
+              <option value="Fernando Costa">Fernando Costa</option>
+              <option value="Lucas Fontes">Lucas Fontes</option>
+              <option value="Juliana Mendes">Juliana Mendes</option>
+            </select>
+          </div>
+
+          <div class="sst-form-group sst-col-span-2">
+            <label for="treina-modal-cert">Treinamento</label>
+            <select id="treina-modal-cert" class="sst-search__input sst-input-full" required>
+              <option value="" disabled selected>Selecione um treinamento...</option>
+              <option value="NR-06 Uso Adequado e Guarda de EPIs">NR-06 Uso Adequado e Guarda de EPIs</option>
+              <option value="NR-11 Operação Segura de Empilhadeira">NR-11 Operação Segura de Empilhadeira</option>
+              <option value="NR-12 Segurança em Máquinas">NR-12 Segurança em Máquinas</option>
+              <option value="NR-17 Ergonomia para Checkout">NR-17 Ergonomia para Checkout</option>
+              <option value="NR-35 Trabalho em Altura">NR-35 Trabalho em Altura</option>
+              <option value="NR-23 e Brigada de Incêndio">NR-23 e Brigada de Incêndio</option>
+              <option value="Boas Práticas de Manipulação de Alimentos">Boas Práticas de Manipulação de Alimentos</option>
+            </select>
+          </div>
+
+          <div class="sst-form-group">
+            <label for="dt-cert">Data da Certificação</label>
+            <input type="date" id="dt-cert" class="sst-search__input sst-input-full" required>
+          </div>
+
+          <div class="sst-form-group">
+            <label for="dt-val-cert">Validade</label>
+            <input type="date" id="dt-val-cert" class="sst-search__input sst-input-full" required>
+          </div>
+
+          <footer class="sst-form-actions sst-col-span-2">
+            <button type="button" class="sst-btn sst-btn--light" (click)="fecharModalCertificacao()">Cancelar</button>
+            <button type="submit" class="sst-btn sst-btn--dark">Salvar Vínculo</button>
+          </footer>
+        </form>
+      </div>
+    </div>
+  }
+
+  
+  @if (mostrarModalReciclagem) {
+    <div class="sst-modal-overlay">
+      <div class="sst-modal sst-card">
+        <header class="sst-modal__header">
+          <h3 class="sst-card__title">Vincular Reciclagem</h3>
+          <button type="button" class="sst-modal__close" (click)="fecharModalReciclagem()">&times;</button>
+        </header>
+
+        <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarVinculoReciclagem()">
+          <div class="sst-form-group sst-col-span-2">
+            <label for="colab-modal-rec">Colaborador</label>
+            <select id="colab-modal-rec" class="sst-search__input sst-input-full" required>
+              <option value="" disabled selected>Selecione um colaborador...</option>
+              <option value="Carlos Eduardo Silva">Carlos Eduardo Silva</option>
+              <option value="Maria Joana Oliveira">Maria Joana Oliveira</option>
+              <option value="Roberto Alves">Roberto Alves</option>
+              <option value="Ana Paula Souza">Ana Paula Souza</option>
+              <option value="Fernando Costa">Fernando Costa</option>
+              <option value="Lucas Fontes">Lucas Fontes</option>
+              <option value="Juliana Mendes">Juliana Mendes</option>
+            </select>
+          </div>
+
+          <div class="sst-form-group sst-col-span-2">
+            <label for="treina-modal-rec">Treinamento de Reciclagem</label>
+            <select id="treina-modal-rec" class="sst-search__input sst-input-full" required>
+              <option value="" disabled selected>Selecione o treinamento...</option>
+              <option value="NR-06 Uso Adequado e Guarda de EPIs">NR-06 Uso Adequado e Guarda de EPIs</option>
+              <option value="NR-11 Operação Segura de Empilhadeira">NR-11 Operação Segura de Empilhadeira</option>
+              <option value="NR-12 Segurança em Máquinas">NR-12 Segurança em Máquinas</option>
+              <option value="NR-17 Ergonomia para Checkout">NR-17 Ergonomia para Checkout</option>
+              <option value="NR-35 Trabalho em Altura">NR-35 Trabalho em Altura</option>
+              <option value="NR-23 e Brigada de Incêndio">NR-23 e Brigada de Incêndio</option>
+              <option value="Boas Práticas de Manipulação de Alimentos">Boas Práticas de Manipulação de Alimentos</option>
+            </select>
+          </div>
+
+          <div class="sst-form-group sst-col-span-2">
+            <label for="dt-limite-rec">Data Limite</label>
+            <input type="date" id="dt-limite-rec" class="sst-search__input sst-input-full" required>
+          </div>
+
+          <footer class="sst-form-actions sst-col-span-2">
+            <button type="button" class="sst-btn sst-btn--light" (click)="fecharModalReciclagem()">Cancelar</button>
+            <button type="submit" class="sst-btn sst-btn--dark">Salvar Vínculo</button>
+          </footer>
+        </form>
+      </div>
+    </div>
+  }
+
 </div>
