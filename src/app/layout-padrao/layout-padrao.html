@@ -50,6 +50,12 @@
   </aside>
 
   <main class="main-content">
+    <header class="layout-header">
+      <div class="user-badge">
+        <span class="user-badge__role">{{ userRole === 'admin' ? 'Administrador TST' : 'Colaborador' }}</span>
+        <strong class="user-badge__name">{{ userRole === 'admin' ? 'ADMINISTRADOR' : 'COLABORADOR' }}</strong>
+      </div>
+    </header>
     <router-outlet></router-outlet>
   </main>
 </div>
