@@ -11,7 +11,6 @@
   <section class="cards-grid">
     @for (card of resumos; track card.titulo) {
       <div class="card-summary">
-        <div class="card-summary__icon">{{ card.icone }}</div>
         <span class="card-summary__title">{{ card.titulo }}</span>
         <strong class="card-summary__val">{{ card.total }}</strong>
       </div>
