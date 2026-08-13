@@ -72,19 +72,19 @@
                   <td><strong>{{ row.colaborador }}</strong></td>
                   <td>{{ row.cargo }}</td>
                   <td class="text-center">
-                    <span class="badge" [ngClass]="'badge--' + row.nr06.toLowerCase()">{{ row.nr06 }}</span>
+                    <span class="badge" [ngClass]="row.nr06 === 'N/A' ? 'badge--na' : 'badge--' + row.nr06.toLowerCase()">{{ row.nr06 }}</span>
                   </td>
                   <td class="text-center">
-                    <span class="badge" [ngClass]="'badge--' + row.nr11.toLowerCase()">{{ row.nr11 }}</span>
+                    <span class="badge" [ngClass]="row.nr11 === 'N/A' ? 'badge--na' : 'badge--' + row.nr11.toLowerCase()">{{ row.nr11 }}</span>
                   </td>
                   <td class="text-center">
-                    <span class="badge" [ngClass]="'badge--' + row.nr12.toLowerCase()">{{ row.nr12 }}</span>
+                    <span class="badge" [ngClass]="row.nr12 === 'N/A' ? 'badge--na' : 'badge--' + row.nr12.toLowerCase()">{{ row.nr12 }}</span>
                   </td>
                   <td class="text-center">
-                    <span class="badge" [ngClass]="'badge--' + row.nr17.toLowerCase()">{{ row.nr17 }}</span>
+                    <span class="badge" [ngClass]="row.nr17 === 'N/A' ? 'badge--na' : 'badge--' + row.nr17.toLowerCase()">{{ row.nr17 }}</span>
                   </td>
                   <td class="text-center">
-                    <span class="badge" [ngClass]="'badge--' + row.nr35.toLowerCase()">{{ row.nr35 }}</span>
+                    <span class="badge" [ngClass]="row.nr35 === 'N/A' ? 'badge--na' : 'badge--' + row.nr35.toLowerCase()">{{ row.nr35 }}</span>
                   </td>
                 </tr>
               }
