@@ -256,7 +256,7 @@
     }
   </section>
 
-  @if (mostrarModalEdicaoUsuario() && usuarioEmEdicao()) {
+  @if (mostrarModalEdicaoUsuario() && usuarioEmEdicao(); as usuario) {
     <div class="sst-modal-overlay">
       <div class="sst-modal sst-card" style="max-width: 600px;">
         <header class="sst-card__toolbar">
@@ -267,22 +267,22 @@
         <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarEdicaoUsuario()">
           <div class="sst-form-group sst-col-span-2">
             <label>Nome Completo</label>
-            <input type="text" class="sst-search__input sst-input-full" [ngModel]="usuarioEmEdicao()!.nomeCompleto" (ngModelChange)="usuarioEmEdicao()!.nomeCompleto = $event" name="nomeCompleto" required>
+            <input type="text" class="sst-search__input sst-input-full" [(ngModel)]="usuario.nomeCompleto" name="nomeCompleto" required>
           </div>
 
           <div class="sst-form-group sst-col-span-2">
             <label>E-mail Corporativo</label>
-            <input type="email" class="sst-search__input sst-input-full" [ngModel]="usuarioEmEdicao()!.emailCorporativo" (ngModelChange)="usuarioEmEdicao()!.emailCorporativo = $event" name="emailCorporativo" required>
+            <input type="email" class="sst-search__input sst-input-full" [(ngModel)]="usuario.emailCorporativo" name="emailCorporativo" required>
           </div>
 
           <div class="sst-form-group">
             <label>CPF / Matrícula</label>
-            <input type="text" class="sst-search__input sst-input-full" [ngModel]="usuarioEmEdicao()!.cpf" (ngModelChange)="usuarioEmEdicao()!.cpf = $event" name="cpf" required>
+            <input type="text" class="sst-search__input sst-input-full" [(ngModel)]="usuario.cpf" name="cpf" required>
           </div>
 
           <div class="sst-form-group">
             <label>Status</label>
-            <select class="sst-search__input sst-input-full" [ngModel]="usuarioEmEdicao()!.status" (ngModelChange)="usuarioEmEdicao()!.status = $event" name="status" required>
+            <select class="sst-search__input sst-input-full" [(ngModel)]="usuario.status" name="status" required>
               <option value="ativo">Ativo</option>
               <option value="inativo">Inativo</option>
             </select>
@@ -290,7 +290,7 @@
 
           <div class="sst-form-group sst-col-span-2">
             <label>Grupo de Acesso</label>
-            <select class="sst-search__input sst-input-full" [ngModel]="usuarioEmEdicao()!.grupoId" (ngModelChange)="usuarioEmEdicao()!.grupoId = $event" name="grupoId" required>
+            <select class="sst-search__input sst-input-full" [(ngModel)]="usuario.grupoId" name="grupoId" required>
               @for (grupo of gruposSst(); track grupo.id) {
                 <option [value]="grupo.id">{{ grupo.nomenclatura }}</option>
               }

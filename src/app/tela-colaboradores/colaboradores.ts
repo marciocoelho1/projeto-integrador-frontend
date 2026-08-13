@@ -109,6 +109,18 @@ export class Colaboradores implements OnInit {
     this.abrirModalDetalhes(colaborador);
   }
 
+  obterEpis(nome: string): { nome: string; dataEntrega: string; ca: string }[] {
+    return this.episColaborador[nome] || [];
+  }
+
+  obterTreinamentos(nome: string): { treinamento: string; validade: string; status: string }[] {
+    return this.treinamentosColaborador[nome] || [];
+  }
+
+  obterReciclagens(nome: string): { treinamento: string; prazo: string; status: string }[] {
+    return this.reciclagensColaborador[nome] || [];
+  }
+
   actionNovoColaborador(): void {
     console.log('Navegando para o cadastro de novo colaborador...');
     this.router.navigate(['/cadastramentos'], { queryParams: { aba: 'colaborador' } });
