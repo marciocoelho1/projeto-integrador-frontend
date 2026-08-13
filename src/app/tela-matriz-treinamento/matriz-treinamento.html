@@ -3,6 +3,11 @@
   <header class="matriz-header">
     <h2>Matriz de Treinamentos</h2>
     @switch (cardSelecionado) {
+      @case ('Visão Geral') {
+        <button class="sst-btn sst-btn--dark" (click)="exportarMatriz()">
+          Exportar Matriz
+        </button>
+      }
       @case ('LNT / Cargos') {
         <button class="sst-btn sst-btn--dark" (click)="navegarParaCadastro()">
           Novo LNT / Cargo
@@ -33,7 +38,11 @@
            [class.card-summary--active]="cardSelecionado === card.titulo"
            (click)="selecionarCard(card.titulo)">
         <span class="card-summary__title">{{ card.titulo }}</span>
-        <strong class="card-summary__val">{{ card.total }}</strong>
+        @if (card.total !== undefined) {
+          <strong class="card-summary__val">{{ card.total }}</strong>
+        } @else {
+          <strong class="card-summary__val card-summary__val--icon">{{ card.icone }}</strong>
+        }
       </div>
     }
   </section>
@@ -41,9 +50,53 @@
   
   <div class="tables-column">
     
+    @if (cardSelecionado === 'Visão Geral') {
+      <section class="table-card">
+        <h3 class="table-card__title">Matriz Cruzada de Conformidade por Colaborador</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Colaborador</th>
+                <th>Cargo</th>
+                <th class="text-center">NR-06 (EPI)</th>
+                <th class="text-center">NR-11 (Empilhadeira)</th>
+                <th class="text-center">NR-12 (Máquinas)</th>
+                <th class="text-center">NR-17 (Ergonomia)</th>
+                <th class="text-center">NR-35 (Altura)</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of matrizCruzada; track row.colaborador) {
+                <tr>
+                  <td><strong>{{ row.colaborador }}</strong></td>
+                  <td>{{ row.cargo }}</td>
+                  <td class="text-center">
+                    <span class="badge" [ngClass]="'badge--' + row.nr06.toLowerCase()">{{ row.nr06 }}</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge" [ngClass]="'badge--' + row.nr11.toLowerCase()">{{ row.nr11 }}</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge" [ngClass]="'badge--' + row.nr12.toLowerCase()">{{ row.nr12 }}</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge" [ngClass]="'badge--' + row.nr17.toLowerCase()">{{ row.nr17 }}</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge" [ngClass]="'badge--' + row.nr35.toLowerCase()">{{ row.nr35 }}</span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
+
     @if (cardSelecionado === 'LNT / Cargos') {
       <section class="table-card">
-        <h3 class="table-card__title">LNT / Cargos Cadastrados</h3>
+        <h3 class="table-card__title">LNT / Cargos Cadastrados (Supermercado)</h3>
         <div class="table-wrapper">
           <table>
             <thead>
@@ -55,11 +108,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td colspan="4" style="text-align: center; color: #64748b; padding: 2rem;">
-                  Nenhum registro de LNT / Cargo encontrado.
-                </td>
-              </tr>
+              @for (cargo of cargosLnt; track cargo.cargo) {
+                <tr>
+                  <td><strong>{{ cargo.cargo }}</strong></td>
+                  <td>{{ cargo.setor }}</td>
+                  <td>{{ cargo.treinamentosObrigatorios }}</td>
+                  <td><strong>{{ cargo.status }}</strong></td>
+                </tr>
+              }
             </tbody>
           </table>
         </div>
@@ -75,7 +131,7 @@
               <tr>
                 <th>Treinamento</th>
                 <th>Classificação</th>
-                <th>NR</th>
+                <th>NR / Norma</th>
                 <th>Carga Horária</th>
                 <th>Status</th>
               </tr>
@@ -104,6 +160,7 @@
             <thead>
               <tr>
                 <th>Colaborador</th>
+                <th>Cargo</th>
                 <th>Treinamento</th>
                 <th>Certificação</th>
                 <th>Validade</th>
@@ -111,13 +168,18 @@
               </tr>
             </thead>
             <tbody>
-              @for (c of certificacoes; track c.colaborador) {
+              @for (c of certificacoes; track c.colaborador + c.treinamento) {
                 <tr>
                   <td><strong>{{ c.colaborador }}</strong></td>
+                  <td>{{ c.cargo }}</td>
                   <td><strong>{{ c.treinamento }}</strong></td>
                   <td>{{ c.certificacao }}</td>
                   <td>{{ c.validade }}</td>
-                  <td><strong class="text-vencida">{{ c.status || '' }}</strong></td>
+                  <td>
+                    <span class="badge" [ngClass]="'badge--' + (c.status?.toLowerCase() || 'ok')">
+                      {{ c.status || 'Ativa' }}
+                    </span>
+                  </td>
                 </tr>
               }
             </tbody>
@@ -128,23 +190,32 @@
 
     @if (cardSelecionado === 'Reciclagens') {
       <section class="table-card">
-        <h3 class="table-card__title">Reciclagens Pendentes</h3>
+        <h3 class="table-card__title">Reciclagens Pendentes e Próximos Vencimentos</h3>
         <div class="table-wrapper">
           <table>
             <thead>
               <tr>
                 <th>Colaborador</th>
+                <th>Cargo</th>
                 <th>Treinamento</th>
                 <th>Prazo Máximo</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td colspan="4" style="text-align: center; color: #64748b; padding: 2rem;">
-                  Nenhuma reciclagem pendente no momento.
-                </td>
-              </tr>
+              @for (rec of reciclagens; track rec.colaborador + rec.treinamento) {
+                <tr>
+                  <td><strong>{{ rec.colaborador }}</strong></td>
+                  <td>{{ rec.cargo }}</td>
+                  <td><strong>{{ rec.treinamento }}</strong></td>
+                  <td>{{ rec.prazoMaximo }}</td>
+                  <td>
+                    <span class="badge" [class.badge--vencido]="rec.status === 'Vencido'" [class.badge--alerta]="rec.status !== 'Vencido'">
+                      {{ rec.status }}
+                    </span>
+                  </td>
+                </tr>
+              }
             </tbody>
           </table>
         </div>

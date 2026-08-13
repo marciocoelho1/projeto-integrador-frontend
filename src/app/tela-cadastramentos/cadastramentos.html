@@ -259,26 +259,30 @@
           <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarCertificacao()">
             <div class="sst-form-group">
               <label for="colaborador-cert">Colaborador</label>
-              <input type="text" id="colaborador-cert" list="lista-colaboradores-cert" class="sst-search__input sst-input-full" required>
-              <datalist id="lista-colaboradores-cert">
-                <option value="Carlos Eduardo Silva"></option>
-                <option value="Maria Joana Oliveira"></option>
-                <option value="Roberto Alves"></option>
-                <option value="Ana Paula Souza"></option>
-                <option value="Fernando Costa"></option>
-              </datalist>
+              <select id="colaborador-cert" class="sst-search__input sst-input-full" required>
+                <option value="" disabled selected>Selecione um colaborador...</option>
+                <option value="Carlos Eduardo Silva">Carlos Eduardo Silva</option>
+                <option value="Maria Joana Oliveira">Maria Joana Oliveira</option>
+                <option value="Roberto Alves">Roberto Alves</option>
+                <option value="Ana Paula Souza">Ana Paula Souza</option>
+                <option value="Fernando Costa">Fernando Costa</option>
+                <option value="Lucas Fontes">Lucas Fontes</option>
+                <option value="Juliana Mendes">Juliana Mendes</option>
+              </select>
             </div>
 
             <div class="sst-form-group">
               <label for="treinamento-cert">Treinamento</label>
-              <input type="text" id="treinamento-cert" list="lista-treinamentos-cert" class="sst-search__input sst-input-full" required>
-              <datalist id="lista-treinamentos-cert">
-                <option value="NR-35 Trabalho em Altura"></option>
-                <option value="NR-10 Segurança em Eletricidade"></option>
-                <option value="NR-11 Operação de Empilhadeira"></option>
-                <option value="NR-12 Segurança em Máquinas"></option>
-                <option value="Noções de Primeiros Socorros"></option>
-              </datalist>
+              <select id="treinamento-cert" class="sst-search__input sst-input-full" required>
+                <option value="" disabled selected>Selecione um treinamento...</option>
+                <option value="NR-06 Uso Adequado e Guarda de EPIs">NR-06 Uso Adequado e Guarda de EPIs</option>
+                <option value="NR-11 Operação Segura de Empilhadeira">NR-11 Operação Segura de Empilhadeira</option>
+                <option value="NR-12 Segurança em Máquinas">NR-12 Segurança em Máquinas</option>
+                <option value="NR-17 Ergonomia para Checkout">NR-17 Ergonomia para Checkout</option>
+                <option value="NR-35 Trabalho em Altura">NR-35 Trabalho em Altura</option>
+                <option value="NR-23 e Brigada de Incêndio">NR-23 e Brigada de Incêndio</option>
+                <option value="Boas Práticas de Manipulação">Boas Práticas de Manipulação</option>
+              </select>
             </div>
 
             <div class="sst-form-group">
@@ -307,26 +311,30 @@
           <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarReciclagem()">
             <div class="sst-form-group">
               <label for="colaborador-rec">Colaborador</label>
-              <input type="text" id="colaborador-rec" list="lista-colaboradores-rec" class="sst-search__input sst-input-full" required>
-              <datalist id="lista-colaboradores-rec">
-                <option value="Carlos Eduardo Silva"></option>
-                <option value="Maria Joana Oliveira"></option>
-                <option value="Roberto Alves"></option>
-                <option value="Ana Paula Souza"></option>
-                <option value="Fernando Costa"></option>
-              </datalist>
+              <select id="colaborador-rec" class="sst-search__input sst-input-full" required>
+                <option value="" disabled selected>Selecione um colaborador...</option>
+                <option value="Carlos Eduardo Silva">Carlos Eduardo Silva</option>
+                <option value="Maria Joana Oliveira">Maria Joana Oliveira</option>
+                <option value="Roberto Alves">Roberto Alves</option>
+                <option value="Ana Paula Souza">Ana Paula Souza</option>
+                <option value="Fernando Costa">Fernando Costa</option>
+                <option value="Lucas Fontes">Lucas Fontes</option>
+                <option value="Juliana Mendes">Juliana Mendes</option>
+              </select>
             </div>
 
             <div class="sst-form-group">
               <label for="treinamento-rec">Treinamento</label>
-              <input type="text" id="treinamento-rec" list="lista-treinamentos-rec" class="sst-search__input sst-input-full" required>
-              <datalist id="lista-treinamentos-rec">
-                <option value="NR-35 Trabalho em Altura"></option>
-                <option value="NR-10 Segurança em Eletricidade"></option>
-                <option value="NR-11 Operação de Empilhadeira"></option>
-                <option value="NR-12 Segurança em Máquinas"></option>
-                <option value="Noções de Primeiros Socorros"></option>
-              </datalist>
+              <select id="treinamento-rec" class="sst-search__input sst-input-full" required>
+                <option value="" disabled selected>Selecione um treinamento...</option>
+                <option value="NR-06 Uso Adequado e Guarda de EPIs">NR-06 Uso Adequado e Guarda de EPIs</option>
+                <option value="NR-11 Operação Segura de Empilhadeira">NR-11 Operação Segura de Empilhadeira</option>
+                <option value="NR-12 Segurança em Máquinas">NR-12 Segurança em Máquinas</option>
+                <option value="NR-17 Ergonomia para Checkout">NR-17 Ergonomia para Checkout</option>
+                <option value="NR-35 Trabalho em Altura">NR-35 Trabalho em Altura</option>
+                <option value="NR-23 e Brigada de Incêndio">NR-23 e Brigada de Incêndio</option>
+                <option value="Boas Práticas de Manipulação">Boas Práticas de Manipulação</option>
+              </select>
             </div>
 
             <div class="sst-form-group sst-col-span-2">
