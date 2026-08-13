@@ -563,6 +563,7 @@
               <label [for]="'campo-edicao-' + campo.chave">{{ campo.label }}</label>
               <input type="text"
                      [id]="'campo-edicao-' + campo.chave"
+                     [attr.list]="campo.datalistId || null"
                      class="sst-search__input sst-input-full"
                      [(ngModel)]="campo.valor"
                      [name]="campo.chave"
@@ -578,5 +579,29 @@
       </div>
     </div>
   }
+
+  <datalist id="lista-matriz-colaboradores">
+    @for (colab of listaColaboradoresCadastrados; track colab) {
+      <option [value]="colab"></option>
+    }
+  </datalist>
+
+  <datalist id="lista-matriz-cargos">
+    @for (cargo of listaCargosCadastrados; track cargo) {
+      <option [value]="cargo"></option>
+    }
+  </datalist>
+
+  <datalist id="lista-matriz-treinamentos">
+    @for (treina of listaTreinamentosCadastrados; track treina) {
+      <option [value]="treina"></option>
+    }
+  </datalist>
+
+  <datalist id="lista-matriz-setores">
+    @for (setor of listaSetoresCadastrados; track setor) {
+      <option [value]="setor"></option>
+    }
+  </datalist>
 
 </div>

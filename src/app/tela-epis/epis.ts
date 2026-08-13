@@ -39,6 +39,17 @@ export class Epis {
   termoBusca: string = '';
 
   
+  readonly listaEpisCadastrados: string[] = [
+    'Capacete de Segurança',
+    'Luva de Vaqueta',
+    'Óculos de Segurança',
+    'Luva de Malha de Aço',
+    'Botina de Segurança',
+    'Protetor Auricular',
+    'Avental de PVC',
+    'Máscara PFF2'
+  ];
+
   epis: Epi[] = [
     { id: 'EPI-01', descricao: 'Capacete de Segurança', quantidade: 45, inclusao: '01/02/2026', validade: '03/02/2028', ca: '12345' },
     { id: 'EPI-02', descricao: 'Luva de Vaqueta', quantidade: 84, inclusao: '03/02/2026', validade: '03/02/2028', ca: '89765' },
@@ -67,6 +78,14 @@ export class Epis {
   }
 
   salvarEdicao() {
+    const descricao = this.epiEmEdicao.descricao.trim();
+    const existe = this.listaEpisCadastrados.some(e => e.toLowerCase() === descricao.toLowerCase());
+
+    if (!existe) {
+      this.toast.error(`A descrição "${descricao}" não corresponde a um EPI cadastrado no sistema.`);
+      return;
+    }
+
     const index = this.epis.findIndex(e => e.id === this.epiEmEdicao.id);
     if (index !== -1) {
       this.epis[index] = { ...this.epiEmEdicao };
@@ -74,6 +93,14 @@ export class Epis {
       this.auditService.registrarAcao('Marcio Coelho', 'EPIs', 'EDICAO', `Editou dados do EPI ${this.epiEmEdicao.descricao}`);
     }
     this.fecharModalEdicao();
+  }
+
+  filtrarApenasNumerosCa(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input) {
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 10);
+      this.epiEmEdicao.ca = input.value;
+    }
   }
 
   

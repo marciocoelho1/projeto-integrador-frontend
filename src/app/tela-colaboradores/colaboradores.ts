@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastService } from '../service/toast.service';
 
 interface Colaborador {
   matricula: string;
@@ -21,6 +22,7 @@ interface Colaborador {
 export class Colaboradores implements OnInit {
   termoBusca: string = '';
   private router = inject(Router); 
+  private toast = inject(ToastService);
 
   mostrarModalDetalhes: boolean = false;
   colaboradorEmEdicao: Colaborador | null = null;
@@ -101,6 +103,7 @@ export class Colaboradores implements OnInit {
     const index = this.colaboradores.findIndex(c => c.matricula === this.colaboradorEmEdicao!.matricula);
     if (index !== -1) {
       this.colaboradores[index] = { ...this.colaboradorEmEdicao };
+      this.toast.success(`Dados do colaborador "${this.colaboradorEmEdicao.nome}" salvos com sucesso!`);
     }
     this.fecharModalDetalhes();
   }

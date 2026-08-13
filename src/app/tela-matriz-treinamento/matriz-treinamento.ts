@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastService } from '../service/toast.service';
 
 interface CardResumo {
   titulo: string;
@@ -95,6 +96,7 @@ interface MatrizCruzadaItem {
 })
 export class MatrizTreinamentos {
   private router = inject(Router);
+  private toast = inject(ToastService);
 
   cardSelecionado: string = 'Visão Geral';
   modoVisualizacao: 'colaborador' | 'lista' = 'colaborador';
@@ -102,8 +104,67 @@ export class MatrizTreinamentos {
   mostrarModalCertificacao: boolean = false;
   mostrarModalReciclagem: boolean = false;
   mostrarModalEdicaoGeral: boolean = false;
+  itemOriginalReferencia: any = null;
   itemEmEdicao: any = null;
-  camposItemEdicao: { chave: string; label: string; valor: any }[] = [];
+  camposItemEdicao: { chave: string; label: string; valor: any; datalistId?: string }[] = [];
+
+  readonly listaColaboradoresCadastrados: string[] = [
+    'Carlos Eduardo Silva',
+    'Maria Joana Oliveira',
+    'Roberto Alves',
+    'Ana Paula Souza',
+    'Fernando Costa',
+    'Lucas Fontes',
+    'Juliana Mendes'
+  ];
+
+  readonly listaCargosCadastrados: string[] = [
+    'Açougueiro',
+    'Açougueira',
+    'Operador de Caixa',
+    'Operadora de Caixa',
+    'Repositor',
+    'Repositora',
+    'Padeiro / Confeiteiro',
+    'Padeiro',
+    'Operador de Empilhadeira',
+    'Fiscal de Prevenção de Perdas',
+    'Auxiliar de Limpeza'
+  ];
+
+  readonly listaTreinamentosCadastrados: string[] = [
+    'NR-06 Uso Adequado e Guarda de EPIs',
+    'NR-06 Uso Adequado de EPIs',
+    'NR-11 Operação Segura de Empilhadeira e Transpaleteira',
+    'NR-11 Operação Segura de Empilhadeira',
+    'NR-11 Operação de Empilhadeira',
+    'NR-12 Segurança em Máquinas (Fatiadores/Serras de Fita)',
+    'NR-12 Segurança em Máquinas (Açougue)',
+    'NR-12 Segurança em Máquinas (Padaria)',
+    'NR-12 Segurança em Máquinas',
+    'NR-17 Ergonomia para Operadores de Checkout',
+    'NR-17 Ergonomia para Checkout',
+    'NR-17 Ergonomia e Postura de Caixa',
+    'NR-35 Trabalho em Altura e Manutenção de Gôndolas',
+    'NR-35 Trabalho em Altura',
+    'NR-23 e Brigada de Incêndio e Evacuação',
+    'NR-23 e Brigada de Incêndio',
+    'NR-23 e Brigada de Emergência',
+    'Boas Práticas de Manipulação de Alimentos',
+    'Boas Práticas de Manipulação',
+    'Boas Práticas de Higiene e Manipulação',
+    'Noções de Primeiros Socorros no Varejo'
+  ];
+
+  readonly listaSetoresCadastrados: string[] = [
+    'Açougue',
+    'Frente de Loja',
+    'Mercearia',
+    'Padaria',
+    'Estoque',
+    'Estoque / Logística',
+    'Higienização'
+  ];
 
   resumos: CardResumo[] = [
     { titulo: 'Visão Geral', icone: '📊' },
@@ -232,28 +293,74 @@ export class MatrizTreinamentos {
   }
 
   abrirModalEdicaoGeral(item: any): void {
+    this.itemOriginalReferencia = item;
     this.itemEmEdicao = { ...item };
     this.camposItemEdicao = Object.keys(item).map(chave => {
       const labelFormatada = chave
         .replace(/([A-Z])/g, ' $1')
         .replace(/^./, str => str.toUpperCase());
-      return { chave, label: labelFormatada, valor: item[chave] };
+
+      let datalistId: string | undefined;
+      const chaveLower = chave.toLowerCase();
+      if (chaveLower.includes('colaborador')) {
+        datalistId = 'lista-matriz-colaboradores';
+      } else if (chaveLower.includes('cargo')) {
+        datalistId = 'lista-matriz-cargos';
+      } else if (chaveLower.includes('treinamento') || chaveLower === 'nome') {
+        datalistId = 'lista-matriz-treinamentos';
+      } else if (chaveLower.includes('setor')) {
+        datalistId = 'lista-matriz-setores';
+      }
+
+      return { chave, label: labelFormatada, valor: item[chave], datalistId };
     });
     this.mostrarModalEdicaoGeral = true;
   }
 
   fecharModalEdicaoGeral(): void {
     this.mostrarModalEdicaoGeral = false;
+    this.itemOriginalReferencia = null;
     this.itemEmEdicao = null;
     this.camposItemEdicao = [];
   }
 
   salvarEdicaoGeral(): void {
+    for (const campo of this.camposItemEdicao) {
+      const valorStr = String(campo.valor || '').trim();
+      const chaveLower = campo.chave.toLowerCase();
+
+      if (chaveLower.includes('colaborador') && valorStr) {
+        const existe = this.listaColaboradoresCadastrados.some(c => c.toLowerCase() === valorStr.toLowerCase());
+        if (!existe) {
+          this.toast.error(`Colaborador "${valorStr}" não está cadastrado no sistema.`);
+          return;
+        }
+      }
+
+      if (chaveLower === 'cargo' && valorStr) {
+        const existe = this.listaCargosCadastrados.some(c => c.toLowerCase() === valorStr.toLowerCase());
+        if (!existe) {
+          this.toast.error(`Cargo "${valorStr}" não está cadastrado no sistema.`);
+          return;
+        }
+      }
+
+      if ((chaveLower.includes('treinamento') || chaveLower === 'nome') && valorStr) {
+        const existe = this.listaTreinamentosCadastrados.some(t => t.toLowerCase() === valorStr.toLowerCase());
+        if (!existe) {
+          this.toast.error(`Treinamento "${valorStr}" não está cadastrado no sistema.`);
+          return;
+        }
+      }
+    }
+
     this.camposItemEdicao.forEach(campo => {
-      if (this.itemEmEdicao) {
-        this.itemEmEdicao[campo.chave] = campo.valor;
+      if (this.itemOriginalReferencia) {
+        this.itemOriginalReferencia[campo.chave] = campo.valor;
       }
     });
+
+    this.toast.success('Registro atualizado com sucesso!');
     this.fecharModalEdicaoGeral();
   }
 

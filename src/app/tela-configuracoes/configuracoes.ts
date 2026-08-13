@@ -3,6 +3,7 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuditService } from '../service/audit.service';
+import { ToastService } from '../service/toast.service';
 
 
 const ROTAS_SISTEMA = {
@@ -61,6 +62,7 @@ type GuiaConfiguracao = 'usuarios' | 'grupos' | 'matriz' | 'globais' | 'logs';
 export class Configuracoes {
   private readonly router = inject(Router);
   protected readonly rotas = ROTAS_SISTEMA;
+  private toastService = inject(ToastService);
   private auditService = inject(AuditService);
 
   protected mostrarModalEdicaoUsuario = signal<boolean>(false);
@@ -256,6 +258,8 @@ export class Configuracoes {
     this.usuariosCadastrados.update((lista) =>
       lista.map((u) => (u.id === usuarioAtualizado.id ? { ...usuarioAtualizado } : u))
     );
+    this.toastService.success(`Usuário "${usuarioAtualizado.nomeCompleto}" atualizado com sucesso!`);
+    this.auditService.registrarAcao('Administrador', 'Configurações', 'EDICAO', `Atualizou usuário ${usuarioAtualizado.nomeCompleto}`);
     this.fecharModalEdicaoUsuario();
   }
 }

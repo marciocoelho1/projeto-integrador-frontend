@@ -125,20 +125,56 @@
       
       <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarEdicao()">
         <div class="sst-form-group sst-col-span-2">
-          <label>Descrição</label>
-          <input type="text" class="sst-search__input sst-input-full" [(ngModel)]="epiEmEdicao.descricao" name="descricao" required>
+          <label for="descricao-epi-edit">Descrição</label>
+          <input type="text"
+                 id="descricao-epi-edit"
+                 list="lista-epis-cadastrados"
+                 class="sst-search__input sst-input-full"
+                 [(ngModel)]="epiEmEdicao.descricao"
+                 name="descricao"
+                 placeholder="Digite ou selecione o EPI..."
+                 required>
+          <datalist id="lista-epis-cadastrados">
+            @for (item of listaEpisCadastrados; track item) {
+              <option [value]="item"></option>
+            }
+          </datalist>
         </div>
+
         <div class="sst-form-group">
-          <label>Quantidade em Estoque</label>
-          <input type="number" class="sst-search__input sst-input-full" [(ngModel)]="epiEmEdicao.quantidade" name="qtd" required>
+          <label for="qtd-epi-edit">Quantidade em Estoque</label>
+          <input type="number"
+                 id="qtd-epi-edit"
+                 min="0"
+                 class="sst-search__input sst-input-full"
+                 [(ngModel)]="epiEmEdicao.quantidade"
+                 name="qtd"
+                 required>
         </div>
+
         <div class="sst-form-group">
-          <label>Número do CA</label>
-          <input type="text" class="sst-search__input sst-input-full" [(ngModel)]="epiEmEdicao.ca" name="ca" required>
+          <label for="ca-epi-edit">Número do CA</label>
+          <input type="text"
+                 id="ca-epi-edit"
+                 maxlength="10"
+                 pattern="[0-9]*"
+                 inputmode="numeric"
+                 class="sst-search__input sst-input-full"
+                 [(ngModel)]="epiEmEdicao.ca"
+                 (input)="filtrarApenasNumerosCa($event)"
+                 name="ca"
+                 placeholder="Apenas números (máx 10 dígitos)"
+                 required>
         </div>
+
         <div class="sst-form-group sst-col-span-2">
-          <label>Validade (CA)</label>
-          <input type="date" class="sst-search__input sst-input-full" [(ngModel)]="epiEmEdicao.validade" name="validade" required>
+          <label for="validade-epi-edit">Validade (CA)</label>
+          <input type="date"
+                 id="validade-epi-edit"
+                 class="sst-search__input sst-input-full"
+                 [(ngModel)]="epiEmEdicao.validade"
+                 name="validade"
+                 required>
         </div>
         
         <footer class="sst-form-actions sst-col-span-2" style="border-top: 1px solid #e2e8f0; padding-top: 1.5rem; display: flex; justify-content: flex-end; gap: 1rem;">
