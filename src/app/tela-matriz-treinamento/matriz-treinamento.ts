@@ -34,6 +34,8 @@ interface CertificacaoColaborador {
 export class MatrizTreinamentos {
   private router = inject(Router);
 
+  cardSelecionado: string = 'Treinamentos';
+
   resumos: CardResumo[] = [
     { titulo: 'LNT / Cargos', total: 68, icone: '📋' },
     { titulo: 'Treinamentos', total: 68, icone: '🎓' },
@@ -53,8 +55,18 @@ export class MatrizTreinamentos {
     { colaborador: 'Roberto Carlos', treinamento: 'Noções de Primeiros Socorros', certificacao: '12/11/2023', validade: '11/11/2025' }
   ];
 
-  actionNovoTreinamento(): void {
-    this.router.navigate(['/cadastramentos'], { queryParams: { aba: 'treinamento' } });
+  selecionarCard(card: string): void {
+    this.cardSelecionado = card;
   }
 
+  navegarParaCadastro(): void {
+    const mapaAbas: Record<string, string> = {
+      'LNT / Cargos': 'lnt',
+      'Treinamentos': 'treinamento',
+      'Certificações': 'certificacao',
+      'Reciclagens': 'reciclagem'
+    };
+    const aba = mapaAbas[this.cardSelecionado] || 'treinamento';
+    this.router.navigate(['/cadastramentos'], { queryParams: { aba } });
+  }
 }

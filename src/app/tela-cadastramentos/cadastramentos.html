@@ -27,6 +27,21 @@
             (click)="abaAtual = 'epi'">
       Novo EPI
     </button>
+    <button type="button" role="tab" class="sst-nav__item" 
+            [class.sst-nav__item--active]="abaAtual === 'lnt'" 
+            (click)="abaAtual = 'lnt'">
+      Novo LNT / Cargo
+    </button>
+    <button type="button" role="tab" class="sst-nav__item" 
+            [class.sst-nav__item--active]="abaAtual === 'certificacao'" 
+            (click)="abaAtual = 'certificacao'">
+      Nova Certificação
+    </button>
+    <button type="button" role="tab" class="sst-nav__item" 
+            [class.sst-nav__item--active]="abaAtual === 'reciclagem'" 
+            (click)="abaAtual = 'reciclagem'">
+      Nova Reciclagem
+    </button>
   </nav>
 
   
@@ -198,6 +213,129 @@
 
             <footer class="sst-form-actions sst-col-span-2">
               <button type="submit" class="sst-btn sst-btn--dark">Salvar EPI</button>
+            </footer>
+          </form>
+        </section>
+      }
+
+      @case ('lnt') {
+        <section class="sst-card sst-card--form">
+          <header class="sst-card__toolbar">
+            <h2 class="sst-card__title">Cadastro de LNT / Cargo</h2>
+          </header>
+          
+          <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarLnt()">
+            <div class="sst-form-group">
+              <label for="nome-cargo">Nome do Cargo</label>
+              <input type="text" id="nome-cargo" class="sst-search__input sst-input-full" required>
+            </div>
+
+            <div class="sst-form-group">
+              <label for="setor-cargo">Setor</label>
+              <input type="text" id="setor-cargo" list="lista-setores-lnt" class="sst-search__input sst-input-full" required>
+              <datalist id="lista-setores-lnt">
+                <option value="Frente de Loja"></option>
+                <option value="Estoque"></option>
+                <option value="Açougue"></option>
+                <option value="Administrativo"></option>
+                <option value="Padaria"></option>
+                <option value="Logística"></option>
+              </datalist>
+            </div>
+
+            <footer class="sst-form-actions sst-col-span-2">
+              <button type="submit" class="sst-btn sst-btn--dark">Salvar LNT / Cargo</button>
+            </footer>
+          </form>
+        </section>
+      }
+
+      @case ('certificacao') {
+        <section class="sst-card sst-card--form">
+          <header class="sst-card__toolbar">
+            <h2 class="sst-card__title">Cadastro de Certificação</h2>
+          </header>
+          
+          <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarCertificacao()">
+            <div class="sst-form-group">
+              <label for="colaborador-cert">Colaborador</label>
+              <input type="text" id="colaborador-cert" list="lista-colaboradores-cert" class="sst-search__input sst-input-full" required>
+              <datalist id="lista-colaboradores-cert">
+                <option value="Carlos Eduardo Silva"></option>
+                <option value="Maria Joana Oliveira"></option>
+                <option value="Roberto Alves"></option>
+                <option value="Ana Paula Souza"></option>
+                <option value="Fernando Costa"></option>
+              </datalist>
+            </div>
+
+            <div class="sst-form-group">
+              <label for="treinamento-cert">Treinamento</label>
+              <input type="text" id="treinamento-cert" list="lista-treinamentos-cert" class="sst-search__input sst-input-full" required>
+              <datalist id="lista-treinamentos-cert">
+                <option value="NR-35 Trabalho em Altura"></option>
+                <option value="NR-10 Segurança em Eletricidade"></option>
+                <option value="NR-11 Operação de Empilhadeira"></option>
+                <option value="NR-12 Segurança em Máquinas"></option>
+                <option value="Noções de Primeiros Socorros"></option>
+              </datalist>
+            </div>
+
+            <div class="sst-form-group">
+              <label for="data-conclusao-cert">Data de Conclusão</label>
+              <input type="date" id="data-conclusao-cert" class="sst-search__input sst-input-full" required>
+            </div>
+
+            <div class="sst-form-group">
+              <label for="validade-cert">Validade</label>
+              <input type="date" id="validade-cert" class="sst-search__input sst-input-full" required>
+            </div>
+
+            <footer class="sst-form-actions sst-col-span-2">
+              <button type="submit" class="sst-btn sst-btn--dark">Salvar Certificação</button>
+            </footer>
+          </form>
+        </section>
+      }
+
+      @case ('reciclagem') {
+        <section class="sst-card sst-card--form">
+          <header class="sst-card__toolbar">
+            <h2 class="sst-card__title">Cadastro de Reciclagem</h2>
+          </header>
+          
+          <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarReciclagem()">
+            <div class="sst-form-group">
+              <label for="colaborador-rec">Colaborador</label>
+              <input type="text" id="colaborador-rec" list="lista-colaboradores-rec" class="sst-search__input sst-input-full" required>
+              <datalist id="lista-colaboradores-rec">
+                <option value="Carlos Eduardo Silva"></option>
+                <option value="Maria Joana Oliveira"></option>
+                <option value="Roberto Alves"></option>
+                <option value="Ana Paula Souza"></option>
+                <option value="Fernando Costa"></option>
+              </datalist>
+            </div>
+
+            <div class="sst-form-group">
+              <label for="treinamento-rec">Treinamento</label>
+              <input type="text" id="treinamento-rec" list="lista-treinamentos-rec" class="sst-search__input sst-input-full" required>
+              <datalist id="lista-treinamentos-rec">
+                <option value="NR-35 Trabalho em Altura"></option>
+                <option value="NR-10 Segurança em Eletricidade"></option>
+                <option value="NR-11 Operação de Empilhadeira"></option>
+                <option value="NR-12 Segurança em Máquinas"></option>
+                <option value="Noções de Primeiros Socorros"></option>
+              </datalist>
+            </div>
+
+            <div class="sst-form-group sst-col-span-2">
+              <label for="prazo-max-rec">Prazo Máximo para Realizar</label>
+              <input type="date" id="prazo-max-rec" class="sst-search__input sst-input-full" required>
+            </div>
+
+            <footer class="sst-form-actions sst-col-span-2">
+              <button type="submit" class="sst-btn sst-btn--dark">Salvar Reciclagem</button>
             </footer>
           </form>
         </section>
