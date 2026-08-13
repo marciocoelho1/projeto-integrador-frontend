@@ -551,10 +551,10 @@
   
   @if (mostrarModalEdicaoGeral) {
     <div class="sst-modal-overlay">
-      <div class="sst-modal sst-card">
-        <header class="sst-modal__header">
+      <div class="sst-modal sst-card" style="max-width: 600px;">
+        <header class="sst-card__toolbar">
           <h3 class="sst-card__title">Editar Registro</h3>
-          <button type="button" class="sst-modal__close" (click)="fecharModalEdicaoGeral()">&times;</button>
+          <button type="button" class="sst-btn-link" (click)="fecharModalEdicaoGeral()" style="font-size: 1.5rem; text-decoration: none;">&times;</button>
         </header>
 
         <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarEdicaoGeral()">
@@ -563,16 +563,36 @@
               <label [for]="'campo-edicao-' + campo.chave">{{ campo.label }}</label>
               <input type="text"
                      [id]="'campo-edicao-' + campo.chave"
-                     [attr.list]="campo.datalistId || null"
+                     [attr.list]="'datalist-' + campo.chave"
                      class="sst-search__input sst-input-full"
                      [(ngModel)]="campo.valor"
                      [name]="campo.chave"
+                     placeholder="Digite ou selecione..."
                      required>
+              <datalist [id]="'datalist-' + campo.chave">
+                @if (campo.chave.toLowerCase().includes('colaborador')) {
+                  @for (colab of listaColaboradoresCadastrados; track colab) {
+                    <option [value]="colab"></option>
+                  }
+                } @else if (campo.chave.toLowerCase().includes('cargo')) {
+                  @for (cargo of listaCargosCadastrados; track cargo) {
+                    <option [value]="cargo"></option>
+                  }
+                } @else if (campo.chave.toLowerCase().includes('treinamento') || campo.chave.toLowerCase() === 'nome') {
+                  @for (treina of listaTreinamentosCadastrados; track treina) {
+                    <option [value]="treina"></option>
+                  }
+                } @else if (campo.chave.toLowerCase().includes('setor')) {
+                  @for (setor of listaSetoresCadastrados; track setor) {
+                    <option [value]="setor"></option>
+                  }
+                }
+              </datalist>
             </div>
           }
 
           <footer class="sst-form-actions sst-col-span-2">
-            <button type="button" class="sst-btn sst-btn--light" (click)="fecharModalEdicaoGeral()">Cancelar</button>
+            <button type="button" class="sst-btn sst-btn--outline" (click)="fecharModalEdicaoGeral()">Cancelar</button>
             <button type="submit" class="sst-btn sst-btn--dark">Salvar Alterações</button>
           </footer>
         </form>

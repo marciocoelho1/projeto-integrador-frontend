@@ -95,18 +95,18 @@
 
         <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarEdicaoDetalhes()">
           <div class="sst-form-group sst-col-span-2">
-            <label>Nome Completo</label>
-            <input type="text" class="sst-search__input sst-input-full" [(ngModel)]="colab.nome" name="nome" required>
+            <label for="colab-edit-nome">Nome Completo</label>
+            <input type="text" id="colab-edit-nome" class="sst-search__input sst-input-full" [(ngModel)]="colab.nome" name="nome" required>
           </div>
 
           <div class="sst-form-group">
-            <label>CPF / Matrícula</label>
-            <input type="text" class="sst-search__input sst-input-full" [(ngModel)]="colab.matricula" name="matricula" required>
+            <label for="colab-edit-mat">CPF / Matrícula</label>
+            <input type="text" id="colab-edit-mat" class="sst-search__input sst-input-full" [(ngModel)]="colab.matricula" name="matricula" required>
           </div>
 
           <div class="sst-form-group">
-            <label>Status</label>
-            <select class="sst-search__input sst-input-full" [(ngModel)]="colab.status" name="status" required>
+            <label for="colab-edit-status">Status</label>
+            <select id="colab-edit-status" class="sst-search__input sst-input-full" [(ngModel)]="colab.status" name="status" required>
               <option value="Ativo">Ativo</option>
               <option value="Inativo">Inativo</option>
               <option value="Afastado">Afastado</option>
@@ -114,16 +114,16 @@
           </div>
 
           <div class="sst-form-group">
-            <label>Cargo</label>
-            <input type="text" class="sst-search__input sst-input-full" [(ngModel)]="colab.cargo" name="cargo" required>
+            <label for="colab-edit-cargo">Cargo</label>
+            <input type="text" id="colab-edit-cargo" class="sst-search__input sst-input-full" [(ngModel)]="colab.cargo" name="cargo" required>
           </div>
 
           <div class="sst-form-group">
-            <label>Setor</label>
-            <input type="text" class="sst-search__input sst-input-full" [(ngModel)]="colab.setor" name="setor" required>
+            <label for="colab-edit-setor">Setor</label>
+            <input type="text" id="colab-edit-setor" class="sst-search__input sst-input-full" [(ngModel)]="colab.setor" name="setor" required>
           </div>
 
-          <div class="sst-col-span-2" style="margin-top: 1rem; border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+          <div class="sst-col-span-2" style="margin-top: 0.5rem; border-top: 1px solid #e2e8f0; padding-top: 0.75rem;">
             <h4 style="margin: 0 0 0.5rem 0; font-size: 1rem;">EPIs Vinculados</h4>
             @if (obterEpis(colab.nome).length > 0) {
               <ul style="padding-left: 1.25rem; margin: 0.5rem 0;">
@@ -136,7 +136,7 @@
             }
           </div>
 
-          <div class="sst-col-span-2" style="border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+          <div class="sst-col-span-2" style="border-top: 1px solid #e2e8f0; padding-top: 0.75rem;">
             <h4 style="margin: 0 0 0.5rem 0; font-size: 1rem;">Treinamentos e Certificações</h4>
             @if (obterTreinamentos(colab.nome).length > 0) {
               <ul style="padding-left: 1.25rem; margin: 0.5rem 0;">
@@ -149,7 +149,7 @@
             }
           </div>
 
-          <div class="sst-col-span-2" style="border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+          <div class="sst-col-span-2" style="border-top: 1px solid #e2e8f0; padding-top: 0.75rem;">
             <h4 style="margin: 0 0 0.5rem 0; font-size: 1rem;">Reciclagens</h4>
             @if (obterReciclagens(colab.nome).length > 0) {
               <ul style="padding-left: 1.25rem; margin: 0.5rem 0;">
@@ -162,7 +162,7 @@
             }
           </div>
 
-          <footer class="sst-form-actions sst-col-span-2" style="border-top: 1px solid #e2e8f0; padding-top: 1.5rem; display: flex; justify-content: flex-end; gap: 1rem;">
+          <footer class="sst-form-actions sst-col-span-2">
             <button type="button" class="sst-btn sst-btn--outline" (click)="fecharModalDetalhes()">Cancelar</button>
             <button type="submit" class="sst-btn sst-btn--dark">Salvar Alterações</button>
           </footer>

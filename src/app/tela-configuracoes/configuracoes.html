@@ -266,38 +266,38 @@
 
         <form class="sst-form-grid" (submit)="$event.preventDefault(); salvarEdicaoUsuario()">
           <div class="sst-form-group sst-col-span-2">
-            <label>Nome Completo</label>
-            <input type="text" class="sst-search__input sst-input-full" [(ngModel)]="usuario.nomeCompleto" name="nomeCompleto" required>
+            <label for="usr-edit-nome">Nome Completo</label>
+            <input type="text" id="usr-edit-nome" class="sst-search__input sst-input-full" [(ngModel)]="usuario.nomeCompleto" name="nomeCompleto" required>
           </div>
 
           <div class="sst-form-group sst-col-span-2">
-            <label>E-mail Corporativo</label>
-            <input type="email" class="sst-search__input sst-input-full" [(ngModel)]="usuario.emailCorporativo" name="emailCorporativo" required>
+            <label for="usr-edit-email">E-mail Corporativo</label>
+            <input type="email" id="usr-edit-email" class="sst-search__input sst-input-full" [(ngModel)]="usuario.emailCorporativo" name="emailCorporativo" required>
           </div>
 
           <div class="sst-form-group">
-            <label>CPF / Matrícula</label>
-            <input type="text" class="sst-search__input sst-input-full" [(ngModel)]="usuario.cpf" name="cpf" required>
+            <label for="usr-edit-cpf">CPF / Matrícula</label>
+            <input type="text" id="usr-edit-cpf" class="sst-search__input sst-input-full" [(ngModel)]="usuario.cpf" name="cpf" required>
           </div>
 
           <div class="sst-form-group">
-            <label>Status</label>
-            <select class="sst-search__input sst-input-full" [(ngModel)]="usuario.status" name="status" required>
+            <label for="usr-edit-status">Status</label>
+            <select id="usr-edit-status" class="sst-search__input sst-input-full" [(ngModel)]="usuario.status" name="status" required>
               <option value="ativo">Ativo</option>
               <option value="inativo">Inativo</option>
             </select>
           </div>
 
           <div class="sst-form-group sst-col-span-2">
-            <label>Grupo de Acesso</label>
-            <select class="sst-search__input sst-input-full" [(ngModel)]="usuario.grupoId" name="grupoId" required>
+            <label for="usr-edit-grupo">Grupo de Acesso</label>
+            <select id="usr-edit-grupo" class="sst-search__input sst-input-full" [(ngModel)]="usuario.grupoId" name="grupoId" required>
               @for (grupo of gruposSst(); track grupo.id) {
                 <option [value]="grupo.id">{{ grupo.nomenclatura }}</option>
               }
             </select>
           </div>
 
-          <footer class="sst-form-actions sst-col-span-2" style="border-top: 1px solid #e2e8f0; padding-top: 1.5rem; display: flex; justify-content: flex-end; gap: 1rem;">
+          <footer class="sst-form-actions sst-col-span-2">
             <button type="button" class="sst-btn sst-btn--outline" (click)="fecharModalEdicaoUsuario()">Cancelar</button>
             <button type="submit" class="sst-btn sst-btn--dark">Salvar Alterações</button>
           </footer>

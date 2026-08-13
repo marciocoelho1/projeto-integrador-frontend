@@ -117,7 +117,7 @@
 
 @if (mostrarModalEdicao) {
   <div class="sst-modal-overlay">
-    <div class="sst-modal sst-card">
+    <div class="sst-modal sst-card" style="max-width: 600px;">
       <header class="sst-card__toolbar">
         <h3 class="sst-card__title">Editar EPI: {{ epiEmEdicao.id }}</h3>
         <button type="button" class="sst-btn-link" (click)="fecharModalEdicao()" style="font-size: 1.5rem; text-decoration: none;">&times;</button>
@@ -177,7 +177,7 @@
                  required>
         </div>
         
-        <footer class="sst-form-actions sst-col-span-2" style="border-top: 1px solid #e2e8f0; padding-top: 1.5rem; display: flex; justify-content: flex-end; gap: 1rem;">
+        <footer class="sst-form-actions sst-col-span-2">
           <button type="button" class="sst-btn sst-btn--outline" (click)="fecharModalEdicao()">Cancelar</button>
           <button type="submit" class="sst-btn sst-btn--dark">Salvar Alterações</button>
         </footer>
