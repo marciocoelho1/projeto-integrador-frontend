@@ -42,7 +42,7 @@ export class AreaColaborador {
   ];
 
   meusEpis: EpiRecebido[] = [
-    { nome: 'Capacete de Segurança', dataEntrega: '01/06/2026', assinatura: 'João da Silva' },
-    { nome: 'Óculos de Segurança', dataEntrega: '01/06/2026', assinatura: 'João da Silva' }
+    { nome: 'Capacete de Segurança', dataEntrega: '01/06/2026', assinatura: 'Marcio Coelho Elias Junior' },
+    { nome: 'Óculos de Segurança', dataEntrega: '01/06/2026', assinatura: 'Marcio Coelho Elias Junior' }
   ];
 }

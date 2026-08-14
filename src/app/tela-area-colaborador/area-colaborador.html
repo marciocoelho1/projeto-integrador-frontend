@@ -1,5 +1,5 @@
-<div class="sst-layout">
-  
+<main class="sst-layout">
+
   <header class="sst-header">
     <hgroup class="sst-header__titles">
       <p class="sst-header__breadcrumb">SGSST / Portal do Colaborador</p>
@@ -7,10 +7,10 @@
     </hgroup>
   </header>
 
-  
-  <div class="sst-grid" style="margin-bottom: 2rem;">
-    <article class="sst-card-group">
-      <header class="sst-card-group__header">
+  <!-- Grade de Resumos Superiores -->
+  <section class="sst-grid" style="margin-bottom: 2rem;" aria-label="Resumo de Status">
+    <article class="sst-card" style="display:flex; flex-direction: column;">
+      <header style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
         <h3>Certificações</h3>
       </header>
       <p class="sst-card-group__desc">Concluídas e registradas</p>
@@ -19,9 +19,9 @@
       </span>
     </article>
 
-    <article class="sst-card-group">
-      <header class="sst-card-group__header">
-        <h3>Reciclagens</h3>
+    <article class="sst-card" style="display:flex; flex-direction: column;">
+      <header style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+        <h3>Reciclagens </h3>
       </header>
       <p class="sst-card-group__desc">Materiais pendentes</p>
       <span class="sst-card-group__count" style="font-size: 1.25rem; background: transparent; padding: 0;">
@@ -29,8 +29,8 @@
       </span>
     </article>
 
-    <article class="sst-card-group">
-      <header class="sst-card-group__header">
+    <article class="sst-card" style="display:flex; flex-direction: column;">
+      <header style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
         <h3>EPIs Recebidos</h3>
       </header>
       <p class="sst-card-group__desc">Equipamentos em sua posse</p>
@@ -38,94 +38,96 @@
         {{ resumo.epis }}
       </span>
     </article>
-  </div>
+  </section>
 
-  
+  <!-- Coluna dupla (Certificações e Reciclagens) -->
   <div class="sst-grid" style="margin-bottom: 2rem;">
-    
-    
+    <!-- Minhas Certificações -->
     <section class="sst-card">
       <header class="sst-card__toolbar">
         <h2 class="sst-card__title">Minhas Certificações</h2>
       </header>
-      
-      <table class="sst-table">
-        <thead>
-          <tr>
-            <th scope="col">Treinamento</th>
-            <th scope="col">Validade</th>
-            <th scope="col">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (cert of minhasCertificacoes; track cert.treinamento) {
+
+      <div class="sst-table-wrapper">
+        <table class="sst-table">
+          <thead>
+            <tr>
+              <th scope="col">Treinamento</th>
+              <th scope="col">Validade</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (cert of minhasCertificacoes; track cert.treinamento) {
             <tr>
               <td><strong>{{ cert.treinamento }}</strong></td>
               <td>{{ cert.validade }}</td>
               <td>
-                <span class="sst-badge" 
-                      [class.sst-badge--inativo]="cert.status === 'Vencida'"
-                      [class.sst-badge--ativo]="cert.status === 'Ativa'">
+                <span class="sst-badge" [class.sst-badge--inativo]="cert.status === 'Vencida'"
+                  [class.sst-badge--ativo]="cert.status === 'Ativa'">
                   {{ cert.status }}
                 </span>
               </td>
             </tr>
-          }
-        </tbody>
-      </table>
+            }
+          </tbody>
+        </table>
+      </div>
     </section>
 
-    
+    <!-- Materiais de Reciclagem -->
     <section class="sst-card">
       <header class="sst-card__toolbar">
         <h2 class="sst-card__title">Materiais de Reciclagem</h2>
       </header>
-      
+
       <div style="display: flex; flex-direction: column; gap: 1rem;">
         @for (mat of materiaisReciclagem; track mat.treinamento) {
-          
-          <div class="sst-matrix-info" style="margin-bottom: 0; padding-bottom: 1.25rem;">
-            <strong style="display: block; color: var(--cor-primaria); margin-bottom: 0.25rem;">
-              {{ mat.treinamento }}
-            </strong>
-            <p style="margin: 0 0 0.75rem 0; font-size: 0.85rem; color: var(--cor-texto-secundario);">
-              Prazo de conclusão: {{ mat.prazo }}
-            </p>
-            <a [href]="mat.link" target="_blank" rel="noopener noreferrer" class="sst-btn-link">Acessar material de estudo &rarr;</a>
-          </div>
+        <article class="sst-matrix-info" style="margin-bottom: 0; padding-bottom: 1.25rem;">
+          <strong style="display: block; color: var(--cor-primaria); margin-bottom: 0.25rem;">
+            {{ mat.treinamento }}
+          </strong>
+          <p style="margin: 0 0 0.75rem 0; font-size: 0.85rem; color: var(--cor-texto-secundario);">
+            Prazo de conclusão: {{ mat.prazo }}
+          </p>
+          <a [href]="mat.link" target="_blank" rel="noopener noreferrer" class="sst-btn-link">Acessar material de estudo
+            &rarr;</a>
+        </article>
         }
       </div>
     </section>
   </div>
 
-  
+  <!-- Seção Inferior: EPIs -->
   <section class="sst-card">
     <header class="sst-card__toolbar">
       <h2 class="sst-card__title">Meus EPIs</h2>
     </header>
 
-    <table class="sst-table">
-      <thead>
-        <tr>
-          <th scope="col">EPI</th>
-          <th scope="col">Data de Entrega</th>
-          <th scope="col">Assinatura do Termo</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (epi of meusEpis; track epi.nome) {
+    <div class="sst-table-wrapper">
+      <table class="sst-table">
+        <thead>
+          <tr>
+            <th scope="col">EPI</th>
+            <th scope="col">Data de Entrega</th>
+            <th scope="col">Assinatura do Termo</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (epi of meusEpis; track epi.nome) {
           <tr>
             <td><strong>{{ epi.nome }}</strong></td>
             <td>{{ epi.dataEntrega }}</td>
             <td><em>{{ epi.assinatura }}</em></td>
           </tr>
-        } @empty {
+          } @empty {
           <tr>
             <td colspan="3" class="sst-text-center">Nenhum EPI registrado no momento.</td>
           </tr>
-        }
-      </tbody>
-    </table>
+          }
+        </tbody>
+      </table>
+    </div>
   </section>
 
-</div>
+</main>

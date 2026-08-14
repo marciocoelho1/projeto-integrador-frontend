@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ToastService } from '../service/toast.service';
 
 export interface SupportRequest {
   type: string;
@@ -13,12 +13,14 @@ export interface SupportRequest {
 @Component({
   selector: 'app-ajuda-suporte-colaborador',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: './ajuda-suporte-colaborador.html',
-  styleUrl: './ajuda-suporte-colaborador.scss'
+  styleUrls: ['./ajuda-suporte-colaborador.scss']
 })
 export class HelpSupportComponent {
-  currentUser: string = 'João da Silva';
+  private toast = inject(ToastService);
+
+  currentUser: string = 'Marcio Coelho Elias Junior';
   ticketType: string = 'Solicitar Ajuda';
   ticketDescription: string = '';
 
@@ -26,13 +28,16 @@ export class HelpSupportComponent {
     {
       type: 'Ajuda',
       description: 'Dúvida sobre renovação de NR-10',
-      user: 'João da Silva',
+      user: 'Marcio Coelho Elias Junior',
       status: 'Em andamento'
     }
   ];
 
   handleSubmit(): void {
-    if (!this.ticketDescription.trim()) return;
+    if (!this.ticketDescription.trim()) {
+      this.toast.error('Preencha a descrição da solicitação.');
+      return;
+    }
 
     const newRequest: SupportRequest = {
       type: this.ticketType,
@@ -43,5 +48,6 @@ export class HelpSupportComponent {
 
     this.requests.unshift(newRequest);
     this.ticketDescription = '';
+    this.toast.success('Solicitação enviada com sucesso!');
   }
 }
