@@ -14,28 +14,32 @@ export class Login {
   email = '';
   senha = '';
   erroLogin = false;
-  
+
   private router = inject(Router);
-  private authService = inject(AuthService); 
+  private authService = inject(AuthService);
 
   entrar() {
     if (this.email === 'admin' && this.senha === '123456') {
       this.erroLogin = false;
-      this.authService.setSession('admin'); 
+      this.authService.setSession('admin', {
+        matricula: this.email,
+        nomeExibicao: 'Administrador TST',
+      });
       this.router.navigate(['/dashboard']);
-      
     } else if (this.email === 'colaborador' && this.senha === '123456') {
       this.erroLogin = false;
-      this.authService.setSession('colaborador'); 
+      this.authService.setSession('colaborador', {
+        matricula: this.email,
+        nomeExibicao: 'Colaborador',
+      });
       this.router.navigate(['/area-colaborador']);
-      
     } else {
       this.erroLogin = true;
     }
   }
 
   irParaRecuperarSenha(event: Event) {
-    event.preventDefault(); 
+    event.preventDefault();
     this.router.navigate(['/recuperar-senha']);
   }
 }
