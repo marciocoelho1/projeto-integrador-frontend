@@ -13,11 +13,33 @@
       <header class="sst-card__toolbar">
         <h2 class="sst-card__title">1. Baixar Planilha Padrão</h2>
       </header>
-      <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem;">
-        Utilize nosso modelo com os cabeçalhos corretos para garantir que os dados sejam lidos perfeitamente.
+      <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.25rem;">
+        Selecione o tipo de importação e utilize nosso modelo com os cabeçalhos corretos para garantir que os dados sejam lidos perfeitamente.
       </p>
-      <button class="sst-btn sst-btn--outline" (click)="baixarTemplate()">
-        Baixar Arquivo .CSV
+
+      <div class="sst-form-group" style="margin-bottom: 1.25rem;">
+        <label for="tipoImportacao" style="display: block; font-size: 0.85rem; font-weight: 600; color: #0f172a; margin-bottom: 0.4rem;">
+          Tipo de Importação <span style="color: #ef4444;">*</span>
+        </label>
+        <select 
+          id="tipoImportacao" 
+          class="sst-select-tipo" 
+          [ngModel]="tipoImportacao()" 
+          (ngModelChange)="tipoImportacao.set($event)"
+        >
+          <option value="" disabled selected>Selecione o tipo de importação...</option>
+          <option value="colaborador">Novo Colaborador</option>
+          <option value="treinamento">Novo Treinamento</option>
+          <option value="epi">Novo EPI</option>
+        </select>
+      </div>
+
+      <button 
+        class="sst-btn sst-btn--outline" 
+        [disabled]="!tipoImportacao()" 
+        (click)="baixarTemplate()"
+      >
+        Baixar Planilha Padrão (.CSV)
       </button>
     </section>
 

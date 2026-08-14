@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ToastService } from '../service/toast.service';
 import { AuditService } from '../service/audit.service';
 import * as XLSX from 'xlsx'; 
@@ -7,7 +8,7 @@ import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-importacao-massa',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './importacao-massa.html',
   styleUrls: ['./importacao-massa.scss']
 })
@@ -15,19 +16,44 @@ export class ImportacaoMassa {
   private toast = inject(ToastService);
   private audit = inject(AuditService);
 
+  tipoImportacao = signal<string>('');
   cabecalhos = signal<string[]>([]);
   linhasPreview = signal<string[][]>([]);
   arquivoNome = signal<string>('');
 
   baixarTemplate() {
-    
-    const csvContent = "Nome,CPF,Cargo,Setor\nJoão da Silva,111.222.333-44,Operador,Estoque\n";
+    const tipo = this.tipoImportacao();
+    if (!tipo) {
+      this.toast.warning('Selecione o tipo de importação.');
+      return;
+    }
+
+    let csvContent = '';
+    let nomeArquivo = '';
+
+    switch (tipo) {
+      case 'colaborador':
+        csvContent = "Nome,CPF,Cargo,Setor\nJoão da Silva,111.222.333-44,Operador de Caixa,Frente de Loja\n";
+        nomeArquivo = 'template_colaboradores.csv';
+        break;
+      case 'treinamento':
+        csvContent = "Nome_Treinamento,Carga_Horaria,Validade_Meses,NR_Referente,Obrigatorio\nNR-35 Trabalho em Altura,8,24,NR-35,Sim\n";
+        nomeArquivo = 'template_treinamentos.csv';
+        break;
+      case 'epi':
+        csvContent = "Nome_Equipamento,Numero_CA,Fabricante,Validade_Dias,Setor_Risco\nCapacete de Segurança,12345,Delta Plus,365,Estoque\n";
+        nomeArquivo = 'template_epis.csv';
+        break;
+      default:
+        return;
+    }
+
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     
     link.setAttribute('href', url);
-    link.setAttribute('download', 'template_colaboradores.csv');
+    link.setAttribute('download', nomeArquivo);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

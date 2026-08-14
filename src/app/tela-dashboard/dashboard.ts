@@ -38,6 +38,34 @@ export class Dashboard {
   };
 
   protected exportarRelatorio(): void {
-    console.log('Exportando relatório do Dashboard...');
+    const totalCertificacoes = this.certificacoes.ativas + this.certificacoes.vencidas;
+    const totalEpis = this.epis.aEntregar + this.epis.emEstoque + this.epis.proximoVencimento;
+
+    const linhas = [
+      'Categoria,Metrica,Valor',
+      `Certificações,Ativas,${this.certificacoes.ativas}`,
+      `Certificações,Vencidas,${this.certificacoes.vencidas}`,
+      `Certificações,Total,${totalCertificacoes}`,
+      `EPIs,A Entregar,${this.epis.aEntregar}`,
+      `EPIs,Em Estoque,${this.epis.emEstoque}`,
+      `EPIs,Próximo ao Vencimento,${this.epis.proximoVencimento}`,
+      `EPIs,Total,${totalEpis}`,
+      `Reciclagens,Concluídas,${this.reciclagens.concluidas}`,
+      `Reciclagens,Pendentes,${this.reciclagens.pendentes}`,
+      `Reciclagens,Total,${this.reciclagens.total}`,
+      `Reciclagens,Porcentagem,${this.reciclagens.porcentagem}%`
+    ];
+
+    const csvContent = '\uFEFF' + linhas.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'relatorio_dashboard.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   }
 }

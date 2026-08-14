@@ -27,9 +27,9 @@
         
         @if (userRole === 'admin') {
           <li><a [routerLink]="['/dashboard']" routerLinkActive="active" class="sidebarlink" (click)="fecharMenu()">Dashboard</a></li>
-          <li><a [routerLink]="['/colaboradores']" routerLinkActive="active" class="sidebarlink" (click)="fecharMenu()">Colaboradores</a></li>
           <li><a [routerLink]="['/matriz-treinamentos']" routerLinkActive="active" class="sidebarlink" (click)="fecharMenu()">Matriz de Treinamentos</a></li>
           <li><a [routerLink]="['/epis']" routerLinkActive="active" class="sidebarlink" (click)="fecharMenu()">EPIs</a></li>
+          <li><a [routerLink]="['/colaboradores']" routerLinkActive="active" class="sidebarlink" (click)="fecharMenu()">Colaboradores</a></li>
           <li><a [routerLink]="['/cadastramentos']" routerLinkActive="active" class="sidebarlink" (click)="fecharMenu()">Cadastramentos</a></li>
           <li><a [routerLink]="['/ajuda-suporte']" routerLinkActive="active" class="sidebarlink" (click)="fecharMenu()">Ajuda e Suporte</a></li>
           <li><a [routerLink]="['/configuracoes']" routerLinkActive="active" class="sidebarlink" (click)="fecharMenu()">Configurações</a></li>

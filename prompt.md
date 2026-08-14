@@ -1,80 +1,179 @@
-# Tarefa: Correção Global de Modais, CSS e Lógica de Edição
+Tarefa: ajustes de usabilidade e dados de colaboradores
 
-## Objetivo
-Tornar as classes de modal globais para corrigir o layout nos módulos Configurações e Colaboradores, ajustar a grade de formulários de EPI e substituir a edição genérica preguiçosa da Matriz de Treinamentos por formulários específicos e validados.
+Objetivo
 
-## Ações Esperadas - Parte 1: CSS Global de Modais (`styles.scss`)
-- Mova as regras CSS completas de `.sst-modal-overlay`, `.sst-modal` e a animação `@keyframes fadeIn` que estão atualmente dentro de `epis.scss` e `matriz-treinamento.scss` para o arquivo global `src/styles.scss`.
-- Remova essas classes dos arquivos `.scss` locais para evitar duplicação. Isso fará com que os modais de `colaboradores.html` e `configuracoes.html` passem a flutuar corretamente no centro da tela.
+Corrigir o comportamento dos modais de EPIs e Colaboradores e completar os campos de
+colaborador nas telas de consulta, edição e cadastro, preservando as convenções definidas no
+AGENTS.md.
 
-## Ações Esperadas - Parte 2: Alinhamento de EPIs (`epis.html`)
-- No modal "Editar EPI", corrija o uso do `sst-col-span-2` dentro do `.sst-form-grid`.
-- "Descrição" deve ocupar a linha toda (`sst-col-span-2`).
-- "Quantidade em Estoque" e "Número do CA" não devem ter `sst-col-span-2`, para que fiquem lado a lado na mesma linha (1 coluna cada).
-- "Validade (CA)" deve ocupar a linha toda (`sst-col-span-2`).
+Escopo funcional
 
-## Ações Esperadas - Parte 3: Matriz de Treinamentos (`matriz-treinamento.html` e `.ts`)
-- **Fim da preguiça genérica:** Remova o laço `@for (campo of camposItemEdicao)` do modal `mostrarModalEdicaoGeral` no arquivo HTML.
-- Substitua por um bloco condicional baseado no `cardSelecionado` (ex: `@if (cardSelecionado === 'Treinamentos') { ... } @else if (cardSelecionado === 'LNT / Cargos') { ... }`).
-- Para cada categoria, crie na mão os campos específicos de edição (ex: Se for LNT, mostre inputs explícitos para "Cargo" e "Setor"). 
-- Todos os campos devem ser `<input type="text" list="...">` apontando para seus respectivos `<datalist>` preenchidos com os itens cadastrados no TypeScript.
-- Certifique-se de que a validação no `salvarEdicaoGeral()` no TypeScript verifica o preenchimento de acordo com o `cardSelecionado`, exibindo erro no `ToastService` se o valor não constar nas listas oficiais.
-- **Importante:** Se a edição for na aba 'Visão Geral', o modal deve exibir apenas os selects nativos do HTML para os status de cada NR ('OK', 'Alerta', 'Vencido', 'N/A') vinculados àquele colaborador específico.# *SEARCH/REPLACE block* Rules:
+1. Módulo EPIs
 
-Every *SEARCH/REPLACE block* must use this format:
-1. The opening fence and code language, eg: ```python
-2. The *FULL* file path alone on a line, verbatim. No bold asterisks, no quotes around it, no escaping of characters, etc.
-3. The start of search block: <<<<<<< SEARCH
-4. A contiguous chunk of lines to search for in the existing source code
-5. The dividing line: =======
-6. The lines to replace into the source code
-7. The end of the replace block: >>>>>>> REPLACE
-8. The closing fence: ```
+Na janela Registrar Entrega de EPI:
 
-Use the *FULL* file path, as shown to you by the user.
+permitir que o usuário feche a janela clicando na área externa ao modal (overlay), retornando
+à tela Gestão de EPIs;
 
-Every *SEARCH* section must *EXACTLY MATCH* the existing file content, character for character, including all comments, docstrings, etc.
-If the file contains code or other data wrapped/escaped in json/xml/quotes or other containers, you need to propose edits to the literal contents of the file, including the container markup.
+impedir que cliques dentro do conteúdo do modal fechem a janela;
 
-*SEARCH/REPLACE* blocks will *only* replace the first match occurrence.
-Including multiple unique *SEARCH/REPLACE* blocks if needed.
-Include enough lines in each SEARCH section to uniquely match each set of lines that need to change.
+preservar o mecanismo de fechamento já existente, caso haja botão de fechar ou cancelar.
 
-Keep *SEARCH/REPLACE* blocks concise.
-Break large *SEARCH/REPLACE* blocks into a series of smaller blocks that each change a small portion of the file.
-Include just the changing lines, and a few surrounding lines if needed for uniqueness.
-Do not include long runs of unchanging lines in *SEARCH/REPLACE* blocks.
+2. Módulo Colaboradores
 
-Only create *SEARCH/REPLACE* blocks for files that the user has added to the chat!
+Na janela Detalhes e edição:
 
-To move code within a file, use 2 *SEARCH/REPLACE* blocks: 1 to delete it from its current location, 1 to insert it in the new location.
+permitir que o usuário feche a janela clicando na área externa ao modal (overlay), retornando
+à tela Gestão de Colaboradores;
 
-Pay attention to which filenames the user wants you to edit, especially if they are asking you to create a new file.
+impedir que cliques dentro do conteúdo do modal fechem a janela;
 
-If you want to put code in a new file, use a *SEARCH/REPLACE block* with:
-- A new file path, including dir name if needed
-- An empty `SEARCH` section
-- The new file's contents in the `REPLACE` section
+preservar o mecanismo de fechamento já existente, caso haja botão de fechar ou cancelar.
 
-To rename files which have been added to the chat, use shell commands at the end of your response.
+Nos dados dos colaboradores:
 
-If the user just says something like "ok" or "go ahead" or "do that" they probably want you to make SEARCH/REPLACE blocks for the code changes you just proposed.
-The user will say when they've applied your edits. If they haven't explicitly confirmed the edits have been applied, they probably want proper SEARCH/REPLACE blocks.
+adicionar a propriedade obrigatória de e-mail ao tipo/interface que representa um colaborador;
 
-Pay careful attention to the scope of the user's request.
-Do what they ask, but no more.
-Do not improve, comment, fix or modify unrelated parts of the code in any way!
+garantir que todos os dados simulados existentes possuam e-mails corporativos fictícios e
+válidos;
 
+adicionar a coluna E-mail à tabela principal de colaboradores, em posição coerente com os
+demais dados pessoais;
 
-Reply in Portuguese.
+exibir o e-mail correspondente em cada linha da tabela;
 
-ONLY EVER RETURN CODE IN A *SEARCH/REPLACE BLOCK*!
+adicionar o campo E-mail ao formulário de edição;
 
-Examples of when to suggest shell commands:
+usar type="email", vincular o campo ao colaborador em edição e torná-lo obrigatório;
 
-- If you changed a self-contained html file, suggest an OS-appropriate command to open a browser to view it to see the updated content.
-- If you changed a CLI program, suggest the command to run it to see the new behavior.
-- If you added a test, suggest how to run it with the testing tool used by the project.
-- Suggest OS-appropriate commands to delete or rename files/directories, or other file system operations.
-- If your code changes add new dependencies, suggest the command to install them.
-- Etc.
+impedir a conclusão da edição quando o e-mail estiver ausente ou for inválido, seguindo o
+padrão de validação e feedback já utilizado pelo projeto.
+
+3. Módulo Cadastramentos — aba Novo Colaborador
+
+adicionar o campo obrigatório E-mail ao formulário;
+
+usar type="email" e aplicar o padrão visual e de validação dos demais campos;
+
+substituir os campos de entrada livre Cargo, Setor e Grupo de Acesso por listas
+suspensas;
+
+impedir a digitação de valores arbitrários nesses três campos;
+
+carregar as opções a partir das fontes de dados já existentes no projeto para cargos, setores
+e grupos de acesso;
+
+incluir uma opção inicial sem valor, como Selecione..., que não possa ser submetida como
+valor válido;
+
+não duplicar listas nem criar uma nova fonte de dados se já existir serviço, Signal, coleção ou
+configuração responsável por essas opções.
+
+Arquivos inicialmente relacionados
+
+Investigue pelo menos estes arquivos e seus consumidores antes de editar:
+
+src/app/tela-epis/epis.html
+
+src/app/tela-epis/epis.ts
+
+src/app/tela-colaboradores/colaboradores.html
+
+src/app/tela-colaboradores/colaboradores.ts
+
+src/app/tela-cadastramentos/cadastramentos.html
+
+src/app/tela-cadastramentos/cadastramentos.ts
+
+serviços ou tipos que forneçam colaboradores, cargos, setores e grupos de acesso
+
+A lista é uma orientação, não uma autorização para ampliar o escopo indiscriminadamente.
+
+Restrições
+
+siga integralmente o AGENTS.md;
+
+não altere dependências, configurações, rotas, autenticação, guards, contratos HTTP, estilos
+globais ou ativos de marca;
+
+não realize refatorações sem relação direta com esta tarefa;
+
+não substitua dados dinâmicos por listas hardcoded se já houver uma fonte de dados apropriada;
+
+não invente endpoints ou contratos de backend;
+
+preserve o layout, o padrão BEM e o comportamento atual das telas fora do escopo descrito;
+
+não edite o próprio prompt.md durante a implementação.
+
+Processo obrigatório
+
+Leia o AGENTS.md e este prompt.md por completo.
+
+Inspecione o estado atual dos arquivos, inclusive mudanças não commitadas.
+
+Compare cada requisito com a implementação existente e classifique-o como:
+
+já implementado corretamente;
+
+parcialmente implementado;
+
+não implementado;
+
+implementado com possível problema.
+
+Identifique a fonte atual das opções de Cargo, Setor e Grupo de Acesso. Se não existir uma
+fonte utilizável sem alterar contratos ou arquitetura protegida pelo AGENTS.md, explique o
+bloqueio e peça autorização em vez de inventar uma solução.
+
+Antes de editar, apresente um plano curto com os arquivos que pretende modificar e aguarde
+aprovação explícita.
+
+Após a aprovação, implemente apenas o que estiver ausente ou incorreto; não duplique o que já
+estiver funcionando.
+
+Adicione ou atualize testes relevantes para os comportamentos alterados quando isso for viável
+dentro do escopo.
+
+Formate somente os arquivos modificados.
+
+Execute as validações definidas abaixo.
+
+Apresente um resumo dos arquivos alterados, requisitos atendidos, validações executadas e
+qualquer risco ou pendência remanescente.
+
+Critérios de aceitação
+
+clicar no overlay fecha o modal de entrega de EPI;
+
+clicar dentro desse modal não o fecha;
+
+clicar no overlay fecha o modal de detalhes e edição de colaborador;
+
+clicar dentro desse modal não o fecha;
+
+a tabela de colaboradores exibe uma coluna E-mail com valor para todos os registros;
+
+a edição de colaborador exige um e-mail válido;
+
+o cadastro de colaborador exige um e-mail válido;
+
+Cargo, Setor e Grupo de Acesso são seleções fechadas, sem entrada livre;
+
+as opções desses seletores refletem as fontes de dados já existentes no sistema;
+
+nenhuma funcionalidade externa ao escopo sofre regressão conhecida;
+
+o projeto compila e os testes relevantes passam.
+
+Validação
+
+Execute, ao final:
+
+npx prettier --check <arquivos-alterados>
+npm run build
+npm test -- --watch=false
+
+Se o comando de testes não aceitar --watch=false, use o comando não interativo compatível com
+o builder configurado no projeto. Não altere configurações apenas para adequar o comando. Registre
+separadamente falhas preexistentes e falhas causadas pela alteração.
