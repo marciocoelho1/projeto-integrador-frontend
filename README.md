@@ -6,6 +6,19 @@ A plataforma centraliza o controle do quadro de colaboradores, matriz de treinam
 
 ---
 
+## Planejamento da integração backend/banco
+
+O backend SGSST ainda será implementado. A documentação de planejamento não altera os fluxos demonstrativos atuais.
+
+- [GitHub Project público — SGSST](https://github.com/users/marciocoelho1/projects/2)
+- [Análise do frontend e backend das aulas](docs/integracao/analise.md)
+- [Divisão dos cinco integrantes e roadmap](docs/integracao/roadmap.md)
+- [Contrato proposto — aprovar antes de implementar](docs/integracao/contrato-proposto.md)
+- [Backlog com dependências e critérios de aceite](docs/integracao/backlog.md)
+- [Passo a passo: clone, integração, commit, branch e PR](docs/integracao/passo-a-passo.md)
+
+Para o trabalho de integração, seguir a versão de Node e o uso de `npm ci`/scripts locais indicados no passo a passo: a indicação histórica de Node 18+ abaixo não corresponde aos requisitos do Angular 22.
+
 ## Tecnologias Utilizadas
 
 - **Framework Web:** Angular (v22)
