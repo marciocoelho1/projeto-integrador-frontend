@@ -19,11 +19,7 @@ O plano anterior de 30 tarefas foi substituído. Só estas oito são necessária
 
 **Responsável:** Márcio · **Meta:** 06/10/2026
 
-Reunir Márcio, Pedro Dimas, Pedro Serejo, Simão e Clara e confirmar que todos conhecem sua parte. A entrega de sexta, 09/10/2026, será uma demonstração local com três CRUDs: colaboradores, treinamentos e EPIs. CRUD significa cadastrar, listar, editar e excluir. Não integrar login real, entregas de EPI, certificados, matriz calculada, dashboard, importação ou suporte nesta semana. Confirmar com o professor se esse recorte atende à avaliação; se ele exigir tudo, negociar hoje, não prometer sem condição.
-
-Pronto quando: os cinco conhecem sua parte, os campos de contrato-proposto.md estão combinados e o professor foi consultado sobre o recorte.
-
-Não é código já feito; esta é uma tarefa do grupo.
+A entrega de sexta, 09/10/2026, será uma demonstração local com três CRUDs: colaboradores, treinamentos e EPIs. CRUD significa cadastrar, listar, editar e excluir. Não integrar login real, entregas de EPI, certificados, matriz calculada, dashboard, importação ou suporte nesta semana.
 
 ## 02 — Preparar um backend e um banco para o grupo
 
