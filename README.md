@@ -8,7 +8,7 @@ A plataforma centraliza o controle do quadro de colaboradores, matriz de treinam
 
 ## Planejamento da integração backend/banco
 
-O backend SGSST ainda será implementado. A documentação de planejamento não altera os fluxos demonstrativos atuais.
+**Plano reduzido para sexta-feira, 09/10/2026:** integrar somente os CRUDs de colaboradores, catálogo de treinamentos e EPIs, seguindo as aulas Java. O backend ainda será implementado pelo grupo; esta documentação não altera o código. As outras telas e o login continuam protótipo/demonstração. Somente execução local com dados fictícios, sem publicar API sem autenticação.
 
 - [GitHub Project público — SGSST](https://github.com/users/marciocoelho1/projects/2)
 - [Análise do frontend e backend das aulas](docs/integracao/analise.md)
@@ -17,7 +17,7 @@ O backend SGSST ainda será implementado. A documentação de planejamento não 
 - [Backlog com dependências e critérios de aceite](docs/integracao/backlog.md)
 - [Passo a passo: clone, integração, commit, branch e PR](docs/integracao/passo-a-passo.md)
 
-Para o trabalho de integração, seguir a versão de Node e o uso de `npm ci`/scripts locais indicados no passo a passo: a indicação histórica de Node 18+ abaixo não corresponde aos requisitos do Angular 22.
+Para o trabalho de integração, seguir o passo a passo: Node 24, `npm ci`, scripts locais e uma branch por integrante.
 
 ## Tecnologias Utilizadas
 
@@ -78,22 +78,20 @@ src/
 ## Como Executar o Projeto
 
 ### Pré-requisitos
-- **Node.js** (versão 18 ou superior)
-- **Angular CLI** instalado globalmente:
-  ```bash
-  npm install -g @angular/cli
-  ```
+- **Node.js 24** (no mínimo 24.15.0) e npm, compatíveis com o Angular deste repositório.
+- Não é necessário Angular CLI global: usar os scripts locais abaixo.
+- Java 17 e MySQL serão usados quando o grupo entregar `backend/`; seguir então seu README de execução.
 
 ### Passo a Passo
 
 1. Instale as dependências da aplicação:
    ```bash
-   npm install
+   npm ci
    ```
 
 2. Execute o servidor de desenvolvimento:
    ```bash
-   ng serve
+   npm start
    ```
 
 3. Acesse a aplicação navegando para `http://localhost:4200/`

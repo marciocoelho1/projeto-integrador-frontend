@@ -1,118 +1,75 @@
-# SGSST — roadmap de integração para cinco integrantes
+# Plano simples: três CRUDs até sexta, 09/10/2026
 
-[GitHub Project público](https://github.com/users/marciocoelho1/projects/2) · [Análise](analise.md) · [Contrato proposto](contrato-proposto.md) · [Backlog detalhado](backlog.md) · [Passo a passo Git](passo-a-passo.md)
+[Project do grupo](https://github.com/users/marciocoelho1/projects/2) · [Guia Git](passo-a-passo.md) · [Campos e URLs combinados](contrato-proposto.md)
 
-## Regra principal
+## 1. O que vamos entregar
 
-**Dividir por domínio, não por camada.** Cada responsável entrega banco/schema, entidades JPA, repository, service/regras, DTO/controller REST, integração Angular e testes da própria fatia. Um monólito modular Spring Boot, um MySQL e o frontend existente. Márcio coordena a base e os contratos; não escreve o backend inteiro pelos colegas.
+Uma demonstração **local**, com Angular + Java + MySQL, em que seja possível **cadastrar, listar, editar e excluir**:
 
-O roadmap é uma proposta para aprovação no G01. Os cartões representam trabalho futuro, não funcionalidades entregues. Sem nomes/logins dos quatro colegas, M2–M5 permanecem papéis a preencher; nenhum perfil foi escolhido por suposição.
+1. Colaboradores.
+2. Treinamentos: apenas o catálogo de cursos.
+3. EPIs: apenas cadastro e quantidade informada.
 
-## Divisão recomendada
+Isso é CRUD, como o exemplo de produtos das aulas. O objetivo é mostrar um dado saindo da tela, sendo salvo no banco e aparecendo novamente ao recarregar.
 
-| Papel | Responsabilidade e entregas | Limite para evitar conflitos | Revisor sugerido |
-|---|---|---|---|
-| **M1 — Márcio: base, acesso e administração** | Bootstrap Spring/MySQL/HTTP/erros; login/sessão; usuários/grupos/permissões; configurações e auditoria; CI/revisão/contratos | Dono de configurações, rotas, shell e dependências; não assume CRUD dos outros. Recuperação em F3 | M5 revisa autenticação/privacidade; outro colega revisa fundação |
-| **M2 — Pessoas** | Colaboradores/cargos/setores; cadastro/lista/edição por ID; prontuário usando dados de T/E; adapter de importação de pessoas | Não duplica usuários/senhas nem mantém históricos por nome | M3, que consome pessoas/cargos |
-| **M3 — Treinamentos** | Catálogo, LNT, participação/certificados, matriz calculada; depois reciclagens/turmas/inscrições/materiais e importação | Dono único do domínio e componente da matriz; não dividir o mesmo arquivo entre várias pessoas | M2; M5 pareia em testes/consumo na F2/F3 |
-| **M4 — EPIs** | Catálogo/estoque/movimentos; entrega com baixa atômica/concorrência; tela/cadastro; depois importação/aceite aprovado | Não cria sua própria base de colaboradores; não grava entrega usando nome livre | M2 e M1 para transações/autorização |
-| **M5 — Suporte e visões** | Chamados compartilhados entre perfis; área pessoal e dashboard/CSV; protocolo de importação; homologação integrada | Usa DTOs/serviços dos donos; não altera as entidades alheias nem valida sozinho os três tipos de planilha | M4; M1 valida propriedade/acesso |
+**Confirmar esse recorte com o professor hoje.** Se ele exigir integração de todas as telas até sexta, este plano reduzido não atende sozinho. Não dá para garantir a entrega completa sem conhecer essa exigência e o tempo disponível dos colegas.
 
-### Equilíbrio de carga
+## 2. Divisão entre os cinco
 
-Treinamentos é o domínio mais extenso; sua primeira entrega termina em catálogo, requisitos, certificado e matriz. Turmas/reciclagens/materiais vêm depois. M5 implementa suporte enquanto aguarda os contratos de dados e, em F2/F3, ajuda M3 em testes e consultas sem gerar dois donos para o mesmo arquivo. Márcio distribui revisão e coleta de evidências, em vez de virar o único gargalo de testes.
+| Pessoa | Sua parte | Arquivos principais |
+|---|---|---|
+| **Márcio** | Preparar um backend, conexão MySQL e organizar os merges | `backend/pom.xml`, configurações, classe principal e instruções de execução |
+| **Aluno 2** | CRUD de colaboradores em Java + consulta/edição/exclusão da lista Angular | Classes `Colaborador*`, `colaborador.service.ts`, `tela-colaboradores/*` |
+| **Aluno 3** | CRUD do catálogo de treinamentos em Java + sua lista Angular | Classes `Treinamento*`, novo `treinamento.service.ts`, somente catálogo em `tela-matriz-treinamento/*` |
+| **Aluno 4** | CRUD de EPIs em Java + consulta/edição/exclusão da lista Angular | Classes `Epi*`, `epis.service.ts`, `tela-epis/*` |
+| **Aluno 5** | Ligar os três formulários de cadastro aos serviços dos colegas; organizar o ensaio | `tela-cadastramentos/cadastramentos.ts` e `.html` |
 
-## Etapas e ordem de integração
+Márcio deve trocar Aluno 2–5 pelos nomes reais. **O Aluno 5 é o único que edita os formulários centrais:** isso evita três pessoas mexendo no mesmo arquivo. Ele não precisa criar um quarto CRUD.
 
-### F0 — Fundação: acordo antes do trabalho paralelo
+## 3. Calendário
 
-- G01: confirmar cinco pessoas, escopo, campos/identificadores, sessão/permissões, regras e importação.
-- G02: bootstrap backend/banco com configuração coerente, `/api`, erros JSON, testes e schema reproduzível.
-- G03: separar formulários por aba, modelos e serviços transversais.
-- G04: padronizar ambiente, revisar dependências e criar CI real.
-- G05: proteção de `main`, revisão e acesso de edição ao quadro.
+| Dia | Resultado esperado |
+|---|---|
+| **Terça, 06/10** | Confirmar escopo/nome de cada pessoa; Márcio publica a base Java/MySQL e os campos combinados. Os colegas leem o CRUD de Produto das aulas. Aluno 5 prepara os campos dos formulários. |
+| **Quarta, 07/10** | Alunos 2–4 entregam as APIs e ligam suas listas. Aluno 5 liga o botão Salvar de cada cadastro. Cada um testa seu CRUD. Integrar APIs prontas sem esperar a véspera. |
+| **Quinta, 08/10** | Juntar branches, testar os três CRUDs no mesmo projeto, corrigir problemas e ensaiar. Nada novo além do combinado. |
+| **Sexta, 09/10** | Conferir funcionamento e apresentar a versão ensaiada. Não começar recurso novo. |
 
-**Porta de saída:** contrato aprovado e base compilando/conectando. G02/G03 podem ser desenvolvidos após G01; não é necessário esperar toda proteção G05 para começar módulos em branches. Não mergear sem revisão/testes.
+Essas são metas, não trabalho já concluído. Se a base não funcionar na terça ou algum CRUD ficar bloqueado na quinta, avisar o grupo e o professor imediatamente.
 
-### F1 — Módulos verticais em paralelo
+## 4. O que não fazer nesta semana
 
-- M1 A01/A02; M2 P01/P02; M3 T01/T02/T03; M4 E01/E02; M5 S01.
-- Primeiro aceitar um fluxo pequeno: **cadastro de pessoa → persistência → consulta → reload**. Isso valida o padrão que os demais repetem.
-- T/E podem desenvolver seus catálogos em paralelo à pessoa, mas gravar vínculos requer P01. Suporte integrado depende da identidade A01.
-- Mock pode ser fixture de teste/protótipo com marcação explícita, não evidência de integração. Consumidor bloqueado negocia DTO com dono; não inventa outro contrato.
+Não implementar agora: login real/permissões, recuperação de senha, usuários/grupos, auditoria, dashboard real, prontuário, LNT, certificados, vínculo de treinamento com pessoa, reciclagem/turmas, entrega/assinatura de EPI, importação de planilhas ou suporte.
 
-**Porta de saída:** cada domínio apresenta CRUD/regra real pela API e tela, com dado persistente.
+Também não adicionar ferramentas novas: JWT, Spring Security, Flyway, pipeline de CI ou Docker obrigatório. Usar o MySQL que já sabem executar e `ddl-auto=update` como nas aulas. Cargo/setor ficam como texto; não criar tabelas/relacionamentos adicionais nesta entrega.
 
-### F2 — Integração entre domínios
+Não apagar o frontend já apresentado. **Avisar na tela o que ainda é demonstração e desabilitar ações não integradas que anunciam sucesso.** Login continua demonstrativo; não chamar isso de segurança real. Entrega de EPI deve ficar desabilitada para não dar baixa em saldo apenas no navegador. Histórico e matriz completa não serão apresentados como dados reais.
 
-- P03 prontuário; T04 matriz; E03 tela/entrega; S02 área pessoal; S03 dashboard; A03 regras/auditoria.
-- Mesma pessoa, certificado e entrega devem aparecer nas várias visões sem cópias locais.
+**Somente máquina local e dados fictícios. Não publicar uma API sem autenticação na internet.**
 
-**MVP proposto:** F0–F2 + homologação F4. Inclui login/permissões, pessoas, catálogo/LNT/certificação/matriz, estoque/entrega, suporte, área pessoal/dashboard e configurações efetivas/auditoria.
+## 5. Receita que os três CRUDs repetem
 
-### F3 — Expansão negociável, não requisito escondido
+`Model → Repository → Service → ApiController → serviço Angular → tela`.
 
-A04 recuperação, T05 turmas/reciclagens/materiais, E04 aceite, S04 protocolo de importação e P04/T06/E05 adapters. Priorizar conforme prazo exigido pelo professor. F3 preserva todas essas necessidades no planejamento; o grupo decide o que entra na apresentação.
+- **Model:** classe que representa a tabela, como `Produto.java`.
+- **Repository:** faz acesso ao banco, como `ProdutoRepository`.
+- **Service:** organiza cadastrar, buscar, editar e excluir.
+- **ApiController:** recebe GET/POST/PUT/DELETE do Angular.
+- **Request/Response:** classes dos dados enviados/recebidos, como as já usadas nas aulas.
 
-Se adiado, **desabilitar ou rotular as ações**. Não deixar “importado”, “e-mail enviado”, “vinculado” ou “assinado” sem ação real. Se F3 entrar no aceite, adicionar as tarefas escolhidas como dependências de S05 antes de encerrá-lo.
+Os três módulos não dependem entre si. Todos dependem apenas da base que Márcio prepara e dos nomes de campos/URLs combinados em [contrato-proposto.md](contrato-proposto.md).
 
-### F4 — Homologação e entrega
+## 6. Quando dizer que terminou
 
-S05 coordena testes ponta a ponta; G06 fecha documentação e demonstração depois de evidências. Não há datas artificiais: o grupo estima após G01 e informa o prazo da apresentação.
+Para cada módulo, mostrar:
 
-## Propriedade de arquivos
+- [ ] Cadastrar pela tela e ver o registro no MySQL.
+- [ ] Listar, editar e excluir com confirmação.
+- [ ] Recarregar a página e reiniciar o backend sem perder os dados.
+- [ ] Campo obrigatório vazio não salva; EPI com quantidade negativa não salva.
+- [ ] Erro de conexão não mostra mensagem de cadastro concluído.
+- [ ] Branch enviada, PR revisado e integrado na `main`.
 
-- M1: `app.config.ts`, `app.routes.ts`, `auth.guard.ts`, único `auth.service.ts`, `layout-padrao/*`, `package*.json`, `angular.json`, `src/styles.scss`, POM/Compose base, configuração security/CORS, CI e shell de cadastramentos.
-- M2: `tela-colaboradores/*`, formulário pessoa extraído, serviços/modelos/pacote pessoas.
-- M3: `tela-matriz-treinamento/*`, formulários treinamento/LNT/reciclagem e pacote treinamentos.
-- M4: `tela-epis/*`, formulário EPI e pacote epis.
-- M5: ambas telas de suporte, dashboard, área colaborador, importação/orquestrador e pacote consultas/suporte/importacao.
-- Auditoria: M1 fornece interface central; cada domínio chama a interface sem reescrever o serviço comum.
-- Migrações: dono do domínio escreve; M1 coordena nomes/ordem. Não editar script já aplicado.
+As tarefas estão no [backlog curto](backlog.md). Os 30 cartões do plano anterior foram reduzidos a oito tarefas ativas; funções retiradas ficam para depois da entrega, não como tarefas obrigatórias desta semana.
 
-Até G03 ser mergeado, **não editar simultaneamente** `tela-cadastramentos/cadastramentos.ts/.html` ou `dados-referencia.service.ts`. Avisar no cartão, combinar janela de edição e manter PR pequeno. Alteração transversal requer conversar com o dono antes de começar.
-
-## Pipeline de colaboração
-
-`Escolher cartão liberado → atualizar main → branch própria por tarefa → testes → commit → push → PR → revisão de outro integrante → CI → merge coordenado → homologar → concluir cartão`.
-
-- Uma tarefa ativa por pessoa; uma branch por tarefa, não uma branch permanente com todo o semestre.
-- Branches saem de `main`, PRs voltam para `main`. Sem `develop` adicional neste grupo: menos combinações e menos merges acumulados.
-- Trabalho dependente só começa integração quando o contrato/base correspondente foi mergeado. PR dependente pode ficar draft, explicitamente bloqueado, sem encadear branches secretamente.
-- Revisão mínima de outro integrante. M1 coordena merge; quando M1 é autor, outro colega aprova. Revisor não é autor.
-- Não alterar contrato, dependências, banco comum ou arquivos alheios sem acordo.
-- Check-in curto por encontro/dia de trabalho: cartão feito, evidência, próximo cartão e bloqueio. Evitar grandes PRs na véspera.
-
-### Status do Project
-
-- **A fazer:** dependências satisfeitas e escopo aprovado.
-- **Em andamento:** responsável trabalhando, com branch/PR informado.
-- **Em revisão:** PR pronto, testes/evidências disponíveis.
-- **Bloqueado:** explicar dependência ou decisão faltante; não é “em andamento”.
-- **Concluído:** merge + critérios de aceite demonstrados; escrever link do PR e resultado de teste no cartão.
-
-Campos: Status, Fase, Responsável, Prioridade, Tipo, Dependências. Quadro organiza o dia a dia; tabela preserva a sequência. Os cartões são rascunhos de Project, não Issues; por isso não usar `Closes #P01`. A associação do papel a um login será feita no G01. Se precisarem automatizar fechamento por PR, converter o cartão em Issue deliberadamente e então usar o número real.
-
-## Definition of Done de qualquer módulo
-
-- [ ] DTO/rota/regra aprovados e sem alteração incompatível não combinada.
-- [ ] Schema/migração versionados, constraints/FKs e seed fictício reproduzíveis.
-- [ ] API validada com caso feliz e erro; acesso permitido/negado testado.
-- [ ] Tela usa HTTP, estados carregando/vazio/erro e só informa sucesso após persistência.
-- [ ] Refresh/restart conserva os dados e links por ID.
-- [ ] Testes automáticos de service/controller/frontend e transações relevantes passam.
-- [ ] Build/frontend e `verify`/backend passam; CI real verificada.
-- [ ] PR pequeno, revisado por outra pessoa e mergeado; cartão tem evidência.
-
-## Roteiro mínimo de homologação (S05)
-
-1. Clone limpo, dependências e banco novo; iniciar ambos sem configuração secreta versionada.
-2. Admin cria pessoa e usuário; listagem/reload/login individual corretos. Duplicidade 409 e dado inválido 400.
-3. Criar treinamento/requisito; registrar certificado; verificar matriz, prontuário, área individual e dashboard.
-4. Criar EPI/entrada; entregar; verificar saldo e histórico em todas as visões. Quantidade inválida/estoque insuficiente não grava. Dois pedidos concorrentes não excedem estoque.
-5. Colaborador abre chamado; admin vê/transiciona; dono vê atualização. Outro usuário não acessa por trocar ID.
-6. Alterar permissão/regra; acesso backend e comportamento mudam; auditoria registra ator verdadeiro. Sem sessão 401; sem direito 403.
-7. Se F3 incluída: validar importação sem gravar, confirmar/repetir sem duplicar, turma sem exceder capacidade, recuperação com token expirado e aceite restrito ao dono.
-8. Verificar botão/ação sem backend: remover falso sucesso, marcar limitação aprovada.
-
-Cada passo precisa de resultado e evidência, não só checkbox marcado.
+**Este documento é planejamento. O backend ainda precisa ser implementado pelo grupo.**
