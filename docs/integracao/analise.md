@@ -39,7 +39,7 @@ No cadastro de pessoa falta matrícula, embora a lista a use; acrescentar esse c
 2. **CORS:** trocar o mapeamento `/api**` por `/api/**`, permitindo `http://localhost:4200`. Isso permite Angular chamar a API local.
 3. **Erros:** `ApiExceptionHandler` aponta para pacote `br.com.senac.loja.controller.api`, mas a API está em `br.com.senac.loja.api`. Corrigir o pacote e não levar o handler de páginas/redirects para a nova API.
 
-Márcio resolve esses pontos **uma vez**, na base compartilhada. Os colegas não precisam reconfigurar o projeto inteiro.
+Marcio preparou a configuração compartilhada em `backend/`: conexão local configurável e CORS `/api/**`. Os controllers/handlers MVC da loja não foram copiados; o diagnóstico retorna 503 sem expor detalhes JDBC. Os erros de validação, ID inexistente e identificador repetido dos futuros CRUDs ainda devem ser tratados pelos donos dos módulos. Os colegas não precisam reconfigurar o projeto inteiro.
 
 ## 4. Limite desta entrega
 
@@ -51,6 +51,8 @@ Sem novas bibliotecas de segurança, migrações, automações ou grandes mudan�
 
 Referências analisadas: frontend `e26575a725a937e4ca71a63d3224bb568cc7948d`; aulas `964d64e1c451a28f04a577fbc9e855a90fe14f4f`.
 
-Na análise anterior, o frontend compilou e **19 testes passaram com Node 24**. Isso não prova backend pronto: conexão Java/MySQL e os novos CRUDs ainda precisam ser implementados/testados. Dependências tinham avisos de segurança; não executar `npm audit fix --force` para atualizar tudo na véspera. Importação Excel não faz parte da entrega reduzida.
+Na análise anterior, o frontend compilou e **19 testes passaram com Node 24**. Na entrega da base em 06/10/2026, o build passou novamente; com Node 26.7.0, quatro testes falharam por `localStorage` do runtime, e os **19 passaram** ao executar `NODE_OPTIONS=--no-experimental-webstorage npm test -- --watch=false`. Não houve mudança no código Angular. `npm ci` reportou 31 vulnerabilidades existentes; não executar `npm audit fix --force` para atualizar tudo na véspera. Importação Excel não faz parte da entrega reduzida.
+
+A base em `backend/` foi executada com Java 17 e MySQL 8.4.11 real: **29 testes rápidos + 4 de integração passaram**, incluindo persistência JPA exclusivamente de teste. O JAR respondeu saúde 200, CORS correto e 503 com banco parado/senha inválida. Isso prova a base/conexão, **não os três CRUDs**, que ainda não foram implementados. Revisão, merge e reprodução pelos colegas continuam pendentes. Consulte [entrega de Marcio](entrega-marcio.md) e [evidências](../../backend/VERIFICACAO.md).
 
 Começar pelo [roadmap simples](roadmap.md), não pelo plano antigo do histórico Git.

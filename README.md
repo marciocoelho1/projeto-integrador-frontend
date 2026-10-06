@@ -8,9 +8,9 @@ A plataforma centraliza o controle do quadro de colaboradores, matriz de treinam
 
 ## Planejamento da integração backend/banco
 
-**Plano reduzido para sexta-feira, 09/10/2026:** integrar somente os CRUDs de colaboradores, catálogo de treinamentos e EPIs, seguindo as aulas Java. O backend ainda será implementado pelo grupo; esta documentação não altera o código. As outras telas e o login continuam protótipo/demonstração. Somente execução local com dados fictícios, sem publicar API sem autenticação.
+**Plano reduzido para sexta-feira, 09/10/2026:** integrar somente os CRUDs de colaboradores, catálogo de treinamentos e EPIs, seguindo as aulas Java. A base Java/MySQL de Marcio está em `backend/`, com [instruções de execução](backend/README.md). Os três CRUDs ainda serão implementados pelos respectivos integrantes. A base está na branch `feat/base-backend-mysql`, aguardando revisão e merge na `main`. As outras telas e o login continuam protótipo/demonstração. Somente execução local com dados fictícios, sem publicar API sem autenticação.
 
-- **Márcio:** base Java/MySQL e coordenação dos merges.
+- **Marcio:** base Java/MySQL e coordenação dos merges.
 - **Pedro Dimas:** CRUD de colaboradores e sua lista.
 - **Pedro Serejo:** CRUD do catálogo de treinamentos e sua lista.
 - **Simão:** CRUD de EPIs e sua lista.
@@ -19,8 +19,9 @@ A plataforma centraliza o controle do quadro de colaboradores, matriz de treinam
 - [GitHub Project público — SGSST](https://github.com/users/marciocoelho1/projects/2)
 - [Análise do frontend e backend das aulas](docs/integracao/analise.md)
 - [Divisão dos cinco integrantes e roadmap](docs/integracao/roadmap.md)
-- [Contrato proposto — aprovar antes de implementar](docs/integracao/contrato-proposto.md)
+- [Campos e URLs dos CRUDs — confirmar com o grupo](docs/integracao/contrato-proposto.md)
 - [Backlog com dependências e critérios de aceite](docs/integracao/backlog.md)
+- [Entrega da base de Marcio e próximos passos](docs/integracao/entrega-marcio.md)
 - [Passo a passo: clone, integração, commit, branch e PR](docs/integracao/passo-a-passo.md)
 
 Para o trabalho de integração, seguir o passo a passo: Node 24, `npm ci`, scripts locais e uma branch por integrante.
@@ -36,7 +37,9 @@ Para o trabalho de integração, seguir o passo a passo: Node 24, `npm ci`, scri
 
 ---
 
-## Funcionalidades do Sistema
+## Telas e funcionalidades do protótipo
+
+**A lista abaixo descreve a interface existente, não recursos persistidos ou autenticação real.** Nesta etapa somente a base Java/MySQL foi preparada; os CRUDs e sua integração Angular continuam nas tarefas 03–06.
 
 ### Perfil Administrador / Técnico de SST
 - **Dashboard Analítico:** Indicadores de certificações ativas/vencidas, nivelamento de estoque de EPIs e progresso de reciclagens.
@@ -86,7 +89,7 @@ src/
 ### Pré-requisitos
 - **Node.js 24** (no mínimo 24.15.0) e npm, compatíveis com o Angular deste repositório.
 - Não é necessário Angular CLI global: usar os scripts locais abaixo.
-- Java 17 e MySQL serão usados quando o grupo entregar `backend/`; seguir então seu README de execução.
+- Java 17 e MySQL para o backend: seguir [backend/README.md](backend/README.md), criar seu banco local e configurar suas próprias credenciais.
 
 ### Passo a Passo
 

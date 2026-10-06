@@ -2,28 +2,30 @@
 
 [Project](https://github.com/users/marciocoelho1/projects/2) · [Plano simples](roadmap.md) · [Guia Git](passo-a-passo.md)
 
-O plano anterior de 30 tarefas foi substituído. Só estas oito são necessárias para o recorte de **três CRUDs locais**. Nenhuma está implementada por esta documentação. Datas são metas; confirmar o escopo com o professor.
+O plano anterior de 30 tarefas foi substituído. Só estas oito são necessárias para o recorte de **três CRUDs locais**. A tarefa 02 tem sua base técnica em `backend/`, aguardando revisão/merge e reprodução por outro colega; 01 e 03–08 continuam pendentes. Veja [evidências e próximos passos](entrega-marcio.md). Datas são metas; confirmar o escopo com o professor.
 
 | Nº | O que fazer | Responsável | Entregar até |
 |---|---|---|---|
-| 01 | Combinar quem faz cada parte e confirmar o escopo | Márcio | 06/10/2026 |
-| 02 | Preparar um backend e um banco para o grupo | Márcio | 06/10/2026 |
+| 01 | Combinar quem faz cada parte e confirmar o escopo | Marcio | 06/10/2026 |
+| 02 | Preparar um backend e um banco para o grupo | Marcio | 06/10/2026 |
 | 03 | CRUD de colaboradores + tela da lista | Pedro Dimas — Colaboradores | 07/10/2026 |
 | 04 | CRUD do catálogo de treinamentos + sua lista | Pedro Serejo — Treinamentos | 07/10/2026 |
 | 05 | CRUD de EPIs + sua lista | Simão — EPIs | 07/10/2026 |
 | 06 | Ligar os três formulários de cadastro ao backend | Clara — Formulários | 07/10/2026 |
-| 07 | Juntar as branches e testar os três CRUDs | Márcio + grupo | 08/10/2026 |
+| 07 | Juntar as branches e testar os três CRUDs | Marcio + grupo | 08/10/2026 |
 | 08 | Ensaiar e apresentar na sexta, 09/10 | Clara + grupo | 09/10/2026 |
 
 ## 01 — Combinar quem faz cada parte e confirmar o escopo
 
-**Responsável:** Márcio · **Meta:** 06/10/2026
+**Responsável:** Marcio · **Meta:** 06/10/2026
 
 A entrega de sexta, 09/10/2026, será uma demonstração local com três CRUDs: colaboradores, treinamentos e EPIs. CRUD significa cadastrar, listar, editar e excluir. Não integrar login real, entregas de EPI, certificados, matriz calculada, dashboard, importação ou suporte nesta semana.
 
 ## 02 — Preparar um backend e um banco para o grupo
 
-**Responsável:** Márcio · **Meta:** 06/10/2026
+**Responsável:** Marcio · **Meta:** 06/10/2026
+
+**Estado: Fazendo — implementação entregue para revisão, não integrada ainda.** Base em `backend/`; execução em [backend/README.md](../../backend/README.md). Não significa que os três CRUDs estejam prontos, que o professor tenha aprovado o recorte ou que os quatro colegas tenham repetido a execução. [Registro da entrega](entrega-marcio.md).
 
 Usar o backend de aulasJavaSenac como exemplo. Colocar um único projeto Spring Boot em backend/, mantendo o Angular na raiz. Reaproveitar Web, JPA, Validation, MySQL e Maven Wrapper da aula. Não copiar loja-angular, templates ou controllers de páginas. Criar banco sgsst, ajustar porta/usuário/senha local, manter ddl-auto=update como na aula e corrigir CORS para /api/**. Remover os controllers/seeds da loja que não pertencem ao SGSST; não levar dependências/imports de ProdutoController/ProdutoForm sem uso para a nova API. Entregar modelo de pastas e um README curto de execução; credenciais reais não entram no Git.
 
@@ -31,7 +33,7 @@ Angular: http://localhost:4200. Backend: http://localhost:8080. Cada CRUD terá 
 
 Começar depois de 01. Os colegas usam essa base depois de seu PR ser integrado na main.
 
-Pronto quando: Spring inicia e conecta no banco; os quatro colegas conseguem repetir a execução pelo README. Márcio prepara a estrutura; não precisa escrever os três CRUDs sozinho.
+Pronto quando: Spring inicia e conecta no banco; os quatro colegas conseguem repetir a execução pelo README. Marcio prepara a estrutura; não precisa escrever os três CRUDs sozinho.
 
 ## 03 — CRUD de colaboradores + tela da lista
 
@@ -83,9 +85,9 @@ Pronto quando: cadastrar pelos três formulários grava no banco e aparece na li
 
 ## 07 — Juntar as branches e testar os três CRUDs
 
-**Responsável:** Márcio + grupo · **Meta:** 08/10/2026
+**Responsável:** Marcio + grupo · **Meta:** 08/10/2026
 
-Márcio coordena PRs para main: primeiro base, depois os três CRUDs, depois formulários. Se Java já estiver pronto antes da tela, integrar um PR pequeno de API para Clara conseguir testar, sem esperar tudo no último dia. Revisor é outro colega; para PR de Márcio, outro aluno revisa. Todos atualizam suas branches após cada merge necessário.
+Marcio coordena PRs para main: primeiro base, depois os três CRUDs, depois formulários. Se Java já estiver pronto antes da tela, integrar um PR pequeno de API para Clara conseguir testar, sem esperar tudo no último dia. Revisor é outro colega; para PR de Marcio, outro aluno revisa. Todos atualizam suas branches após cada merge necessário.
 
 Cada aluno demonstra o próprio módulo. Nos três cadastros: cadastrar dado fictício pela tela, consultar, editar, recarregar, reiniciar backend e excluir com confirmação. Conferir tabelas no MySQL. Testar campo vazio e quantidade negativa. Rodar npm run build e npm test -- --watch=false; com backend disponível, rodar mvnw test e iniciar aplicação com banco para o teste manual.
 
@@ -99,7 +101,7 @@ Pronto quando: os três CRUDs funcionam juntos na main, existe evidência real d
 
 Até quinta à noite: guardar dados fictícios de exemplo e ensaiar cadastro/lista/edição/exclusão dos três módulos. Na sexta: iniciar MySQL, backend e frontend; verificar funcionamento e apresentar. Não começar nova funcionalidade na sexta.
 
-Cada pessoa explica sua parte: Márcio mostra ligação com MySQL/base; Pedro Dimas colaboradores; Pedro Serejo catálogo de treinamentos; Simão EPIs; Clara formulários e fluxo completo. Explicar com honestidade que login, dashboards, entregas, certificados, importação e demais telas ainda são protótipo/futuro.
+Cada pessoa explica sua parte: Marcio mostra ligação com MySQL/base; Pedro Dimas colaboradores; Pedro Serejo catálogo de treinamentos; Simão EPIs; Clara formulários e fluxo completo. Explicar com honestidade que login, dashboards, entregas, certificados, importação e demais telas ainda são protótipo/futuro.
 
 Começar a revisão final depois de 07.
 

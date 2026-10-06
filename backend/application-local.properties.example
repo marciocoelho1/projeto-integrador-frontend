@@ -1,0 +1,5 @@
+# Copie para application-local.properties (ignorado pelo Git).
+# Execute Maven/JAR dentro de backend/ para importar o arquivo.
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/sgsst?connectTimeout=3000&socketTimeout=5000
+spring.datasource.username=sgsst_app
+spring.datasource.password=SUBSTITUA_APENAS_NO_ARQUIVO_LOCAL

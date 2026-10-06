@@ -1,6 +1,6 @@
 # Combinado simples: campos, URLs e métodos
 
-Este é o combinado proposto para os **três CRUDs de sexta, 09/10/2026**. Ainda não é backend implementado. Os cinco devem confirmar estes nomes antes de começar; isso evita o frontend enviar `nome` e o Java esperar outro campo.
+Este é o combinado proposto para os **três CRUDs de sexta, 09/10/2026**. A base Java/MySQL foi preparada em `backend/`; **os endpoints dos três CRUDs abaixo ainda não foram implementados**. Os cinco devem confirmar estes nomes antes de começar; isso evita o frontend enviar `nome` e o Java esperar outro campo.
 
 ## 1. Uma base só
 
@@ -8,9 +8,11 @@ Este é o combinado proposto para os **três CRUDs de sexta, 09/10/2026**. Ainda
 - Usar Spring Boot/Java 17, Web, JPA, Validation, MySQL e Maven Wrapper já presentes nas aulas. Não acrescentar ferramentas novas.
 - Frontend: `http://localhost:4200`; backend: `http://localhost:8080`.
 - Banco: `sgsst`, usando o MySQL local que o grupo conhece. Cada pessoa tem seu banco local.
-- Manter `ddl-auto=update` como na aula, **apenas nesta demonstração local**. Márcio documenta criação do banco e configuração; não há sistema de migração nesta semana.
-- Credenciais reais ficam na configuração local/variáveis de ambiente, fora do Git. Márcio entrega um exemplo sem segredo.
+- Manter `ddl-auto=update` como na aula, **apenas nesta demonstração local**. Marcio documenta criação do banco e configuração; não há sistema de migração nesta semana.
+- Credenciais reais ficam na configuração local/variáveis de ambiente, fora do Git. Marcio entrega um exemplo sem segredo.
 - Rodar o backend vinculado a `127.0.0.1` e não expor o banco/API na internet. Não haverá autenticação real nesta entrega; usar apenas dados fictícios.
+
+A API de diagnóstico da base e sua configuração estão em [backend/README.md](../../backend/README.md). Ela não substitui as rotas de cadastro descritas abaixo. Todos os pacotes Java dos novos módulos ficam dentro de `br.com.senac.sgsst`, para serem descobertos pelo Spring.
 
 ## 2. As três tabelas
 

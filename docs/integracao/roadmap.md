@@ -18,7 +18,7 @@ Isso é CRUD, como o exemplo de produtos das aulas. O objetivo é mostrar um dad
 
 | Pessoa | Sua parte | Arquivos principais |
 |---|---|---|
-| **Márcio** | Preparar um backend, conexão MySQL e organizar os merges | `backend/pom.xml`, configurações, classe principal e instruções de execução |
+| **Marcio** | Preparar um backend, conexão MySQL e organizar os merges | `backend/pom.xml`, configurações, classe principal e instruções de execução |
 | **Pedro Dimas** | CRUD de colaboradores em Java + consulta/edição/exclusão da lista Angular | Classes `Colaborador*`, `colaborador.service.ts`, `tela-colaboradores/*` |
 | **Pedro Serejo** | CRUD do catálogo de treinamentos em Java + sua lista Angular | Classes `Treinamento*`, novo `treinamento.service.ts`, somente catálogo em `tela-matriz-treinamento/*` |
 | **Simão** | CRUD de EPIs em Java + consulta/edição/exclusão da lista Angular | Classes `Epi*`, `epis.service.ts`, `tela-epis/*` |
@@ -30,7 +30,7 @@ A divisão está definida com os nomes do grupo. **Clara é a única que edita o
 
 | Dia | Resultado esperado |
 |---|---|
-| **Terça, 06/10** | Confirmar escopo/nome de cada pessoa; Márcio publica a base Java/MySQL e os campos combinados. Os colegas leem o CRUD de Produto das aulas. Clara prepara os campos dos formulários. |
+| **Terça, 06/10** | Confirmar escopo/nome de cada pessoa; Marcio publica a base Java/MySQL e os campos combinados. Os colegas leem o CRUD de Produto das aulas. Clara prepara os campos dos formulários. |
 | **Quarta, 07/10** | Pedro Dimas, Pedro Serejo e Simão entregam as APIs e ligam suas listas. Clara liga o botão Salvar de cada cadastro. Cada um testa seu CRUD. Integrar APIs prontas sem esperar a véspera. |
 | **Quinta, 08/10** | Juntar branches, testar os três CRUDs no mesmo projeto, corrigir problemas e ensaiar. Nada novo além do combinado. |
 | **Sexta, 09/10** | Conferir funcionamento e apresentar a versão ensaiada. Não começar recurso novo. |
@@ -57,7 +57,7 @@ Não apagar o frontend já apresentado. **Avisar na tela o que ainda é demonstr
 - **ApiController:** recebe GET/POST/PUT/DELETE do Angular.
 - **Request/Response:** classes dos dados enviados/recebidos, como as já usadas nas aulas.
 
-Os três módulos não dependem entre si. Todos dependem apenas da base que Márcio prepara e dos nomes de campos/URLs combinados em [contrato-proposto.md](contrato-proposto.md).
+Os três módulos não dependem entre si. Todos dependem apenas da base em `backend/` preparada por Marcio e dos nomes de campos/URLs combinados em [contrato-proposto.md](contrato-proposto.md).
 
 ## 6. Quando dizer que terminou
 
@@ -72,4 +72,4 @@ Para cada módulo, mostrar:
 
 As tarefas estão no [backlog curto](backlog.md). Os 30 cartões do plano anterior foram reduzidos a oito tarefas ativas; funções retiradas ficam para depois da entrega, não como tarefas obrigatórias desta semana.
 
-**Este documento é planejamento. O backend ainda precisa ser implementado pelo grupo.**
+**Estado em 06/10/2026:** a base Java/MySQL de Marcio foi preparada em `backend/`; revisão, merge e reprodução por outro colega continuam pendentes. Os três CRUDs e formulários ainda serão implementados pelo grupo. Veja [entrega de Marcio](entrega-marcio.md). Não marcar a tarefa 02 como Pronto antes desses aceites.
