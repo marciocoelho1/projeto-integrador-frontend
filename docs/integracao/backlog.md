@@ -8,18 +8,18 @@ O plano anterior de 30 tarefas foi substituído. Só estas oito são necessária
 |---|---|---|---|
 | 01 | Combinar quem faz cada parte e confirmar o escopo | Márcio | 06/10/2026 |
 | 02 | Preparar um backend e um banco para o grupo | Márcio | 06/10/2026 |
-| 03 | CRUD de colaboradores + tela da lista | Aluno 2 — Colaboradores | 07/10/2026 |
-| 04 | CRUD do catálogo de treinamentos + sua lista | Aluno 3 — Treinamentos | 07/10/2026 |
-| 05 | CRUD de EPIs + sua lista | Aluno 4 — EPIs | 07/10/2026 |
-| 06 | Ligar os três formulários de cadastro ao backend | Aluno 5 — Formulários | 07/10/2026 |
+| 03 | CRUD de colaboradores + tela da lista | Pedro Dimas — Colaboradores | 07/10/2026 |
+| 04 | CRUD do catálogo de treinamentos + sua lista | Pedro Serejo — Treinamentos | 07/10/2026 |
+| 05 | CRUD de EPIs + sua lista | Simão — EPIs | 07/10/2026 |
+| 06 | Ligar os três formulários de cadastro ao backend | Clara — Formulários | 07/10/2026 |
 | 07 | Juntar as branches e testar os três CRUDs | Márcio + grupo | 08/10/2026 |
-| 08 | Ensaiar e apresentar na sexta, 09/10 | Aluno 5 + grupo | 09/10/2026 |
+| 08 | Ensaiar e apresentar na sexta, 09/10 | Clara + grupo | 09/10/2026 |
 
 ## 01 — Combinar quem faz cada parte e confirmar o escopo
 
 **Responsável:** Márcio · **Meta:** 06/10/2026
 
-Reunir os cinco e colocar o nome real de cada colega nos papéis Aluno 2, 3, 4 e 5. A entrega de sexta, 09/10/2026, será uma demonstração local com três CRUDs: colaboradores, treinamentos e EPIs. CRUD significa cadastrar, listar, editar e excluir. Não integrar login real, entregas de EPI, certificados, matriz calculada, dashboard, importação ou suporte nesta semana. Confirmar com o professor se esse recorte atende à avaliação; se ele exigir tudo, negociar hoje, não prometer sem condição.
+Reunir Márcio, Pedro Dimas, Pedro Serejo, Simão e Clara e confirmar que todos conhecem sua parte. A entrega de sexta, 09/10/2026, será uma demonstração local com três CRUDs: colaboradores, treinamentos e EPIs. CRUD significa cadastrar, listar, editar e excluir. Não integrar login real, entregas de EPI, certificados, matriz calculada, dashboard, importação ou suporte nesta semana. Confirmar com o professor se esse recorte atende à avaliação; se ele exigir tudo, negociar hoje, não prometer sem condição.
 
 Pronto quando: os cinco conhecem sua parte, os campos de contrato-proposto.md estão combinados e o professor foi consultado sobre o recorte.
 
@@ -39,11 +39,11 @@ Pronto quando: Spring inicia e conecta no banco; os quatro colegas conseguem rep
 
 ## 03 — CRUD de colaboradores + tela da lista
 
-**Responsável:** Aluno 2 — Colaboradores · **Meta:** 07/10/2026
+**Responsável:** Pedro Dimas — Colaboradores · **Meta:** 07/10/2026
 
 Usar Produto das aulas como modelo para Colaborador. Criar Colaborador.java, ColaboradorRepository, ColaboradorService, ColaboradorRequest, ColaboradorResponse e ColaboradorApiController. Campos: id numérico, matricula, nome, cpf, email, cargo, setor, status. Cargo/setor são textos; não criar novas tabelas para eles nesta entrega. Rotas em /api/colaboradores: GET lista/detalhe, POST, PUT por id e DELETE por id. Atualizar sempre pelo id, não pelo nome/matrícula.
 
-Preencher colaborador.service.ts e ligar a lista/edição/exclusão em tela-colaboradores. Adicionar confirmação antes de excluir. Entregar ao Aluno 5 os métodos listar(), buscar(id), cadastrar(dados), atualizar(id,dados), excluir(id). O formulário central de cadastramentos é do Aluno 5; não editar esse arquivo junto com ele.
+Preencher colaborador.service.ts e ligar a lista/edição/exclusão em tela-colaboradores. Adicionar confirmação antes de excluir. Entregar à Clara os métodos listar(), buscar(id), cadastrar(dados), atualizar(id,dados), excluir(id). O formulário central de cadastramentos é de Clara; não editar esse arquivo junto com ela.
 
 Começar após 02; trabalhar em feat/colaboradores.
 
@@ -51,11 +51,11 @@ Pronto quando: criar, listar, editar e excluir funcionam na API; a lista do fron
 
 ## 04 — CRUD do catálogo de treinamentos + sua lista
 
-**Responsável:** Aluno 3 — Treinamentos · **Meta:** 07/10/2026
+**Responsável:** Pedro Serejo — Treinamentos · **Meta:** 07/10/2026
 
 Repetir o CRUD de Produto da aula para Treinamento: model, repository, service, Request/Response e ApiController. Campos: id numérico, codigo, nome, classificacao, nr, cargaHoraria (texto, por exemplo 8h), validadeMeses (inteiro), status Ativo/Inativo. Rotas /api/treinamentos com GET, POST, PUT e DELETE. Não vincular treinamento a colaborador nem implementar certificados/LNT/reciclagens/matriz calculada.
 
-Criar treinamento.service.ts com listar(), buscar(id), cadastrar(dados), atualizar(id,dados), excluir(id). Integrar somente a aba de catálogo/lista de treinamentos em tela-matriz-treinamento. As outras abas ficam sinalizadas como demonstração. O Aluno 5 cuida do formulário central de cadastro.
+Criar treinamento.service.ts com listar(), buscar(id), cadastrar(dados), atualizar(id,dados), excluir(id). Integrar somente a aba de catálogo/lista de treinamentos em tela-matriz-treinamento. As outras abas ficam sinalizadas como demonstração. Clara cuida do formulário central de cadastro.
 
 Começar após 02; branch feat/treinamentos.
 
@@ -63,11 +63,11 @@ Pronto quando: CRUD funciona na API e listagem/edição/exclusão do catálogo u
 
 ## 05 — CRUD de EPIs + sua lista
 
-**Responsável:** Aluno 4 — EPIs · **Meta:** 07/10/2026
+**Responsável:** Simão — EPIs · **Meta:** 07/10/2026
 
 Adaptar Produto da aula para Epi, reaproveitando a ideia de descrição e quantidade. Criar model, repository, service, Request/Response e ApiController. Campos: id numérico, descricao, quantidade inteira, inclusao e validade (textos YYYY-MM-DD), ca (texto). Rotas /api/epis com GET, POST, PUT e DELETE. Quantidade é saldo cadastral editável nesta demonstração; não é um controle real de movimentações/entregas.
 
-Ajustar epis.service.ts: a URL atual da porta 3000 precisa virar http://localhost:8080/api/epis. Combinar métodos listar(), buscar(id), cadastrar(dados), atualizar(id,dados), excluir(id). Integrar listagem/edição/exclusão em tela-epis, incluindo confirmação de exclusão e ajuste do id para número. Não implementar entrega/assinatura/baixa automática: desabilitar a ação de entrega com aviso. O formulário central é do Aluno 5.
+Ajustar epis.service.ts: a URL atual da porta 3000 precisa virar http://localhost:8080/api/epis. Combinar métodos listar(), buscar(id), cadastrar(dados), atualizar(id,dados), excluir(id). Integrar listagem/edição/exclusão em tela-epis, incluindo confirmação de exclusão e ajuste do id para número. Não implementar entrega/assinatura/baixa automática: desabilitar a ação de entrega com aviso. O formulário central é de Clara.
 
 Começar após 02; branch feat/epis.
 
@@ -75,9 +75,9 @@ Pronto quando: CRUD persiste e a lista da tela vem do banco; quantidade negativa
 
 ## 06 — Ligar os três formulários de cadastro ao backend
 
-**Responsável:** Aluno 5 — Formulários · **Meta:** 07/10/2026
+**Responsável:** Clara — Formulários · **Meta:** 07/10/2026
 
-Ser o único dono de tela-cadastramentos/cadastramentos.ts e .html nesta semana. Ligar as três abas (colaborador, treinamento, EPI) aos services dos Alunos 2, 3 e 4. Usar ngModel como já visto no frontend. Adicionar matrícula no cadastro de pessoa; não misturar CPF com matrícula. Não criar usuários/senhas/grupos no cadastro. Para treinamento/EPI, capturar os campos: os métodos atuais apenas mostram console/toast.
+Ser a única responsável por tela-cadastramentos/cadastramentos.ts e .html nesta semana. Ligar as três abas (colaborador, treinamento, EPI) aos services dos Pedro Dimas, Pedro Serejo e Simão. Usar ngModel como já visto no frontend. Adicionar matrícula no cadastro de pessoa; não misturar CPF com matrícula. Não criar usuários/senhas/grupos no cadastro. Para treinamento/EPI, capturar os campos: os métodos atuais apenas mostram console/toast.
 
 Combinar primeiro os nomes dos métodos e campos em contrato-proposto.md. Pode preparar os formulários enquanto os colegas fazem a API; só testar gravação real depois de 03/04/05 estarem disponíveis. Trabalhar em feat/cadastros. Não editar Java ou as listas dos colegas.
 
@@ -89,7 +89,7 @@ Pronto quando: cadastrar pelos três formulários grava no banco e aparece na li
 
 **Responsável:** Márcio + grupo · **Meta:** 08/10/2026
 
-Márcio coordena PRs para main: primeiro base, depois os três CRUDs, depois formulários. Se Java já estiver pronto antes da tela, integrar um PR pequeno de API para o Aluno 5 conseguir testar, sem esperar tudo no último dia. Revisor é outro colega; para PR de Márcio, outro aluno revisa. Todos atualizam suas branches após cada merge necessário.
+Márcio coordena PRs para main: primeiro base, depois os três CRUDs, depois formulários. Se Java já estiver pronto antes da tela, integrar um PR pequeno de API para Clara conseguir testar, sem esperar tudo no último dia. Revisor é outro colega; para PR de Márcio, outro aluno revisa. Todos atualizam suas branches após cada merge necessário.
 
 Cada aluno demonstra o próprio módulo. Nos três cadastros: cadastrar dado fictício pela tela, consultar, editar, recarregar, reiniciar backend e excluir com confirmação. Conferir tabelas no MySQL. Testar campo vazio e quantidade negativa. Rodar npm run build e npm test -- --watch=false; com backend disponível, rodar mvnw test e iniciar aplicação com banco para o teste manual.
 
@@ -99,11 +99,11 @@ Pronto quando: os três CRUDs funcionam juntos na main, existe evidência real d
 
 ## 08 — Ensaiar e apresentar na sexta, 09/10
 
-**Responsável:** Aluno 5 + grupo · **Meta:** 09/10/2026
+**Responsável:** Clara + grupo · **Meta:** 09/10/2026
 
 Até quinta à noite: guardar dados fictícios de exemplo e ensaiar cadastro/lista/edição/exclusão dos três módulos. Na sexta: iniciar MySQL, backend e frontend; verificar funcionamento e apresentar. Não começar nova funcionalidade na sexta.
 
-Cada pessoa explica sua parte: Márcio mostra ligação com MySQL/base; Aluno 2 colaboradores; Aluno 3 catálogo de treinamentos; Aluno 4 EPIs; Aluno 5 formulários e fluxo completo. Explicar com honestidade que login, dashboards, entregas, certificados, importação e demais telas ainda são protótipo/futuro.
+Cada pessoa explica sua parte: Márcio mostra ligação com MySQL/base; Pedro Dimas colaboradores; Pedro Serejo catálogo de treinamentos; Simão EPIs; Clara formulários e fluxo completo. Explicar com honestidade que login, dashboards, entregas, certificados, importação e demais telas ainda são protótipo/futuro.
 
 Começar a revisão final depois de 07.
 

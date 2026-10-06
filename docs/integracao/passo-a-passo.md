@@ -45,28 +45,28 @@ Escolha **uma** branch correspondente à sua parte:
 | Pessoa | Nome sugerido |
 |---|---|
 | Márcio | `feat/base-backend` |
-| Aluno 2 | `feat/colaboradores` |
-| Aluno 3 | `feat/treinamentos` |
-| Aluno 4 | `feat/epis` |
-| Aluno 5 | `feat/cadastros` |
+| Pedro Dimas | `feat/colaboradores` |
+| Pedro Serejo | `feat/treinamentos` |
+| Simão | `feat/epis` |
+| Clara | `feat/cadastros` |
 
-O exemplo de comando cria a branch do Aluno 2. Os demais substituem o nome. Se a sua branch já existe, use `git switch nome-da-sua-branch` em vez de criá-la outra vez. Confira `git branch --show-current`.
+O exemplo de comando cria a branch do Pedro Dimas. Os demais substituem o nome. Se a sua branch já existe, use `git switch nome-da-sua-branch` em vez de criá-la outra vez. Confira `git branch --show-current`.
 
 Se `git status` mostrar trabalho não salvo, **pare e preserve esse trabalho antes de trocar de branch**. Não use `reset --hard` para resolver.
 
 ## 4. Fazer só sua parte
 
 - **Márcio:** base Java/MySQL, configurações e README de execução.
-- **Aluno 2:** classes Java de colaborador, serviço Angular e tela da lista.
-- **Aluno 3:** classes Java de treinamento, serviço Angular e catálogo da tela.
-- **Aluno 4:** classes Java de EPI, serviço Angular e tela da lista.
-- **Aluno 5:** somente os três formulários de `tela-cadastramentos` e ligação aos serviços dos colegas.
+- **Pedro Dimas:** classes Java de colaborador, serviço Angular e tela da lista.
+- **Pedro Serejo:** classes Java de treinamento, serviço Angular e catálogo da tela.
+- **Simão:** classes Java de EPI, serviço Angular e tela da lista.
+- **Clara:** somente os três formulários de `tela-cadastramentos` e ligação aos serviços dos colegas.
 
-Os Alunos 2–4 repetem o exemplo de Produto: Model, Repository, Service, Request/Response e ApiController. Para cada classe nova, conferir nome do arquivo/classe, imports, `@Entity`, rota e campos.
+Pedro Dimas, Pedro Serejo e Simão repetem o exemplo de Produto: Model, Repository, Service, Request/Response e ApiController. Para cada classe nova, conferir nome do arquivo/classe, imports, `@Entity`, rota e campos.
 
-**Não editar arquivo de colega sem conversar.** Só o Aluno 5 altera o TS/HTML central de cadastramentos. Só Márcio altera POM/configuração comum/dependências. Cargo/setor continuam texto; nenhuma pessoa precisa criar login, certificado ou entrega de EPI.
+**Não editar arquivo de colega sem conversar.** Só Clara altera o TS/HTML central de cadastramentos. Só Márcio altera POM/configuração comum/dependências. Cargo/setor continuam texto; nenhuma pessoa precisa criar login, certificado ou entrega de EPI.
 
-Os nomes dos campos, URLs e métodos já estão no [combinado](contrato-proposto.md). O Aluno 5 prepara formulários em paralelo, mas a gravação só poderá ser testada quando as APIs estiverem disponíveis.
+Os nomes dos campos, URLs e métodos já estão no [combinado](contrato-proposto.md). Clara prepara formulários em paralelo, mas a gravação só poderá ser testada quando as APIs estiverem disponíveis.
 
 ## 5. Rodar o projeto
 

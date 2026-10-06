@@ -10,6 +10,12 @@ A plataforma centraliza o controle do quadro de colaboradores, matriz de treinam
 
 **Plano reduzido para sexta-feira, 09/10/2026:** integrar somente os CRUDs de colaboradores, catálogo de treinamentos e EPIs, seguindo as aulas Java. O backend ainda será implementado pelo grupo; esta documentação não altera o código. As outras telas e o login continuam protótipo/demonstração. Somente execução local com dados fictícios, sem publicar API sem autenticação.
 
+- **Márcio:** base Java/MySQL e coordenação dos merges.
+- **Pedro Dimas:** CRUD de colaboradores e sua lista.
+- **Pedro Serejo:** CRUD do catálogo de treinamentos e sua lista.
+- **Simão:** CRUD de EPIs e sua lista.
+- **Clara:** os três formulários de cadastro e organização do ensaio.
+
 - [GitHub Project público — SGSST](https://github.com/users/marciocoelho1/projects/2)
 - [Análise do frontend e backend das aulas](docs/integracao/analise.md)
 - [Divisão dos cinco integrantes e roadmap](docs/integracao/roadmap.md)

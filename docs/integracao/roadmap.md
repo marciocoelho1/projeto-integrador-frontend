@@ -19,19 +19,19 @@ Isso é CRUD, como o exemplo de produtos das aulas. O objetivo é mostrar um dad
 | Pessoa | Sua parte | Arquivos principais |
 |---|---|---|
 | **Márcio** | Preparar um backend, conexão MySQL e organizar os merges | `backend/pom.xml`, configurações, classe principal e instruções de execução |
-| **Aluno 2** | CRUD de colaboradores em Java + consulta/edição/exclusão da lista Angular | Classes `Colaborador*`, `colaborador.service.ts`, `tela-colaboradores/*` |
-| **Aluno 3** | CRUD do catálogo de treinamentos em Java + sua lista Angular | Classes `Treinamento*`, novo `treinamento.service.ts`, somente catálogo em `tela-matriz-treinamento/*` |
-| **Aluno 4** | CRUD de EPIs em Java + consulta/edição/exclusão da lista Angular | Classes `Epi*`, `epis.service.ts`, `tela-epis/*` |
-| **Aluno 5** | Ligar os três formulários de cadastro aos serviços dos colegas; organizar o ensaio | `tela-cadastramentos/cadastramentos.ts` e `.html` |
+| **Pedro Dimas** | CRUD de colaboradores em Java + consulta/edição/exclusão da lista Angular | Classes `Colaborador*`, `colaborador.service.ts`, `tela-colaboradores/*` |
+| **Pedro Serejo** | CRUD do catálogo de treinamentos em Java + sua lista Angular | Classes `Treinamento*`, novo `treinamento.service.ts`, somente catálogo em `tela-matriz-treinamento/*` |
+| **Simão** | CRUD de EPIs em Java + consulta/edição/exclusão da lista Angular | Classes `Epi*`, `epis.service.ts`, `tela-epis/*` |
+| **Clara** | Ligar os três formulários de cadastro aos serviços dos colegas; organizar o ensaio | `tela-cadastramentos/cadastramentos.ts` e `.html` |
 
-Márcio deve trocar Aluno 2–5 pelos nomes reais. **O Aluno 5 é o único que edita os formulários centrais:** isso evita três pessoas mexendo no mesmo arquivo. Ele não precisa criar um quarto CRUD.
+A divisão está definida com os nomes do grupo. **Clara é a única que edita os formulários centrais:** isso evita três pessoas mexendo no mesmo arquivo. Ela não precisa criar um quarto CRUD.
 
 ## 3. Calendário
 
 | Dia | Resultado esperado |
 |---|---|
-| **Terça, 06/10** | Confirmar escopo/nome de cada pessoa; Márcio publica a base Java/MySQL e os campos combinados. Os colegas leem o CRUD de Produto das aulas. Aluno 5 prepara os campos dos formulários. |
-| **Quarta, 07/10** | Alunos 2–4 entregam as APIs e ligam suas listas. Aluno 5 liga o botão Salvar de cada cadastro. Cada um testa seu CRUD. Integrar APIs prontas sem esperar a véspera. |
+| **Terça, 06/10** | Confirmar escopo/nome de cada pessoa; Márcio publica a base Java/MySQL e os campos combinados. Os colegas leem o CRUD de Produto das aulas. Clara prepara os campos dos formulários. |
+| **Quarta, 07/10** | Pedro Dimas, Pedro Serejo e Simão entregam as APIs e ligam suas listas. Clara liga o botão Salvar de cada cadastro. Cada um testa seu CRUD. Integrar APIs prontas sem esperar a véspera. |
 | **Quinta, 08/10** | Juntar branches, testar os três CRUDs no mesmo projeto, corrigir problemas e ensaiar. Nada novo além do combinado. |
 | **Sexta, 09/10** | Conferir funcionamento e apresentar a versão ensaiada. Não começar recurso novo. |
 

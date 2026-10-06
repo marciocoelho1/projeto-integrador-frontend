@@ -27,7 +27,7 @@ A API da aula transforma Request em `ProdutoForm`. Ao adaptar, retirar referênc
 | `tela-colaboradores` | Lista/edição em memória | Carregar, editar e excluir registros do banco por `id` |
 | `tela-matriz-treinamento` | Várias listas demonstrativas | Integrar **somente o catálogo de treinamentos** |
 | `tela-epis` | EPI e entrega alterados localmente | Integrar **somente cadastro/lista/edição/exclusão de EPI** |
-| `tela-cadastramentos` | Salvar mostra console/toast, sem persistir | Aluno 5 envia os três formulários ao backend |
+| `tela-cadastramentos` | Salvar mostra console/toast, sem persistir | Clara envia os três formulários ao backend |
 
 `app.config.ts` já habilita HTTP. `colaborador.service.ts` ainda não tem o CRUD. `epis.service.ts` já tem operações, mas aponta para porta **3000** e a tela não as usa: ajustar para **8080/api/epis** e ligar à tela. Criar `treinamento.service.ts`.
 

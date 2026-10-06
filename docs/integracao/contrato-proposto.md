@@ -58,16 +58,16 @@ atualizar(id, dados)
 excluir(id)
 ```
 
-Arquivos: `colaborador.service.ts`, novo `treinamento.service.ts`, `epis.service.ts`. `id` é número; os dados são tipados conforme a tabela acima. O Aluno 4 adapta os nomes existentes do serviço de EPI, avisando o Aluno 5.
+Arquivos: `colaborador.service.ts`, novo `treinamento.service.ts`, `epis.service.ts`. `id` é número; os dados são tipados conforme a tabela acima. O Simão adapta os nomes existentes do serviço de EPI, avisando Clara.
 
-O Aluno 5 usa `cadastrar(dados)` nos três formulários. Os Alunos 2–4 usam os outros métodos nas listas. Mostrar sucesso **dentro da resposta de sucesso da chamada HTTP**, nunca antes. Se falhar, mostrar erro e manter os campos.
+Clara usa `cadastrar(dados)` nos três formulários. Pedro Dimas, Pedro Serejo e Simão usam os outros métodos nas listas. Mostrar sucesso **dentro da resposta de sucesso da chamada HTTP**, nunca antes. Se falhar, mostrar erro e manter os campos.
 
 ## 5. O que ajustar no frontend sem reconstruí-lo
 
-- Aluno 2: atualizar a lista por `id`, não matrícula/nome; adicionar excluir com confirmação.
-- Aluno 3: ligar somente a lista do catálogo; não alimentar as outras abas como se estivessem integradas.
-- Aluno 4: trocar URLs 3000 por 8080/api, usar `id` numérico e desabilitar entrega de EPI. Se a tela exibir `EPI-01`, formatar a partir do número; não guardar esse texto como ID do banco.
-- Aluno 5: adicionar matrícula, retirar grupo/senha do cadastro, capturar os campos de treinamento/EPI e desabilitar abas LNT/reciclagem.
+- Pedro Dimas: atualizar a lista por `id`, não matrícula/nome; adicionar excluir com confirmação.
+- Pedro Serejo: ligar somente a lista do catálogo; não alimentar as outras abas como se estivessem integradas.
+- Simão: trocar URLs 3000 por 8080/api, usar `id` numérico e desabilitar entrega de EPI. Se a tela exibir `EPI-01`, formatar a partir do número; não guardar esse texto como ID do banco.
+- Clara: adicionar matrícula, retirar grupo/senha do cadastro, capturar os campos de treinamento/EPI e desabilitar abas LNT/reciclagem.
 - Manter estilos e navegação existentes. Login e demais telas não entram no backend desta semana e devem ser rotulados como demonstração.
 
 Se for necessário mudar nome de campo/método, avisar seu colega **antes**, alterar este documento e os dois lados juntos. Não gastar a sexta redesenhando essa combinação.
