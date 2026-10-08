@@ -1,9 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ToastService } from '../service/toast.service';
+import ToastService from '../service/toast.service';
 import { AuditService } from '../service/audit.service';
-import * as XLSX from 'xlsx'; 
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-importacao-massa',
@@ -51,13 +51,13 @@ export class ImportacaoMassa {
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    
+
     link.setAttribute('href', url);
     link.setAttribute('download', nomeArquivo);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
+
     this.toast.success('Planilha de exemplo baixada com sucesso!');
   }
 
@@ -70,28 +70,28 @@ export class ImportacaoMassa {
 
     const reader = new FileReader();
 
-    
+
     reader.onload = (e: any) => {
       try {
         const bstr: string = e.target.result;
         const workbook: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
 
-        
+
         const primeiraAbaNome = workbook.SheetNames[0];
         const worksheet: XLSX.WorkSheet = workbook.Sheets[primeiraAbaNome];
 
-        
+
         const dadosMatriz = XLSX.utils.sheet_to_json<string[]>(worksheet, { header: 1 });
 
         if (dadosMatriz && dadosMatriz.length > 0) {
-          
+
           const cabecalhoOriginal = (dadosMatriz[0] as any[]).map(c => String(c || ''));
           this.cabecalhos.set(cabecalhoOriginal);
 
-          
-          const linhasDados = dadosMatriz.slice(1).map((row: any[]) => 
+
+          const linhasDados = dadosMatriz.slice(1).map((row: any[]) =>
             row.map(cell => String(cell !== undefined && cell !== null ? cell : ''))
-          ).filter(row => row.some(cell => cell.trim() !== '')); 
+          ).filter(row => row.some(cell => cell.trim() !== ''));
 
           this.linhasPreview.set(linhasDados);
           this.toast.success('Planilha carregada com sucesso! Revise os dados.');
@@ -107,7 +107,7 @@ export class ImportacaoMassa {
 
   confirmarImportacao() {
     const qtd = this.linhasPreview().length;
-    
+
     if (qtd === 0) {
       this.toast.warning('Nenhum dado encontrado para importar.');
       return;
@@ -115,8 +115,8 @@ export class ImportacaoMassa {
 
     this.toast.success(`${qtd} registros importados com sucesso!`);
     this.audit.registrarAcao('Marcio Coelho', 'Importação', 'CRIACAO', `Importou ${qtd} registros via planilha Excel/CSV`);
-    
-    
+
+
     this.cabecalhos.set([]);
     this.linhasPreview.set([]);
     this.arquivoNome.set('');

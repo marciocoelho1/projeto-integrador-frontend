@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuditService } from '../service/audit.service';
 import { type ChaveModulo, DadosReferenciaService } from '../service/dados-referencia.service';
-import { ToastService } from '../service/toast.service';
+import ToastService from '../service/toast.service';
 
 const ROTAS_SISTEMA = {
   novoUsuario: '/cadastramentos/novo-usuario',

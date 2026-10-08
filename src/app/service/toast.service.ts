@@ -11,24 +11,24 @@ export interface Toast {
 @Injectable({
   providedIn: 'root'
 })
-export class ToastService {
+class ToastService {
   toasts = signal<Toast[]>([]);
   private nextId = 0;
 
   show(mensagem: string, tipo: ToastType = 'sucesso') {
     const id = this.nextId++;
     const newToast: Toast = { id, mensagem, tipo };
-    
-    
+
+
     this.toasts.update(current => [...current, newToast]);
 
-    
+
     setTimeout(() => {
       this.remove(id);
     }, 4000);
   }
 
-  
+
   success(mensagem: string) { this.show(mensagem, 'sucesso'); }
   error(mensagem: string) { this.show(mensagem, 'erro'); }
   warning(mensagem: string) { this.show(mensagem, 'alerta'); }
@@ -37,3 +37,5 @@ export class ToastService {
     this.toasts.update(current => current.filter(t => t.id !== id));
   }
 }
+
+export default ToastService;

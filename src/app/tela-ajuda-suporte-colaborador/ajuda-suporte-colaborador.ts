@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { ToastService } from '../service/toast.service';
+import ToastService from '../service/toast.service';
 
 export interface SupportRequest {
   id: number;

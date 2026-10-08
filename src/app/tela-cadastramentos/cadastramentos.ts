@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ToastService } from '../service/toast.service';
+import ToastService from '../service/toast.service';
 import { AuditService } from '../service/audit.service';
 import { DadosReferenciaService } from '../service/dados-referencia.service';
 

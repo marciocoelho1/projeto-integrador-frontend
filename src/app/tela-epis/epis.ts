@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastService } from '../service/toast.service';
+import ToastService from '../service/toast.service';
 import { AuditService } from '../service/audit.service';
 
 interface Epi {
@@ -38,7 +38,7 @@ export class Epis {
 
   termoBusca: string = '';
 
-  
+
   readonly listaEpisCadastrados: string[] = [
     'Capacete de Segurança',
     'Luva de Vaqueta',
@@ -56,19 +56,19 @@ export class Epis {
     { id: 'EPI-03', descricao: 'Óculos de Segurança', quantidade: 100, inclusao: '03/02/2026', validade: '03/02/2028', ca: '23456' }
   ];
 
-  
+
   entregas: EntregaEpi[] = [
     { colaborador: 'João Souza', epi: 'Capacete de Segurança', quantidade: 1, validadeCa: '03/02/2028', numeroCa: '12345', data: '01/06/2026', assinatura: 'João Souza' }
   ];
 
-  
-  
-  
+
+
+
   mostrarModalEdicao = false;
   epiEmEdicao: Epi = { id: '', descricao: '', quantidade: 0, inclusao: '', validade: '', ca: '' };
 
   abrirModalEdicao(epi: Epi) {
-    
+
     this.epiEmEdicao = { ...epi };
     this.mostrarModalEdicao = true;
   }
@@ -103,9 +103,9 @@ export class Epis {
     }
   }
 
-  
-  
-  
+
+
+
   mostrarModalEntrega = false;
   novaEntrega = { colaborador: '', epiId: '', data: '', quantidade: 1 };
 
@@ -120,7 +120,7 @@ export class Epis {
 
   salvarEntrega() {
     const epiIndex = this.epis.findIndex(e => e.id === this.novaEntrega.epiId);
-    
+
     if (epiIndex === -1) {
       this.toast.error('Selecione um EPI válido.');
       return;
@@ -133,13 +133,13 @@ export class Epis {
       return;
     }
 
-    
+
     this.epis[epiIndex].quantidade -= this.novaEntrega.quantidade;
 
-    
+
     const dataFormatada = this.novaEntrega.data.split('-').reverse().join('/');
 
-    
+
     this.entregas.unshift({
       colaborador: this.novaEntrega.colaborador,
       epi: epiSelecionado.descricao,
@@ -152,18 +152,18 @@ export class Epis {
 
     this.toast.success('Entrega registrada com abatimento no estoque!');
     this.auditService.registrarAcao('Marcio Coelho', 'EPIs', 'CRIACAO', `Registrou entrega de ${this.novaEntrega.quantidade}x ${epiSelecionado.descricao} para ${this.novaEntrega.colaborador}`);
-    
+
     this.fecharModalEntrega();
   }
 
-  
-  
-  
+
+
+
   get episFiltrados(): Epi[] {
     if (!this.termoBusca) return this.epis;
     const termo = this.termoBusca.toLowerCase();
-    return this.epis.filter(e => 
-      e.descricao.toLowerCase().includes(termo) || 
+    return this.epis.filter(e =>
+      e.descricao.toLowerCase().includes(termo) ||
       e.id.toLowerCase().includes(termo) ||
       e.ca.includes(termo)
     );

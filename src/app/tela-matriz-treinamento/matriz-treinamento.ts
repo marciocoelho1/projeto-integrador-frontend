@@ -1,24 +1,19 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+
 import { DadosReferenciaService } from '../service/dados-referencia.service';
-import { ToastService } from '../service/toast.service';
+import ToastService from '../service/toast.service';
+import {
+  Treinamento,
+  TreinamentoService
+} from '../service/treinamento.service';
 
 interface CardResumo {
   titulo: string;
   total?: number | string;
   icone: string;
-}
-
-interface Treinamento {
-  codigo?: string;
-  nome: string;
-  classificacao: string;
-  nr: string;
-  cargaHoraria: string;
-  validadeMeses?: number;
-  status: 'Ativo' | 'Inativo';
 }
 
 interface TreinamentoColaborador {
@@ -91,23 +86,33 @@ interface MatrizCruzadaItem {
 @Component({
   selector: 'app-matriz-treinamento',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule
+  ],
   templateUrl: './matriz-treinamento.html',
   styleUrl: './matriz-treinamento.scss',
 })
-export class MatrizTreinamentos {
-  private router = inject(Router);
-  private toast = inject(ToastService);
-  private dadosReferencia = inject(DadosReferenciaService);
+export class MatrizTreinamentos implements OnInit {
 
-  cardSelecionado: string = 'Visão Geral';
+  private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
+  private readonly dadosReferencia = inject(DadosReferenciaService);
+  private readonly treinamentoService = inject(TreinamentoService);
+
+  cardSelecionado = 'Visão Geral';
+
   modoVisualizacao: 'colaborador' | 'lista' = 'colaborador';
 
-  mostrarModalCertificacao: boolean = false;
-  mostrarModalReciclagem: boolean = false;
-  mostrarModalEdicaoGeral: boolean = false;
+  mostrarModalCertificacao = false;
+  mostrarModalReciclagem = false;
+  mostrarModalEdicaoGeral = false;
+
   itemOriginalReferencia: any = null;
   itemEmEdicao: any = null;
+
+  carregandoTreinamentos = false;
+  erroTreinamentos = '';
 
   readonly listaColaboradoresCadastrados: string[] = [
     'Carlos Eduardo Silva',
@@ -119,7 +124,8 @@ export class MatrizTreinamentos {
     'Juliana Mendes',
   ];
 
-  readonly listaCargosCadastrados = this.dadosReferencia.cargosCadastrados;
+  readonly listaCargosCadastrados =
+    this.dadosReferencia.cargosCadastrados;
 
   readonly listaTreinamentosCadastrados: string[] = [
     'NR-06 Uso Adequado e Guarda de EPIs',
@@ -145,90 +151,39 @@ export class MatrizTreinamentos {
     'Noções de Primeiros Socorros no Varejo',
   ];
 
-  readonly listaSetoresCadastrados = this.dadosReferencia.setoresCadastrados;
+  readonly listaSetoresCadastrados =
+    this.dadosReferencia.setoresCadastrados;
 
   resumos: CardResumo[] = [
-    { titulo: 'Visão Geral', icone: '📊' },
-    { titulo: 'LNT / Cargos', total: 14, icone: '📋' },
-    { titulo: 'Treinamentos', total: 8, icone: '🎓' },
-    { titulo: 'Certificações', total: 45, icone: '🏅' },
-    { titulo: 'Reciclagens', total: 7, icone: '🔄' },
+    {
+      titulo: 'Visão Geral',
+      icone: '📊'
+    },
+    {
+      titulo: 'LNT / Cargos',
+      total: 14,
+      icone: '📋'
+    },
+    {
+      titulo: 'Treinamentos',
+      total: 0,
+      icone: '🎓'
+    },
+    {
+      titulo: 'Certificações',
+      total: 45,
+      icone: '🏅'
+    },
+    {
+      titulo: 'Reciclagens',
+      total: 7,
+      icone: '🔄'
+    },
   ];
 
-  treinamentos: Treinamento[] = [
-    {
-      codigo: 'TRN-001',
-      nome: 'NR-06 Uso Adequado e Guarda de EPIs',
-      classificacao: 'Obrigatório',
-      nr: 'NR-06',
-      cargaHoraria: '4h',
-      validadeMeses: 12,
-      status: 'Ativo',
-    },
-    {
-      codigo: 'TRN-002',
-      nome: 'NR-11 Operação Segura de Empilhadeira e Transpaleteira',
-      classificacao: 'Específico',
-      nr: 'NR-11',
-      cargaHoraria: '16h',
-      validadeMeses: 24,
-      status: 'Ativo',
-    },
-    {
-      codigo: 'TRN-003',
-      nome: 'NR-12 Segurança em Máquinas (Fatiadores/Serras de Fita)',
-      classificacao: 'Obrigatório',
-      nr: 'NR-12',
-      cargaHoraria: '8h',
-      validadeMeses: 24,
-      status: 'Ativo',
-    },
-    {
-      codigo: 'TRN-004',
-      nome: 'NR-17 Ergonomia para Operadores de Checkout',
-      classificacao: 'Obrigatório',
-      nr: 'NR-17',
-      cargaHoraria: '4h',
-      validadeMeses: 24,
-      status: 'Ativo',
-    },
-    {
-      codigo: 'TRN-005',
-      nome: 'NR-35 Trabalho em Altura e Manutenção de Gôndolas',
-      classificacao: 'Específico',
-      nr: 'NR-35',
-      cargaHoraria: '8h',
-      validadeMeses: 24,
-      status: 'Ativo',
-    },
-    {
-      codigo: 'TRN-006',
-      nome: 'NR-23 e Brigada de Incêndio e Evacuação',
-      classificacao: 'Obrigatório',
-      nr: 'NR-23',
-      cargaHoraria: '8h',
-      validadeMeses: 12,
-      status: 'Ativo',
-    },
-    {
-      codigo: 'TRN-007',
-      nome: 'Boas Práticas de Manipulação de Alimentos',
-      classificacao: 'Setorial',
-      nr: 'RDC 216',
-      cargaHoraria: '6h',
-      validadeMeses: 12,
-      status: 'Ativo',
-    },
-    {
-      codigo: 'TRN-008',
-      nome: 'Noções de Primeiros Socorros no Varejo',
-      classificacao: 'Recomendado',
-      nr: 'Geral',
-      cargaHoraria: '4h',
-      validadeMeses: 12,
-      status: 'Ativo',
-    },
-  ];
+
+  treinamentos: Treinamento[] = [];
+
 
   treinamentosColaborador: TreinamentoColaborador[] = [
     {
@@ -629,11 +584,56 @@ export class MatrizTreinamentos {
     },
   ];
 
+  ngOnInit(): void {
+    this.carregarTreinamentos();
+  }
+
+  carregarTreinamentos(): void {
+    this.carregandoTreinamentos = true;
+    this.erroTreinamentos = '';
+
+    this.treinamentoService.listar().subscribe({
+      next: (dados) => {
+        this.treinamentos = dados;
+
+        const cardTreinamentos = this.resumos.find(
+          (card) => card.titulo === 'Treinamentos'
+        );
+
+        if (cardTreinamentos) {
+          cardTreinamentos.total = dados.length;
+        }
+
+        this.carregandoTreinamentos = false;
+      },
+
+      error: (erro) => {
+        console.error(
+          'Erro ao carregar treinamentos:',
+          erro
+        );
+
+        this.treinamentos = [];
+
+        this.erroTreinamentos =
+          'Não foi possível carregar o catálogo de treinamentos.';
+
+        this.carregandoTreinamentos = false;
+
+        this.toast.error(
+          'Não foi possível carregar os treinamentos.'
+        );
+      }
+    });
+  }
+
   selecionarCard(card: string): void {
     this.cardSelecionado = card;
   }
 
-  setModoVisualizacao(modo: 'colaborador' | 'lista'): void {
+  setModoVisualizacao(
+    modo: 'colaborador' | 'lista'
+  ): void {
     this.modoVisualizacao = modo;
   }
 
@@ -674,62 +674,113 @@ export class MatrizTreinamentos {
   }
 
   salvarEdicaoGeral(): void {
-    if (!this.itemEmEdicao) return;
+    if (!this.itemEmEdicao) {
+      return;
+    }
 
     if (this.cardSelecionado === 'Visão Geral') {
-      Object.assign(this.itemOriginalReferencia, this.itemEmEdicao);
-      this.toast.success('Matriz atualizada com sucesso!');
+      Object.assign(
+        this.itemOriginalReferencia,
+        this.itemEmEdicao
+      );
+
+      this.toast.success(
+        'Matriz atualizada com sucesso!'
+      );
+
       this.fecharModalEdicaoGeral();
       return;
     }
 
     if (this.itemEmEdicao.colaborador) {
-      const colaboradorStr = String(this.itemEmEdicao.colaborador).trim();
-      const existe = this.listaColaboradoresCadastrados.some(
-        (c) => c.toLowerCase() === colaboradorStr.toLowerCase(),
-      );
+      const colaboradorStr =
+        String(this.itemEmEdicao.colaborador).trim();
+
+      const existe =
+        this.listaColaboradoresCadastrados.some(
+          (c) =>
+            c.toLowerCase() ===
+            colaboradorStr.toLowerCase()
+        );
+
       if (!existe) {
-        this.toast.error(`Colaborador "${colaboradorStr}" não está cadastrado no sistema.`);
+        this.toast.error(
+          `Colaborador "${colaboradorStr}" não está cadastrado no sistema.`
+        );
         return;
       }
     }
 
     if (this.itemEmEdicao.cargo) {
-      const cargoStr = String(this.itemEmEdicao.cargo).trim();
-      const existe = this.listaCargosCadastrados.some(
-        (c) => c.toLowerCase() === cargoStr.toLowerCase(),
-      );
+      const cargoStr =
+        String(this.itemEmEdicao.cargo).trim();
+
+      const existe =
+        this.listaCargosCadastrados.some(
+          (c) =>
+            c.toLowerCase() ===
+            cargoStr.toLowerCase()
+        );
+
       if (!existe) {
-        this.toast.error(`Cargo "${cargoStr}" não está cadastrado no sistema.`);
+        this.toast.error(
+          `Cargo "${cargoStr}" não está cadastrado no sistema.`
+        );
         return;
       }
     }
 
-    const treinaNome = this.itemEmEdicao.treinamento || this.itemEmEdicao.nome;
+    const treinaNome =
+      this.itemEmEdicao.treinamento ||
+      this.itemEmEdicao.nome;
+
     if (treinaNome) {
-      const treinaStr = String(treinaNome).trim();
-      const existe = this.listaTreinamentosCadastrados.some(
-        (t) => t.toLowerCase() === treinaStr.toLowerCase(),
-      );
+      const treinaStr =
+        String(treinaNome).trim();
+
+      const existe =
+        this.listaTreinamentosCadastrados.some(
+          (t) =>
+            t.toLowerCase() ===
+            treinaStr.toLowerCase()
+        );
+
       if (!existe) {
-        this.toast.error(`Treinamento "${treinaStr}" não está cadastrado no sistema.`);
+        this.toast.error(
+          `Treinamento "${treinaStr}" não está cadastrado no sistema.`
+        );
         return;
       }
     }
 
     if (this.itemEmEdicao.setor) {
-      const setorStr = String(this.itemEmEdicao.setor).trim();
-      const existe = this.listaSetoresCadastrados.some(
-        (s) => s.toLowerCase() === setorStr.toLowerCase(),
-      );
+      const setorStr =
+        String(this.itemEmEdicao.setor).trim();
+
+      const existe =
+        this.listaSetoresCadastrados.some(
+          (s) =>
+            s.toLowerCase() ===
+            setorStr.toLowerCase()
+        );
+
       if (!existe) {
-        this.toast.error(`Setor "${setorStr}" não está cadastrado no sistema.`);
+        this.toast.error(
+          `Setor "${setorStr}" não está cadastrado no sistema.`
+        );
         return;
       }
     }
 
-    Object.assign(this.itemOriginalReferencia, this.itemEmEdicao);
-    this.toast.success('Registro atualizado com sucesso!');
+    Object.assign(
+      this.itemOriginalReferencia,
+      this.itemEmEdicao
+    );
+
+    this.toast.success(
+      'Registro atualizado com sucesso!'
+    );
+
     this.fecharModalEdicaoGeral();
   }
 
@@ -739,24 +790,51 @@ export class MatrizTreinamentos {
       Treinamentos: 'treinamento',
       Reciclagens: 'reciclagem',
     };
-    const aba = mapaAbas[this.cardSelecionado] || 'treinamento';
-    this.router.navigate(['/cadastramentos'], { queryParams: { aba } });
+
+    const aba =
+      mapaAbas[this.cardSelecionado] ||
+      'treinamento';
+
+    this.router.navigate(
+      ['/cadastramentos'],
+      {
+        queryParams: { aba }
+      }
+    );
   }
 
   exportarMatriz(): void {
     const linhas = [
       'Colaborador,Cargo,NR-06,NR-11,NR-12,NR-17,NR-35',
+
       ...this.matrizCruzada.map(
         (m) =>
-          `"${m.colaborador}","${m.cargo}","${m.nr06}","${m.nr11}","${m.nr12}","${m.nr17}","${m.nr35}"`,
+          `"${m.colaborador}","${m.cargo}","${m.nr06}","${m.nr11}","${m.nr12}","${m.nr17}","${m.nr35}"`
       ),
     ];
-    const blob = new Blob([linhas.join('\n')], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
+
+    const blob = new Blob(
+      [linhas.join('\n')],
+      {
+        type: 'text/csv;charset=utf-8;'
+      }
+    );
+
+    const url =
+      URL.createObjectURL(blob);
+
+    const link =
+      document.createElement('a');
+
     link.href = url;
-    link.download = `matriz-conformidade-treinamentos-${new Date().toISOString().slice(0, 10)}.csv`;
+
+    link.download =
+      `matriz-conformidade-treinamentos-${new Date()
+        .toISOString()
+        .slice(0, 10)}.csv`;
+
     link.click();
+
     URL.revokeObjectURL(url);
   }
 }

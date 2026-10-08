@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { AuthenticatedUser, AuthService } from '../auth.service';
-import { ToastService } from '../service/toast.service';
+import ToastService from '../service/toast.service';
 import { HelpSupportComponent, SupportRequest } from './ajuda-suporte-colaborador';
 
 class AuthServiceStub {

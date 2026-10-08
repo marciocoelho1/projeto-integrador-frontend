@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastService } from '../service/toast.service';
+import ToastService from '../service/toast.service';
 
 interface Colaborador {
   matricula: string;

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { ToastService } from '../service/toast.service';
+import ToastService from '../service/toast.service';
 import { Colaboradores } from './colaboradores';
 
 describe('Colaboradores', () => {
